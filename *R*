@@ -1,0 +1,2730 @@
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> options(STERM='iESS', str.dendrogram.last="'", editor='emacsclient', show.error.locations=TRUE)
+> require(knitr)
+Loading required package: knitr
+> opts_chunk$set(warnings=FALSE,echo=FALSE)
+> options(width="130")
+> # knit2pdf("vPhD.Rnw")
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+Quitting from lines 461-464 (vPhD.Rnw) 
+Error: '\_' is an unrecognized escape in character string starting "'\_"
+
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> gsub('_','*',BuildIndependent(alevel = 2 , ptrans = "q" ))
+[1] "qApA1 + age + sex + diabetes_mellitus + smoking_habits + hypertension"
+> gsub('_','',BuildIndependent(alevel = 2 , ptrans = "q" ))
+[1] "qApA1 + age + sex + diabetes*mellitus + smoking*habits + hypertension"
+> gsub('_','',BuildIndependent(alevel = 2 , ptrans = "q" ))
+[1] "qApA1 + age + sex + diabetesmellitus + smokinghabits + hypertension"
+> gsub('_','',BuildIndependent(alevel = 2 , ptrans = "q" ))
+[1] "qApA1 + age + sex + diabetesmellitus + smokinghabits + hypertension"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> json
+$Population
+$Population$Database
+[1] "norcad"
+
+$Population$Comment
+[1] "extended WENBIT cohort"
+
+$Population$Subset
+$Population$Subset[[1]]
+$Population$Subset[[1]]$Where
+[1] "(time_of_follow_up = 'baseline')"
+
+$Population$Subset[[1]]$Comment
+[1] "only baseline measurements"
+
+
+$Population$Subset[[2]]
+$Population$Subset[[2]]$Where
+[1] "(diagnose_at_baseline_blood_sampling = 'stable angina pectoris')"
+
+$Population$Subset[[2]]$Comment
+[1] "only stable patients"
+
+
+
+
+$Endpoint
+$Endpoint$Status
+[1] "C_CVDOD"
+
+$Endpoint$Time
+[1] "Dager_cvdod"
+
+$Endpoint$Date
+[1] "Dato_cvdod"
+
+$Endpoint$Label
+[1] "CVD mortality"
+
+$Endpoint$ShortLabel
+[1] "CVD mortality"
+
+$Endpoint$Comment
+[1] "Cardiovascular mortality followed up until end of 2009 from the CVDNOR"
+
+
+$Predictor
+$Predictor$Name
+[1] "ApA1"
+
+$Predictor$ShortLabel
+[1] "Apo A1"
+
+$Predictor$Label
+[1] "plasma apolipoproteine A1"
+
+
+$Modifier
+$Modifier$Name
+[1] "choline"
+
+$Modifier$ShortLabel
+[1] "choline"
+
+$Modifier$Label
+[1] "plasma choline"
+
+
+$Adjustments
+$Adjustments[[1]]
+$Adjustments[[1]]$Level
+[1] 1
+
+$Adjustments[[1]]$Name
+[1] "age"
+
+$Adjustments[[1]]$ShortLabel
+[1] "age"
+
+$Adjustments[[1]]$Label
+[1] "age"
+
+
+$Adjustments[[2]]
+$Adjustments[[2]]$Level
+[1] 1
+
+$Adjustments[[2]]$Name
+[1] "sex"
+
+$Adjustments[[2]]$ShortLabel
+[1] "sex"
+
+$Adjustments[[2]]$Label
+[1] "sex"
+
+
+$Adjustments[[3]]
+$Adjustments[[3]]$Level
+[1] 2
+
+$Adjustments[[3]]$Name
+[1] "diabetes_mellitus"
+
+$Adjustments[[3]]$ShortLabel
+[1] "diabetes"
+
+$Adjustments[[3]]$Label
+[1] "diabetes mellitus"
+
+
+$Adjustments[[4]]
+$Adjustments[[4]]$Level
+[1] 2
+
+$Adjustments[[4]]$Name
+[1] "smoking_habits"
+
+$Adjustments[[4]]$ShortLabel
+[1] "smoking"
+
+$Adjustments[[4]]$Label
+[1] "current smoking"
+
+
+$Adjustments[[5]]
+$Adjustments[[5]]$Level
+[1] 2
+
+$Adjustments[[5]]$Name
+[1] "hypertension"
+
+$Adjustments[[5]]$ShortLabel
+[1] "hypertension"
+
+$Adjustments[[5]]$Label
+[1] "hypertension"
+
+
+
+$Confounders
+$Confounders[[1]]
+$Confounders[[1]]$Name
+[1] "hypercholesterolemia"
+
+$Confounders[[1]]$ShortLabel
+[1] "hypercholesterolemia"
+
+$Confounders[[1]]$Label
+[1] "hypercholesterolemia"
+
+
+$Confounders[[2]]
+$Confounders[[2]]$Name
+[1] "left_ventricular_ejection_fraction"
+
+$Confounders[[2]]$ShortLabel
+[1] "left ventricular ejection fraction"
+
+$Confounders[[2]]$Label
+[1] "left ventricular ejection fraction"
+
+
+$Confounders[[3]]
+$Confounders[[3]]$Name
+[1] "previous_aorta_coronary_bypass"
+
+$Confounders[[3]]$ShortLabel
+[1] "previous aorta coronary bypass"
+
+$Confounders[[3]]$Label
+[1] "previous aorta coronary bypass"
+
+
+$Confounders[[4]]
+$Confounders[[4]]$Name
+[1] "previous_heart_intervention"
+
+$Confounders[[4]]$ShortLabel
+[1] "previous heart intervention"
+
+$Confounders[[4]]$Label
+[1] "previous heart intervention"
+
+
+$Confounders[[5]]
+$Confounders[[5]]$Name
+[1] "previous_acute_myocardial_infarction"
+
+$Confounders[[5]]$ShortLabel
+[1] "previous acute myocardial infarction"
+
+$Confounders[[5]]$Label
+[1] "previous acute myocardial infarction"
+
+
+$Confounders[[6]]
+$Confounders[[6]]$Name
+[1] "previous_other_illness"
+
+$Confounders[[6]]$ShortLabel
+[1] "previous other illness"
+
+$Confounders[[6]]$Label
+[1] "previous other illness"
+
+
+$Confounders[[7]]
+$Confounders[[7]]$Name
+[1] "previous_angiographic_coronary_stenosis"
+
+$Confounders[[7]]$ShortLabel
+[1] "previous angiographic coronary stenosis"
+
+$Confounders[[7]]$Label
+[1] "previous angiographic coronary stenosis"
+
+
+$Confounders[[8]]
+$Confounders[[8]]$Name
+[1] "previous_stroke_tia_carotisoperated_stenosis"
+
+$Confounders[[8]]$ShortLabel
+[1] "previous stroke tia carotisoperated stenosis"
+
+$Confounders[[8]]$Label
+[1] "previous stroke tia carotisoperated stenosis"
+
+
+$Confounders[[9]]
+$Confounders[[9]]$Name
+[1] "previous_percutan_coronary_intervention"
+
+$Confounders[[9]]$ShortLabel
+[1] "previous percutan coronary intervention"
+
+$Confounders[[9]]$Label
+[1] "previous percutan coronary intervention"
+
+
+$Confounders[[10]]
+$Confounders[[10]]$Name
+[1] "previous_peripheral_artery_disease"
+
+$Confounders[[10]]$ShortLabel
+[1] "previous peripheral artery disease"
+
+$Confounders[[10]]$Label
+[1] "previous peripheral artery disease"
+
+
+$Confounders[[11]]
+$Confounders[[11]]$Name
+[1] "known_cardiovascular_disease"
+
+$Confounders[[11]]$ShortLabel
+[1] "known cardiovascular disease"
+
+$Confounders[[11]]$Label
+[1] "known cardiovascular disease"
+
+
+$Confounders[[12]]
+$Confounders[[12]]$Name
+[1] "treatment_baseline"
+
+$Confounders[[12]]$ShortLabel
+[1] "treatment baseline"
+
+$Confounders[[12]]$Label
+[1] "treatment baseline"
+
+
+$Confounders[[13]]
+$Confounders[[13]]$Name
+[1] "randomization_code"
+
+$Confounders[[13]]$ShortLabel
+[1] "randomization code"
+
+$Confounders[[13]]$Label
+[1] "randomization code"
+
+
+$Confounders[[14]]
+$Confounders[[14]]$Name
+[1] "HBA1C"
+
+$Confounders[[14]]$ShortLabel
+[1] "HbA1c"
+
+$Confounders[[14]]$Label
+[1] "glycated hemoglobin"
+
+
+
+> require(knitr)
+> opts_chunk$set(warnings=FALSE,echo=FALSE)
+> options(width="130")
+> json <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
+Error in feed_push_parser(readBin(con, raw(), n), reset = TRUE) : 
+  lexical error: inside a string, '\' occurs before a character which it may not.
+          f those a total of 2573 (61.8\%) were subsequently included 
+                     (right here) ------^
+> 
+> 
+> Status <- json$Endpoint$Status
+> Time <- json$Endpoint$Time
+> 
+> Predictor <- json$Predictor$Name
+> Modifier <- json$Modifier$Name
+> Adjustments <- sapply( json$Adjustments , with , Name )
+> nLevels <- sapply( json$Adjustments , with , Level )
+> Confounders <- sapply( json$Confounders , with , Name )
+> json <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
+> json
+$Population
+$Population$Database
+[1] "norcad"
+
+$Population$Label
+[1] "extended WENBIT cohort"
+
+$Population$Subset
+$Population$Subset[[1]]
+$Population$Subset[[1]]$Where
+[1] "(time_of_follow_up = 'baseline')"
+
+$Population$Subset[[1]]$Comment
+[1] "only baseline measurements"
+
+
+$Population$Subset[[2]]
+$Population$Subset[[2]]$Where
+[1] "(diagnose_at_baseline_blood_sampling = 'stable angina pectoris')"
+
+$Population$Subset[[2]]$Comment
+[1] "only stable patients"
+
+
+
+$Population$Description
+[1] "The 4164 stable angina pectoris patients included in the cohort underwent elective coronary angiography between January 2000 and April 2004 at either Bergen University Hospital (N = 3413) or Stavanger University Hospital (N = 751); of those a total of 2573 (61.8%) were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012. The main endpoint of this study cardiovascular mortality was followed up until the end of 2009."
+
+
+$Endpoint
+$Endpoint$Status
+[1] "C_CVDOD"
+
+$Endpoint$Time
+[1] "Dager_cvdod"
+
+$Endpoint$Label
+[1] "CVD mortality"
+
+$Endpoint$ShortLabel
+[1] "CVD mortality"
+
+$Endpoint$Comment
+[1] "The main endpoint cardiovascular mortality followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway."
+
+$Endpoint$Acknowledgment
+[1] "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project."
+
+
+$Predictor
+$Predictor$Name
+[1] "ApA1"
+
+$Predictor$ShortLabel
+[1] "apo A1"
+
+$Predictor$Label
+[1] "plasma apolipoproteine A1"
+
+
+$Modifier
+$Modifier$Name
+[1] "choline"
+
+$Modifier$ShortLabel
+[1] "choline"
+
+$Modifier$Label
+[1] "plasma choline"
+
+
+$Adjustments
+$Adjustments[[1]]
+$Adjustments[[1]]$Level
+[1] 1
+
+$Adjustments[[1]]$Name
+[1] "age"
+
+$Adjustments[[1]]$ShortLabel
+[1] "age"
+
+$Adjustments[[1]]$Label
+[1] "age"
+
+
+$Adjustments[[2]]
+$Adjustments[[2]]$Level
+[1] 1
+
+$Adjustments[[2]]$Name
+[1] "sex"
+
+$Adjustments[[2]]$ShortLabel
+[1] "sex"
+
+$Adjustments[[2]]$Label
+[1] "sex"
+
+
+$Adjustments[[3]]
+$Adjustments[[3]]$Level
+[1] 2
+
+$Adjustments[[3]]$Name
+[1] "diabetes_mellitus"
+
+$Adjustments[[3]]$ShortLabel
+[1] "diabetes"
+
+$Adjustments[[3]]$Label
+[1] "diabetes mellitus"
+
+
+$Adjustments[[4]]
+$Adjustments[[4]]$Level
+[1] 2
+
+$Adjustments[[4]]$Name
+[1] "smoking_habits"
+
+$Adjustments[[4]]$ShortLabel
+[1] "smoking"
+
+$Adjustments[[4]]$Label
+[1] "current smoking"
+
+
+$Adjustments[[5]]
+$Adjustments[[5]]$Level
+[1] 2
+
+$Adjustments[[5]]$Name
+[1] "hypertension"
+
+$Adjustments[[5]]$ShortLabel
+[1] "hypertension"
+
+$Adjustments[[5]]$Label
+[1] "hypertension"
+
+
+
+$Confounders
+$Confounders[[1]]
+$Confounders[[1]]$Name
+[1] "hypercholesterolemia"
+
+$Confounders[[1]]$ShortLabel
+[1] "hypercholesterolemia"
+
+$Confounders[[1]]$Label
+[1] "hypercholesterolemia"
+
+
+$Confounders[[2]]
+$Confounders[[2]]$Name
+[1] "left_ventricular_ejection_fraction"
+
+$Confounders[[2]]$ShortLabel
+[1] "left ventricular ejection fraction"
+
+$Confounders[[2]]$Label
+[1] "left ventricular ejection fraction"
+
+
+$Confounders[[3]]
+$Confounders[[3]]$Name
+[1] "previous_aorta_coronary_bypass"
+
+$Confounders[[3]]$ShortLabel
+[1] "previous aorta coronary bypass"
+
+$Confounders[[3]]$Label
+[1] "previous aorta coronary bypass"
+
+
+$Confounders[[4]]
+$Confounders[[4]]$Name
+[1] "previous_heart_intervention"
+
+$Confounders[[4]]$ShortLabel
+[1] "previous heart intervention"
+
+$Confounders[[4]]$Label
+[1] "previous heart intervention"
+
+
+$Confounders[[5]]
+$Confounders[[5]]$Name
+[1] "previous_acute_myocardial_infarction"
+
+$Confounders[[5]]$ShortLabel
+[1] "previous acute myocardial infarction"
+
+$Confounders[[5]]$Label
+[1] "previous acute myocardial infarction"
+
+
+$Confounders[[6]]
+$Confounders[[6]]$Name
+[1] "previous_other_illness"
+
+$Confounders[[6]]$ShortLabel
+[1] "previous other illness"
+
+$Confounders[[6]]$Label
+[1] "previous other illness"
+
+
+$Confounders[[7]]
+$Confounders[[7]]$Name
+[1] "previous_angiographic_coronary_stenosis"
+
+$Confounders[[7]]$ShortLabel
+[1] "previous angiographic coronary stenosis"
+
+$Confounders[[7]]$Label
+[1] "previous angiographic coronary stenosis"
+
+
+$Confounders[[8]]
+$Confounders[[8]]$Name
+[1] "previous_stroke_tia_carotisoperated_stenosis"
+
+$Confounders[[8]]$ShortLabel
+[1] "previous stroke tia carotisoperated stenosis"
+
+$Confounders[[8]]$Label
+[1] "previous stroke tia carotisoperated stenosis"
+
+
+$Confounders[[9]]
+$Confounders[[9]]$Name
+[1] "previous_percutan_coronary_intervention"
+
+$Confounders[[9]]$ShortLabel
+[1] "previous percutan coronary intervention"
+
+$Confounders[[9]]$Label
+[1] "previous percutan coronary intervention"
+
+
+$Confounders[[10]]
+$Confounders[[10]]$Name
+[1] "previous_peripheral_artery_disease"
+
+$Confounders[[10]]$ShortLabel
+[1] "previous peripheral artery disease"
+
+$Confounders[[10]]$Label
+[1] "previous peripheral artery disease"
+
+
+$Confounders[[11]]
+$Confounders[[11]]$Name
+[1] "known_cardiovascular_disease"
+
+$Confounders[[11]]$ShortLabel
+[1] "known cardiovascular disease"
+
+$Confounders[[11]]$Label
+[1] "known cardiovascular disease"
+
+
+$Confounders[[12]]
+$Confounders[[12]]$Name
+[1] "treatment_baseline"
+
+$Confounders[[12]]$ShortLabel
+[1] "treatment baseline"
+
+$Confounders[[12]]$Label
+[1] "treatment baseline"
+
+
+$Confounders[[13]]
+$Confounders[[13]]$Name
+[1] "randomization_code"
+
+$Confounders[[13]]$ShortLabel
+[1] "randomization code"
+
+$Confounders[[13]]$Label
+[1] "randomization code"
+
+
+$Confounders[[14]]
+$Confounders[[14]]$Name
+[1] "HBA1C"
+
+$Confounders[[14]]$ShortLabel
+[1] "HbA1c"
+
+$Confounders[[14]]$Label
+[1] "glycated hemoglobin"
+
+
+
+> str(json)
+List of 6
+ $ Population :List of 4
+  ..$ Database   : chr "norcad"
+  ..$ Label      : chr "extended WENBIT cohort"
+  ..$ Subset     :List of 2
+  .. ..$ :List of 2
+  .. .. ..$ Where  : chr "(time_of_follow_up = 'baseline')"
+  .. .. ..$ Comment: chr "only baseline measurements"
+  .. ..$ :List of 2
+  .. .. ..$ Where  : chr "(diagnose_at_baseline_blood_sampling = 'stable angina pectoris')"
+  .. .. ..$ Comment: chr "only stable patients"
+  ..$ Description: chr "The 4164 stable angina pectoris patients included in the cohort underwent elective coronary angiography between January 2000 an"| __truncated__
+ $ Endpoint   :List of 6
+  ..$ Status        : chr "C_CVDOD"
+  ..$ Time          : chr "Dager_cvdod"
+  ..$ Label         : chr "CVD mortality"
+  ..$ ShortLabel    : chr "CVD mortality"
+  ..$ Comment       : chr "The main endpoint cardiovascular mortality followed up until end of 2009 obtained through the Cardiovascular Disease in Norway "| __truncated__
+  ..$ Acknowledgment: chr "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution"| __truncated__
+ $ Predictor  :List of 3
+  ..$ Name      : chr "ApA1"
+  ..$ ShortLabel: chr "apo A1"
+  ..$ Label     : chr "plasma apolipoproteine A1"
+ $ Modifier   :List of 3
+  ..$ Name      : chr "choline"
+  ..$ ShortLabel: chr "choline"
+  ..$ Label     : chr "plasma choline"
+ $ Adjustments:List of 5
+  ..$ :List of 4
+  .. ..$ Level     : int 1
+  .. ..$ Name      : chr "age"
+  .. ..$ ShortLabel: chr "age"
+  .. ..$ Label     : chr "age"
+  ..$ :List of 4
+  .. ..$ Level     : int 1
+  .. ..$ Name      : chr "sex"
+  .. ..$ ShortLabel: chr "sex"
+  .. ..$ Label     : chr "sex"
+  ..$ :List of 4
+  .. ..$ Level     : int 2
+  .. ..$ Name      : chr "diabetes_mellitus"
+  .. ..$ ShortLabel: chr "diabetes"
+  .. ..$ Label     : chr "diabetes mellitus"
+  ..$ :List of 4
+  .. ..$ Level     : int 2
+  .. ..$ Name      : chr "smoking_habits"
+  .. ..$ ShortLabel: chr "smoking"
+  .. ..$ Label     : chr "current smoking"
+  ..$ :List of 4
+  .. ..$ Level     : int 2
+  .. ..$ Name      : chr "hypertension"
+  .. ..$ ShortLabel: chr "hypertension"
+  .. ..$ Label     : chr "hypertension"
+ $ Confounders:List of 14
+  ..$ :List of 3
+  .. ..$ Name      : chr "hypercholesterolemia"
+  .. ..$ ShortLabel: chr "hypercholesterolemia"
+  .. ..$ Label     : chr "hypercholesterolemia"
+  ..$ :List of 3
+  .. ..$ Name      : chr "left_ventricular_ejection_fraction"
+  .. ..$ ShortLabel: chr "left ventricular ejection fraction"
+  .. ..$ Label     : chr "left ventricular ejection fraction"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_aorta_coronary_bypass"
+  .. ..$ ShortLabel: chr "previous aorta coronary bypass"
+  .. ..$ Label     : chr "previous aorta coronary bypass"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_heart_intervention"
+  .. ..$ ShortLabel: chr "previous heart intervention"
+  .. ..$ Label     : chr "previous heart intervention"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_acute_myocardial_infarction"
+  .. ..$ ShortLabel: chr "previous acute myocardial infarction"
+  .. ..$ Label     : chr "previous acute myocardial infarction"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_other_illness"
+  .. ..$ ShortLabel: chr "previous other illness"
+  .. ..$ Label     : chr "previous other illness"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_angiographic_coronary_stenosis"
+  .. ..$ ShortLabel: chr "previous angiographic coronary stenosis"
+  .. ..$ Label     : chr "previous angiographic coronary stenosis"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_stroke_tia_carotisoperated_stenosis"
+  .. ..$ ShortLabel: chr "previous stroke tia carotisoperated stenosis"
+  .. ..$ Label     : chr "previous stroke tia carotisoperated stenosis"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_percutan_coronary_intervention"
+  .. ..$ ShortLabel: chr "previous percutan coronary intervention"
+  .. ..$ Label     : chr "previous percutan coronary intervention"
+  ..$ :List of 3
+  .. ..$ Name      : chr "previous_peripheral_artery_disease"
+  .. ..$ ShortLabel: chr "previous peripheral artery disease"
+  .. ..$ Label     : chr "previous peripheral artery disease"
+  ..$ :List of 3
+  .. ..$ Name      : chr "known_cardiovascular_disease"
+  .. ..$ ShortLabel: chr "known cardiovascular disease"
+  .. ..$ Label     : chr "known cardiovascular disease"
+  ..$ :List of 3
+  .. ..$ Name      : chr "treatment_baseline"
+  .. ..$ ShortLabel: chr "treatment baseline"
+  .. ..$ Label     : chr "treatment baseline"
+  ..$ :List of 3
+  .. ..$ Name      : chr "randomization_code"
+  .. ..$ ShortLabel: chr "randomization code"
+  .. ..$ Label     : chr "randomization code"
+  ..$ :List of 3
+  .. ..$ Name      : chr "HBA1C"
+  .. ..$ ShortLabel: chr "HbA1c"
+  .. ..$ Label     : chr "glycated hemoglobin"
+> Status <- json$Endpoint$Status
+> Time <- json$Endpoint$Time
+> 
+> Predictor <- json$Predictor$Name
+> Modifier <- json$Modifier$Name
+> Adjustments <- sapply( json$Adjustments , with , Name )
+> nLevels <- sapply( json$Adjustments , with , Level )
+> Confounders <- sapply( json$Confounders , with , Name )
+> json$Endpoint$Label
+[1] "CVD mortality"
+> json$Population$Label
+[1] "extended WENBIT cohort"
+> json$Population$Subset
+[[1]]
+[[1]]$Where
+[1] "(time_of_follow_up = 'baseline')"
+
+[[1]]$Comment
+[1] "only baseline measurements"
+
+
+[[2]]
+[[2]]$Where
+[1] "(diagnose_at_baseline_blood_sampling = 'stable angina pectoris')"
+
+[[2]]$Comment
+[1] "only stable patients"
+
+
+> sapply(json$Population$Subset , with , Comment)
+[1] "only baseline measurements" "only stable patients"      
+> json$Population
+$Database
+[1] "norcad"
+
+$Label
+[1] "extended WENBIT cohort"
+
+$Subset
+$Subset[[1]]
+$Subset[[1]]$Where
+[1] "(time_of_follow_up = 'baseline')"
+
+$Subset[[1]]$Comment
+[1] "only baseline measurements"
+
+
+$Subset[[2]]
+$Subset[[2]]$Where
+[1] "(diagnose_at_baseline_blood_sampling = 'stable angina pectoris')"
+
+$Subset[[2]]$Comment
+[1] "only stable patients"
+
+
+
+$Description
+[1] "The 4164 stable angina pectoris patients included in the cohort underwent elective coronary angiography between January 2000 and April 2004 at either Bergen University Hospital (N = 3413) or Stavanger University Hospital (N = 751); of those a total of 2573 (61.8%) were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012. The main endpoint of this study cardiovascular mortality was followed up until the end of 2009."
+
+> json$Population$Description
+[1] "The 4164 stable angina pectoris patients included in the cohort underwent elective coronary angiography between January 2000 and April 2004 at either Bergen University Hospital (N = 3413) or Stavanger University Hospital (N = 751); of those a total of 2573 (61.8%) were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012. The main endpoint of this study cardiovascular mortality was followed up until the end of 2009."
+> sapply(json$Population$Subset , with , Comment)
+[1] "only baseline measurements" "only stable patients"      
+> cat(json$Population$Description)
+The 4164 stable angina pectoris patients included in the cohort underwent elective coronary angiography between January 2000 and April 2004 at either Bergen University Hospital (N = 3413) or Stavanger University Hospital (N = 751); of those a total of 2573 (61.8%) were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012. The main endpoint of this study cardiovascular mortality was followed up until the end of 2009.> {cat(sapply(json$Population$Subset , with , Comment))
++ )
+Error: unexpected ')' in:
+"{cat(sapply(json$Population$Subset , with , Comment))
+)"
+> cat(sapply(json$Population$Subset , with , Comment))
+only baseline measurements only stable patients> 
+> cat(json$Population$Description)
+The 4164 stable angina pectoris patients included in the cohort underwent elective coronary angiography between January 2000 and April 2004 at either Bergen University Hospital (N = 3413) or Stavanger University Hospital (N = 751); of those a total of 2573 (61.8%) were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012. The main endpoint of this study cardiovascular mortality was followed up until the end of 2009.> cat(json$Population$Acknowledgment)
+> 
+> cat(json$Population$Acknowledgment)
+> json$Endpoint$Acknowledgment
+NULL
+> json$Endpoint$Acknowledgment
+[1] "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project."
+> require(knitr)
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+  Running 'texi2dvi' on 'vPhD.tex' failed.
+LaTeX errors:
+! File ended while scanning use of \frame.
+<inserted text> 
+                \par 
+<*> \nonstopmode \input ./vPhD.tex
+                                  
+! Emergency stop.
+<*> \nonstopmode \input ./vPhD.tex
+                                  
+*** (job aborted, no legal \end found)
+
+!  ==> Fatal error occurred, no output PDF file produced!
+> \Sexpr{cat(json$Population$Description)}
+Error: unexpected input in "\"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> cat(sapply(json$Population$Subset , with , Comment))
+baseline measurements stable angina pectoris> 
+> print(json$Population$Description)
+[1] "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+[1] "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
+[1] "baseline measurements"  "stable angina pectoris"
+[1] "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project."
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+[1] "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
+[1] "baseline measurements"  "stable angina pectoris"
+[1] "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project."
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> json$Population$Description
+Error: unexpected ')' in "json$Population$Description)"
+> json$Population$Label
+[1] "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
+> json$Population$Label
+[1] "extended WENBIT cohort"
+> paste(json$Population$Description)
+[1] "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
+> str(json$Population$Description)
+ chr "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University "| __truncated__
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+[1] "baseline measurements"  "stable angina pectoris"
+[1] "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project."
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> knit2pdf("vPhD.Rnw")
+
+
+processing file: vPhD.Rnw
+  |..                                                               |   3%
+  ordinary text without R code
+
+  |...                                                              |   5%
+label: knitrOptions (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |.....                                                            |   8%
+  ordinary text without R code
+
+  |.......                                                          |  10%
+label: loadLibs (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |........                                                         |  13%
+  ordinary text without R code
+
+  |..........                                                       |  15%
+label: getDesign (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |............                                                     |  18%
+  ordinary text without R code
+
+  |.............                                                    |  21%
+label: getData (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |...............                                                  |  23%
+  ordinary text without R code
+
+  |.................                                                |  26%
+label: createTransformations (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |..................                                               |  28%
+   inline R code fragments
+
+  |....................                                             |  31%
+label: TabCoxSimple (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |......................                                           |  33%
+   inline R code fragments
+
+  |.......................                                          |  36%
+label: TabCoxSubgroup (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |.........................                                        |  38%
+   inline R code fragments
+
+  |...........................                                      |  41%
+label: TabCoxInteraction (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |............................                                     |  44%
+   inline R code fragments
+
+  |..............................                                   |  46%
+label: VisGAMq (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |................................                                 |  49%
+   inline R code fragments
+
+  |.................................                                |  51%
+label: VisGAMqSE (with options) 
+List of 3
+ $ fig.width : num 8
+ $ fig.height: num 8
+ $ out.width : chr "3in"
+
+  |...................................                              |  54%
+   inline R code fragments
+
+  |.....................................                            |  56%
+label: z0coxph
+  |......................................                           |  59%
+   inline R code fragments
+
+  |........................................                         |  62%
+label: z1coxph
+  |..........................................                       |  64%
+   inline R code fragments
+
+  |...........................................                      |  67%
+label: z2coxph
+  |.............................................                    |  69%
+   inline R code fragments
+
+  |...............................................                  |  72%
+label: zlog0coxph
+  |................................................                 |  74%
+   inline R code fragments
+
+  |..................................................               |  77%
+label: zlog1coxph
+  |....................................................             |  79%
+   inline R code fragments
+
+  |.....................................................            |  82%
+label: zlog2coxph
+  |.......................................................          |  85%
+   inline R code fragments
+
+  |.........................................................        |  87%
+label: q0coxph
+  |..........................................................       |  90%
+   inline R code fragments
+
+  |............................................................     |  92%
+label: q1coxph
+  |..............................................................   |  95%
+   inline R code fragments
+
+  |...............................................................  |  97%
+label: q2coxph
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: vPhD.tex
+
+[1] "vPhD.pdf"
+> summary(D$Survival)
+      time          status      
+ Min.   :   1   Min.   :0.0000  
+ 1st Qu.:3375   1st Qu.:0.0000  
+ Median :3758   Median :0.0000  
+ Mean   :3598   Mean   :0.1001  
+ 3rd Qu.:4235   3rd Qu.:0.0000  
+ Max.   :5011   Max.   :1.0000  
+> paste(summary(D$Survival})
+Error: unexpected '}' in "paste(summary(D$Survival}"
+> paste(summary(D$Survival))
+ [1] "Min.   :   1  "   "1st Qu.:3375  "   "Median :3758  "   "Mean   :3598  "   "3rd Qu.:4235  "   "Max.   :5011  "  
+ [7] "Min.   :0.0000  " "1st Qu.:0.0000  " "Median :0.0000  " "Mean   :0.1001  " "3rd Qu.:0.0000  " "Max.   :1.0000  "
+> latex(summary(D$Survival))
+Error in file(file, ifelse(append, "a", "w")) : 
+  invalid 'description' argument
+In addition: Warning messages:
+1: In if (file == "") file <- stdout() else if (substring(file, 1L,  :
+  the condition has length > 1 and only the first element will be used
+2: In if (substring(file, 1L, 1L) == "|") { :
+  the condition has length > 1 and only the first element will be used
+> str(summary(D$Survival))
+ 'table' chr [1:6, 1:2] "Min.   :   1  " "1st Qu.:3375  " "Median :3758  " "Mean   :3598  " "3rd Qu.:4235  " ...
+ - attr(*, "dimnames")=List of 2
+  ..$ : chr [1:6] "" "" "" "" ...
+  ..$ : chr [1:2] "     time" "    status"
+> latex(summary(D$Survival), file = "" , caption = "")
+Error in cat(caption, "\n", sep = "", file = fi, append = TRUE) : 
+  argument "caption" is missing, with no default
+> latex(summary(D$Survival), file = "" , caption = "")
+> summary(D$Survival)
+      time          status      
+ Min.   :   1   Min.   :0.0000  
+ 1st Qu.:3375   1st Qu.:0.0000  
+ Median :3758   Median :0.0000  
+ Mean   :3598   Mean   :0.1001  
+ 3rd Qu.:4235   3rd Qu.:0.0000  
+ Max.   :5011   Max.   :1.0000  
+> 

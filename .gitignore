@@ -2,18 +2,46 @@
 .Rhistory
 .Rapp.history
 
-# Session Data files
-.RData
-
 # Example code in package build process
 *-Ex.R
 
 # RStudio files
 .Rproj.user/
+*.Rproj
+
+# knitr figures
+figure/
+
+# any data present until verified othervise
+/data
 
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
 
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
+# intermediate .tex files and logs
+*.tex
+*.log
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+
+# SPSS, word,..
+*.sav
+*.doc
+*.docx
+
+# Rdata files
+*.Rdata
+*.data.R
+
+# Example code in package build process
+*-Ex.R
+
+.Rproj.user
+
+# local .yml configurations
+*.yml

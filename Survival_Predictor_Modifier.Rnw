@@ -1,0 +1,512 @@
+
+\documentclass[presentation,xcolor=pdftex,dvipsnames,table]{beamer}
+\usetheme{Singapore}
+%\usecolortheme{seagull}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english, norsk]{babel}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{xspace}
+\usepackage{booktabs}
+\usepackage{rotating}
+\usepackage{graphicx}
+
+
+<<knitrOptions,include=FALSE>>=
+
+require(knitr)
+opts_chunk$set(warnings=FALSE,echo=FALSE)
+options(width="130")
+# knit2pdf("vPhD.Rnw")
+
+@ 
+
+<<loadLibs,include=FALSE>>=
+
+require(quantreg)
+require(Hmisc)
+require(survival)
+require(mgcv)
+require(car)
+require(smcfcs)
+require(purrr)
+
+source("./function/BuildCoxFormula.R")
+source("./function/BuildIndependent.R")
+source("./function/PrintCoxSubgroupTable.R")
+source("./function/OutputHR.R")
+
+@ 
+
+
+<<getDesign,include=FALSE>>=
+## Hadley, you amazing genius!!
+# http://r4ds.had.co.nz/lists.html#hierarchy
+
+json <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
+
+Status <- json$Endpoint$Status
+Time <- json$Endpoint$Time
+
+Predictor <- json$Predictor$Name
+Modifier <- json$Modifier$Name
+Adjustments <- sapply( json$Adjustments , with , Name )
+nLevels <- sapply( json$Adjustments , with , Level )
+Confounders <- sapply( json$Confounders , with , Name )
+
+@ 
+
+
+
+<<getData,include=FALSE>>=
+
+dbVars <- paste0(
+    c(
+        Status ,
+        Time ,
+        Predictor ,
+        Modifier ,
+        Adjustments ,
+        Confounders ) , 
+    collapse = ", ")
+
+dbWhere <- paste0(
+    sapply(
+        json$Population$Subset ,
+        with ,
+        Where ) ,
+    collapse = " AND " )
+        
+dbStatement <- paste(
+    "SELECT" ,
+    dbVars ,
+    "FROM PATIENT_INFO P
+       LEFT JOIN LAB_BLOOD_TOTAL B ON P.FORUS_ID=B.FORUS_ID
+       LEFT JOIN hs_medikament_skjema M ON P.FORUS_ID=M.FORUS_ID
+       LEFT JOIN hs_hendelser_CVDNOR_mars14 C ON P.NORCAD_ID=C.NORCAD_ID
+         WHERE" ,
+    dbWhere )
+
+if ( !exists("con") )
+    con <- DBI::dbConnect(
+        drv = RMySQL::MySQL() ,
+        dbname = json$Population$Database )
+
+D <- DBI::dbGetQuery(
+    conn = con , 
+    statement = dbStatement)
+
+@ 
+
+
+<<createTransformations,include=FALSE>>=
+
+D$Survival <- survival::Surv(
+    time = D[,Time] ,
+    event = D[,Status] )
+
+z <- function(X) (X - mean( X , na.rm = TRUE )) / sd( X , na.rm = TRUE )
+q <- function(X) 100 * rank( X , na.last = "keep" ) / length( na.exclude(X) )
+cutN <- function(X,n) cut(
+                          x = X ,
+                          include.lowest = TRUE ,
+                          breaks = quantile(
+                              x = X ,
+                              na.rm = TRUE ,
+                              probs = 0:n/n ))
+
+D[ , paste("z" , Predictor , sep = "") ] <- z( D[ , Predictor ] )
+D[ , paste("zlog" , Predictor , sep = "") ] <- z( log( D[ , Predictor ] ) )
+D[ , paste("q" , Predictor , sep = "") ] <- q( D[ , Predictor ] )
+D[ , paste("ntil4" , Predictor , sep = "") ] <- cutN( D[ , Predictor ] , n = 4 )
+D[ , paste("trend4" , Predictor , sep = "") ] <- as.numeric( cutN( D[ , Predictor ] , n = 4 ) )
+
+D[ , paste( "z" , Modifier , sep = "") ] <- z( D[ , Modifier ] )
+D[ , paste( "zlog" , Modifier , sep = "") ] <- z( log( D[ , Modifier ] ) )
+D[ , paste( "q" , Modifier , sep = "") ] <- q( D[ , Modifier ] )
+D[ , paste( "d" , Modifier , sep = "") ] <- cutN( D[ , Modifier ] , n = 2 )
+
+D$Mod <- D[ , Modifier ]
+D$Mod2n <- as.numeric(cutN( D[ , Modifier ] , n = 2 ))
+D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
+
+@ 
+
+
+
+
+\title[\Sexpr{json$Endpoint$ShortLabel} and \Sexpr{json$Predictor$ShortLabel}]{\Sexpr{json$Endpoint$Label} and \Sexpr{json$Predictor$Label}}
+
+
+\begin{document}
+\begin{tiny}
+
+\maketitle
+
+
+\section{Population}
+\begin{frame}
+  \huge{Population}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{The \Sexpr{json$Population$Label}}
+
+  \Sexpr{paste(json$Population$Description)}
+
+  Only patients with \Sexpr{paste(sapply(json$Population$Subset , with , Comment))} were included.
+  
+\end{frame}
+
+
+
+\section{Main Endpoint}
+\begin{frame}
+  \huge{Main Endpoint}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\Sexpr{json$Endpoint$Label}}
+  \Sexpr{paste(json$Endpoint$Label)} is observed in \Sexpr{sum(D[ ,json$Endpoint$Status] , na.rm = TRUE )} of \Sexpr{dim(D)[1]} patients (\Sexpr{round(100*sum(D[ ,json$Endpoint$Status] , na.rm = TRUE )/dim(D)[1] , 1)}\%) with a median follow-up time of \Sexpr{median(D[,json$Endpoint$Time],na.rm=TRUE)} days.
+  
+  Acknowledgment: \Sexpr{paste(json$Endpoint$Acknowledgment)}
+\end{frame}
+
+
+
+
+
+\section{Survival}
+\begin{frame}
+  \huge{Survival}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\Sexpr{json$Endpoint$ShortLabel} $\backsim$ \Sexpr{json$Predictor$ShortLabel}}
+  
+  \begin{table}
+    \resizebox{\textwidth}{!}{
+  
+<<TabCoxSimple,results='asis'>>=
+
+TabCoxSimple <- rbind(
+    cbind(
+        OutputHR( alevel = 0 , ptrans = "z" ) ,
+        OutputHR( alevel = 1 , ptrans = "z" ) ,
+        OutputHR( alevel = 2 , ptrans = "z" )) ,
+    cbind(
+        OutputHR( alevel = 0 , ptrans = "zlog" ) ,
+        OutputHR( alevel = 1 , ptrans = "zlog" ) ,
+        OutputHR( alevel = 2 , ptrans = "zlog" )) ,
+    cbind(
+        OutputHR( alevel = 0 , ptrans = "trend4" ) ,
+        OutputHR( alevel = 1 , ptrans = "trend4" ) ,
+        OutputHR( alevel = 2 , ptrans = "trend4" )))
+
+latex(
+    object = TabCoxSimple ,
+    cgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
+    n.cgroup = c(3,3,3) ,
+    file = "" ,
+    title = "" ,
+    table.env = FALSE ,
+    center = "none" ,
+    booktabs = TRUE
+    )
+
+@ 
+
+}
+  \caption{Hazard ratios for association between \Sexpr{json$Endpoint$Label} and \Sexpr{json$Predictor$Label} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( json$Adjustments , with , Label )[sapply( json$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( json$Adjustments , with , Label )[sapply( json$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  
+  \end{table}
+\end{frame}
+
+
+
+
+\section[Interaction]{\Sexpr{json$Predictor$ShortLabel} $\times$ \Sexpr{json$Modifier$ShortLabel}}
+\section{Interaction}
+\begin{frame}
+  \huge{Interaction}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{\Sexpr{json$Endpoint$ShortLabel} and \Sexpr{json$Predictor$ShortLabel} in subgroups of high/low \Sexpr{json$Modifier$ShortLabel}}
+
+  \begin{table}
+    \resizebox{\textwidth}{!}{
+      
+<<TabCoxSubgroup,results='asis'>>=
+
+TabCoxSubgroup <- rbind(
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "z" ) ,
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "zlog" ) ,
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "trend4" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "z" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "zlog" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "trend4" ) ,
+        PrintCoxSubgroupTable( alevel = 2 , ptrans = "z" ) ,
+        PrintCoxSubgroupTable( alevel = 2 , ptrans = "zlog" ) ,
+        PrintCoxSubgroupTable( alevel = 2 , ptrans = "trend4" ))
+
+latex(
+    object = TabCoxSubgroup ,
+    rgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
+    n.rgroup = c(3,3,3) ,
+    cgroup = c( paste( c("Low","High") ,json$Modifier$Label),"Interaction") ,
+    n.cgroup = c(2,2,1) ,
+    file = "" ,
+    title = "" ,
+    center = "none" ,
+    table.env = FALSE ,
+    booktabs = TRUE
+    )
+
+@ 
+
+}
+  \caption{Hazard ratios for association between \Sexpr{json$Endpoint$Label} and \Sexpr{json$Predictor$Label} in subgroups of high vs. low levels of \Sexpr{json$Modifier$Label} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( json$Adjustments , with , Label )[sapply( json$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( json$Adjustments , with , Label )[sapply( json$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{json$Modifier$Label} is divided into high/low levels according to the population median (\Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}). }
+  \end{table}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{\Sexpr{json$Endpoint$ShortLabel} and \Sexpr{json$Predictor$ShortLabel} and interaction with high/low \Sexpr{json$Modifier$ShortLabel}}
+
+  \begin{table}
+    \resizebox{\textwidth}{!}{
+      
+<<TabCoxInteraction,results='asis'>>=
+
+TabCoxInteraction <- rbind(
+    cbind(
+        OutputHR( alevel = 0 , ptrans = "z" , mtrans = "d" ) ,
+        OutputHR( alevel = 1 , ptrans = "z" , mtrans = "d" ) ,
+        OutputHR( alevel = 2 , ptrans = "z" , mtrans = "d" )) ,
+    cbind(
+        OutputHR( alevel = 0 , ptrans = "zlog" , mtrans = "d" ) ,
+        OutputHR( alevel = 1 , ptrans = "zlog" , mtrans = "d" ) ,
+        OutputHR( alevel = 2 , ptrans = "zlog" , mtrans = "d" )) ,
+    cbind(
+        OutputHR( alevel = 0 , ptrans = "trend4" , mtrans = "d" ) ,
+        OutputHR( alevel = 1 , ptrans = "trend4" , mtrans = "d" ) ,
+        OutputHR( alevel = 2 , ptrans = "trend4" , mtrans = "d" )))
+
+latex(
+    object = TabCoxInteraction ,
+    rgroup = c("Normalized","Normalized log","Trend over quartiles") ,
+    n.rgroup = c(3,3,3) ,
+    cgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
+    n.cgroup = c(3,3,3) ,
+    file = "" ,
+    title = "" ,
+    center = "none" ,
+    table.env = FALSE ,
+    booktabs = TRUE
+    )
+
+@ 
+
+}
+  \caption{Hazard ratios for association between \Sexpr{json$Endpoint$Label} and \Sexpr{json$Predictor$Label} and effect modification by high vs low levels of\Sexpr{json$Modifier$Label} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( json$Adjustments , with , Label )[sapply( json$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( json$Adjustments , with , Label )[sapply( json$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \end{table}
+
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[fragile]
+  \frametitle{}
+<<VisGAMq,fig.width=8,fig.height=8,out.width="3in">>=
+
+F <- as.formula(
+    paste(
+        json$Endpoint$Status ,
+        "~" ,
+        "s(" ,
+        "q" , json$Predictor$Name ,
+        "," ,
+        "q" , json$Modifier$Name ,
+        ")" ,
+        sep = ""))
+
+GAM <- gam(
+    formula = F ,
+    data = D ,
+    family = "binomial")
+
+vis.gam(
+    x = GAM ,
+    n.grid = 50 ,
+    color = "terrain" ,
+    type = "response" ,
+    xlab = json$Predictor$Label ,
+    ylab = json$Modifier$Label ,
+    zlab = "Incidence" ,
+    phi = 0 ,
+    theta = -20 ,
+    ticktype = "detailed"
+)
+    
+@ 
+Surface spline of \Sexpr{json$Endpoint$Label} incidence by empirical percentiles of \Sexpr{json$Predictor$Label} and \Sexpr{json$Modifier$Label} estimated with a Generalized Additve Model.
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{}
+<<VisGAMqSE,fig.width=8,fig.height=8,out.width="3in">>=
+
+vis.gam(
+    x = GAM ,
+    n.grid = 50 ,
+    se = TRUE ,
+    type = "response" ,
+    xlab = json$Predictor$Label ,
+    ylab = json$Modifier$Label ,
+    zlab = "Incidence" ,
+    phi = 0 ,
+    theta = -20 ,
+    ticktype = "detailed"
+)
+    
+@ 
+Surface spline of \Sexpr{json$Endpoint$Label} incidence by empirical percentiles of \Sexpr{json$Predictor$Label} and \Sexpr{json$Modifier$Label} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
+
+\end{frame}
+
+
+
+
+
+
+\section{Appendix}
+\begin{frame}
+  \huge{Appendix}
+  \tiny{\ldots containing the crude complete output of all models}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{BuildIndependent(alevel = 0 , ptrans = "z" )}$}
+<<z0coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 0 ,
+        ptrans = "z" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{BuildIndependent(alevel = 1 , ptrans = "z" )}$}
+<<z1coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 1 ,
+        ptrans = "z" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{gsub('_','',BuildIndependent(alevel = 2 , ptrans = "z" ))}$}
+<<z2coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 2 ,
+        ptrans = "z" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{BuildIndependent(alevel = 0 , ptrans = "zlog" )}$}
+<<zlog0coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 0 ,
+        ptrans = "zlog" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{BuildIndependent(alevel = 1 , ptrans = "zlog" )}$}
+<<zlog1coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 1 ,
+        ptrans = "zlog" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{gsub('_','',BuildIndependent(alevel = 2 , ptrans = "zlog" ))}$}
+<<zlog2coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 2 ,
+        ptrans = "zlog" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{BuildIndependent(alevel = 0 , ptrans = "q" )}$}
+<<q0coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 0 ,
+        ptrans = "q" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{BuildIndependent(alevel = 1 , ptrans = "q" )}$}
+<<q1coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 1 ,
+        ptrans = "q" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{$\Sexpr{gsub('_','',BuildIndependent(alevel = 2 , ptrans = "q" ))}$}
+<<q2coxph>>=
+coxph(
+    formula = BuildCoxFormula(
+        alevel = 2 ,
+        ptrans = "q" ) ,
+    data = D )
+@ 
+\end{frame}
+
+
+
+\end{tiny}
+\end{document}
