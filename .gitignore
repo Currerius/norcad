@@ -28,6 +28,7 @@ vignettes/*.pdf
 *.snm
 *.toc
 *.vrb
+*.pdf
 
 # SPSS, word,..
 *.sav
