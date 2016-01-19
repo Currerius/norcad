@@ -3,7 +3,7 @@
   "Population":
     {
       "Database": "norcad" ,
-      "Label": "extended WENBIT cohort" ,
+      "Label": "WECAC" ,
       "Subset": [
         {
           "Where": "(time_of_follow_up = 'baseline')" ,
@@ -14,7 +14,7 @@
           "Comment": "stable angina pectoris"
         }
       ] ,
-      "Description": "Patients included in the cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
+      "Description": "Patients included in the WECAC cohort underwent coronary angiography between January 2000 and April 2004 at either Bergen University Hospital or Stavanger University Hospital; some of the patients were subsequently included in the Western Norway B Vitamin Intervention Trial (clinicaltrials.gov identifier NCT00364081). Patients were followed up for ICD10 readmission diagnoses in patient administrative registries in any Norwegian Hospital until end of 2009 and for ICD10 cause of death diagnoses until end of 2012."
     } ,
   "Endpoint":
     {
