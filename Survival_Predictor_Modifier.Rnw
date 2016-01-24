@@ -21,12 +21,12 @@ require(car)
 require(smcfcs)
 require(purrr)
 require(knitr)
+
 opts_chunk$set(warnings=FALSE,echo=FALSE)
 
-source("./functions/BuildCoxFormula.R")
-source("./functions/BuildIndependent.R")
-source("./functions/PrintCoxSubgroupTable.R")
-source("./functions/OutputHR.R")
+lapply(
+    X = dir( "./functions") ,
+    FUN = function(X) source( paste( "./functions/" , X , sep = "" )))
 
 options(width="130")
 
@@ -36,6 +36,7 @@ options(width="130")
 <<getDesign,include=FALSE>>=
 ## Hadley, you amazing genius!!
 # http://r4ds.had.co.nz/lists.html#hierarchy
+
 JSON <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
 
 Status <- JSON$Endpoint$Status
@@ -147,7 +148,6 @@ D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
   \frametitle{\Sexpr{JSON$Population$Label}}
 
   \Sexpr{paste(JSON$Population$Description)}
-
   
   Only patients with \Sexpr{paste(sapply(JSON$Population$Subset , with , Comment))} were included.
   
@@ -163,10 +163,91 @@ D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
 \begin{frame}[fragile]
   \frametitle{\Sexpr{JSON$Endpoint$Label}}
   \Sexpr{paste(JSON$Endpoint$Label)} is observed in \Sexpr{sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )} of \Sexpr{dim(D)[1]} patients (\Sexpr{round(100*sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )/dim(D)[1] , 1)}\%) with a median follow-up time of \Sexpr{median(D[,JSON$Endpoint$Time],na.rm=TRUE)} days.
+
+  The main endpoint \Sexpr{paste(JSON$Endpoint$Label)} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
   
-  Acknowledgment: \Sexpr{paste(JSON$Endpoint$Acknowledgment)}
+  Acknowledgment: The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.
 \end{frame}
 
+
+
+\section{Patient characteristics}
+\begin{frame}
+  \huge{Patient characteristics}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\end{frame}
+
+
+\begin{frame}
+  \begin{table}
+    \centering
+    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}
+    \resizebox{0.8\textwidth}{!}{
+<<LaTeXproportions,echo=FALSE,results='asis'>>=
+
+latex(
+    object = Table1Proportions ,
+    title = "" ,
+    n.cgroup = c(2,2,2,2,1) ,
+    cgroup = c("Q1","Q2","Q3","Q4","") ,
+    center = "none",
+    table.env = FALSE ,
+    file = "" ,
+    booktabs = TRUE )
+
+@ 
+}
+  \end{table}
+\end{frame}
+
+
+\begin{frame}
+  \begin{table}
+    \centering
+    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for continuous variables reported as means (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.}
+    \resizebox{0.8\textwidth}{!}{
+<<LaTeXMeans,echo=FALSE,results='asis'>>=
+
+latex(
+    object = Table1Means ,
+    title = "" ,
+    n.cgroup = c(2,2,2,2,1) ,
+    cgroup = c("Q1","Q2","Q3","Q4","") ,
+    center = "none",
+    table.env = FALSE ,
+    file = "" ,
+    booktabs = TRUE )
+
+@ 
+}
+  \end{table}
+\end{frame}
+
+
+\begin{frame}
+  \begin{table}
+    \centering
+    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}
+    \resizebox{0.8\textwidth}{!}{
+<<LaTeXMedians,echo=FALSE,results='asis'>>=
+
+latex(
+    object = Table1Medians ,
+    title = "" ,
+    n.cgroup = c(2,2,2,2,1) ,
+    cgroup = c("Q1","Q2","Q3","Q4","") ,
+    center = "none",
+    table.env = FALSE ,
+    file = "" ,
+    booktabs = TRUE )
+
+@ 
+}
+  \end{table}
+\end{frame}
 
 
 

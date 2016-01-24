@@ -6,11 +6,11 @@
       "Label": "WECAC" ,
       "Subset": [
         {
-          "Where": "(time_of_follow_up = 'baseline')" ,
+          "Where": "(time_of_follow_up = '0')" ,
           "Comment": "baseline measurements"
         } ,
         {
-          "Where": "(diagnose_at_baseline_blood_sampling = 'stable angina pectoris')" ,
+          "Where": "(diagnose_at_baseline_blood_sampling = '1')" ,
           "Comment": "stable angina pectoris"
         }
       ] ,
@@ -18,12 +18,10 @@
     } ,
   "Endpoint":
     {
-      "Status": "C_CVDOD" ,
-      "Time": "Dager_cvdod" ,
-      "Label": "CVD mortality" ,
-      "ShortLabel": "CVD mortality" ,
-      "Comment": "The main endpoint cardiovascular mortality followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway." ,
-      "Acknowledgment": "The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project."
+      "Status": "C_AMI" ,
+      "Time": "Dager_ami" ,
+      "Label": "myocardial infarction" ,
+      "ShortLabel": "AMI"
     } ,
   "Predictor":
     {
@@ -81,41 +79,9 @@
       "ShortLabel": "left ventricular ejection fraction" ,
       "Label": "left ventricular ejection fraction" } ,
     {
-      "Name": "previous_aorta_coronary_bypass" ,
-      "ShortLabel": "previous aorta coronary bypass" ,
-      "Label": "previous aorta coronary bypass" } ,
-    {
-      "Name": "previous_heart_intervention" ,
-      "ShortLabel": "previous heart intervention" ,
-      "Label": "previous heart intervention" } ,
-    {
-      "Name": "previous_acute_myocardial_infarction" ,
-      "ShortLabel": "previous acute myocardial infarction" ,
-      "Label": "previous acute myocardial infarction" } ,
-    {
-      "Name": "previous_other_illness" ,
-      "ShortLabel": "previous other illness" ,
-      "Label": "previous other illness" } ,
-    {
-      "Name": "previous_angiographic_coronary_stenosis" ,
-      "ShortLabel": "previous angiographic coronary stenosis" ,
-      "Label": "previous angiographic coronary stenosis" } ,
-    {
-      "Name": "previous_stroke_tia_carotisoperated_stenosis" ,
-      "ShortLabel": "previous stroke tia carotisoperated stenosis" ,
-      "Label": "previous stroke tia carotisoperated stenosis" } ,
-    {
       "Name": "previous_percutan_coronary_intervention" ,
       "ShortLabel": "previous percutan coronary intervention" ,
       "Label": "previous percutan coronary intervention" } ,
-    {
-      "Name": "previous_peripheral_artery_disease" ,
-      "ShortLabel": "previous peripheral artery disease" ,
-      "Label": "previous peripheral artery disease" } ,
-    {
-      "Name": "known_cardiovascular_disease" ,
-      "ShortLabel": "known cardiovascular disease" ,
-      "Label": "known cardiovascular disease" } ,
     {
       "Name": "treatment_baseline" ,
       "ShortLabel": "treatment baseline" ,
