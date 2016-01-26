@@ -46,7 +46,8 @@ Predictor <- JSON$Predictor$Name
 Modifier <- JSON$Modifier$Name
 Adjustments <- sapply( JSON$Adjustments , with , Name )
 nLevels <- sapply( JSON$Adjustments , with , Level )
-Confounders <- sapply( JSON$Confounders , with , Name )
+PatientCharacteristics <- sapply( JSON$PatientCharacteristics , with , Name )
+Forestplot <- sapply( JSON$Forestplot , with , Name )
 
 @ 
 
@@ -61,7 +62,8 @@ dbVars <- paste0(
         Predictor ,
         Modifier ,
         Adjustments ,
-        Confounders ) , 
+        PatientCharacteristics ,
+        Forestplot ) , 
     collapse = ", ")
 
 dbWhere <- paste0(
@@ -101,8 +103,11 @@ D$Survival <- survival::Surv(
 
 z <- function(X) (X - mean( X , na.rm = TRUE )) / sd( X , na.rm = TRUE )
 q <- function(X) 100 * rank( X , na.last = "keep" ) / length( na.exclude(X) )
-cutN <- function(X,n) cut(
-                          x = X ,
+cutN <- function(X,n=4) cut(
+                          x = X + rnorm(
+                                      n = length(X) ,
+                                      mean = 0 ,
+                                      sd = 10^-10 ) ,
                           include.lowest = TRUE ,
                           breaks = quantile(
                               x = X ,
@@ -120,7 +125,21 @@ D[ , paste( "zlog" , Modifier , sep = "") ] <- z( log( D[ , Modifier ] ) )
 D[ , paste( "q" , Modifier , sep = "") ] <- q( D[ , Modifier ] )
 D[ , paste( "d" , Modifier , sep = "") ] <- cutN( D[ , Modifier ] , n = 2 )
 
+D$Pred <- D[ , Predictor ]
+D$zPred <- D[ , Predictor ]
+D$zlogPred <- D[ , Predictor ]
+D$qPred <- D[ , Predictor ]
+D$Pred2n <- as.numeric(cutN( D[ , Predictor ] , n = 2 ))
+D$Pred2c <- cutN( D[ , Predictor ] , n = 2 )
+D$Pred3n <- as.numeric(cutN( D[ , Predictor ] , n = 3 ))
+D$Pred3c <- cutN( D[ , Predictor ] , n = 3 )
+D$Pred4n <- as.numeric(cutN( D[ , Predictor ] , n = 4 ))
+D$Pred4c <- cutN( D[ , Predictor ] , n = 4 )
+D$Pred5n <- as.numeric(cutN( D[ , Predictor ] , n = 5 ))
+D$Pred5c <- cutN( D[ , Predictor ] , n = 5 )
+
 D$Mod <- D[ , Modifier ]
+D$qMod <- q(D[ , Modifier ])
 D$Mod2n <- as.numeric(cutN( D[ , Modifier ] , n = 2 ))
 D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
 
@@ -188,6 +207,40 @@ D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXproportions,echo=FALSE,results='asis'>>=
 
+T <- lapply(
+    X = PatientCharacteristics ,
+    FUN = MeansOverGroups ,
+    groups = Pred4 )
+    
+
+Table1Proportions <- rbind(
+    ProportionsOverGroups("male","tHcy4") ,
+    ProportionsOverGroups("current_smoking","tHcy4") ,
+    ProportionsOverGroups("obesity","tHcy4")
+)
+
+
+attr( Table1Proportions , "dimnames")[[1]] <- c(
+    "Male" ,
+    "Current smoker" ,
+    "Obesity (BMI>30)")
+
+
+write.csv2(
+    x = Table1Proportions ,
+    file = gsub(
+        " " ,
+        "_" ,
+        paste(
+            "./export/Table1_Proportions_over_quartiles_of_" ,
+            JSON$Predictor$ShortLabel ,
+            ".csv" ,
+            sep = ""
+        )
+    )
+)
+
+
 latex(
     object = Table1Proportions ,
     title = "" ,
@@ -197,6 +250,7 @@ latex(
     table.env = FALSE ,
     file = "" ,
     booktabs = TRUE )
+
 
 @ 
 }
@@ -394,6 +448,17 @@ latex(
 
 \end{frame}
 
+
+
+
+\begin{frame}[fragile]
+  \frametitle{}
+<<CoxGAMqSubgroups,fig.width=8,fig.height=8,out.width="3in">>=
+
+    
+@ 
+Smoothing spline estimates of \Sexpr{JSON$Endpoint$Label} hazard by \Sexpr{JSON$Predictor$Label} in subgroups of high vs. low levels of \Sexpr{JSON$Modifier$Label} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{JSON$Modifier$Label} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}.
+\end{frame}
 
 
 
