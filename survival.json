@@ -21,27 +21,46 @@
     } ,
 
 
-  "Endpoint":
+  "Endpoints": [
 
     {
-      "Status": "C_AMI" ,
+      "Event": "C_AMI" ,
       "Time": "Dager_ami" ,
       "Label": "myocardial infarction" ,
       "ShortLabel": "AMI"
     } ,
+    {
+      "Event": "C_DOD" ,
+      "Time": "Dager_dod" ,
+      "Label": "total mortality" ,
+      "ShortLabel": "mors."
+    } ,
+    {
+      "Event": "C_CVDOD" ,
+      "Time": "Dager_cvdod" ,
+      "Label": "CVD mortality" ,
+      "ShortLabel": "CVDmors"
+    }
+  ] ,
 
+  "Predictors": [
 
-  "Predictor":
-
+    {
+	"Name":"ApA1" ,
+      "ShortLabel":"apo A1" ,
+      "Label":"plasma apolipoproteine A1" ,
+      "unit":""
+    } ,
     {
       "Name":"ApA1" ,
       "ShortLabel":"apo A1" ,
       "Label":"plasma apolipoproteine A1" ,
       "unit":""
-    } ,
+    }
+  ] ,
 
 
-  "Modifier":
+  "Modifiers": [
 
     {
       "Name":"choline" ,
@@ -49,6 +68,13 @@
       "Label":"plasma choline" ,
       "unit":""
     } ,
+    {
+      "Name":"KARB" ,
+      "ShortLabel":"carbamide" ,
+      "Label":"plasma carbamide" ,
+      "unit":""
+    }
+  ] ,
 
 
   "Adjustments": [
@@ -122,6 +148,11 @@
       "Name": "BMI" ,
       "ShortLabel": "BMI" ,
       "Label": "body mass index"
+    } ,
+    {
+      "Name": "sex" ,
+      "ShortLabel": "sex" ,
+      "Label": "sex"
     }
   ]
 

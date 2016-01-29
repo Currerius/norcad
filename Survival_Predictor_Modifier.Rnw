@@ -22,8 +22,6 @@ require(smcfcs)
 require(purrr)
 require(knitr)
 
-opts_chunk$set(warnings=FALSE,echo=FALSE)
-
 lapply(
     X = dir( "./functions") ,
     FUN = function(X) source( paste( "./functions/" , X , sep = "" )))
@@ -39,13 +37,15 @@ options(width="130")
 
 JSON <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
 
-Status <- JSON$Endpoint$Status
-Time <- JSON$Endpoint$Time
+Events <- sapply( JSON$Endpoints , with , Event )
+Times <- sapply( JSON$Endpoints , with , Time )
 
-Predictor <- JSON$Predictor$Name
-Modifier <- JSON$Modifier$Name
+Predictors <- sapply( JSON$Predictors , with , Name )
+Modifiers <- sapply( JSON$Modifiers , with , Name )
+
 Adjustments <- sapply( JSON$Adjustments , with , Name )
 nLevels <- sapply( JSON$Adjustments , with , Level )
+
 PatientCharacteristics <- sapply( JSON$PatientCharacteristics , with , Name )
 Forestplot <- sapply( JSON$Forestplot , with , Name )
 
@@ -57,13 +57,36 @@ Forestplot <- sapply( JSON$Forestplot , with , Name )
 
 dbVars <- paste0(
     c(
-        Status ,
-        Time ,
-        Predictor ,
-        Modifier ,
-        Adjustments ,
-        PatientCharacteristics ,
-        Forestplot ) , 
+        paste(
+            Events ,
+            " AS E" ,
+            1:length(Events) ,
+            sep = "") ,
+        paste(
+            Times ,
+            " AS T" ,
+            1:length(Times) ,
+            sep = "") ,
+        paste(
+            Predictors ,
+            " AS P" ,
+            1:length(Predictors) ,
+            sep = "") ,
+        paste(
+            Modifiers ,
+            " AS M" ,
+            1:length(Modifiers) ,
+            sep = "") ,
+        paste(
+            PatientCharacteristics ,
+            " AS PC" ,
+            1:length(PatientCharacteristics) ,
+            sep = "") ,
+        paste(
+            Forestplot ,
+            " AS FP" ,
+            1:length(Forestplot) ,
+            sep = "")) ,
     collapse = ", ")
 
 dbWhere <- paste0(
@@ -92,14 +115,18 @@ D <- DBI::dbGetQuery(
     conn = con , 
     statement = dbStatement)
 
+save( D , file = "D.Rd" , compress = "xz" )
+
 @ 
 
 
 <<createTransformations,include=FALSE>>=
 
-D$Survival <- survival::Surv(
-    time = D[,Time] ,
-    event = D[,Status] )
+for (i in 1:length(Events)) {
+    D[ , paste("Surv" , i , sep = "") ] <- Surv(
+        time = D[,paste("T" , i , sep = "") ] ,
+        event = D[,paste("E" , i , sep = "") ] )
+}
 
 z <- function(X) (X - mean( X , na.rm = TRUE )) / sd( X , na.rm = TRUE )
 q <- function(X) 100 * rank( X , na.last = "keep" ) / length( na.exclude(X) )
@@ -114,41 +141,42 @@ cutN <- function(X,n=4) cut(
                               na.rm = TRUE ,
                               probs = 0:n/n ))
 
-D[ , paste("z" , Predictor , sep = "") ] <- z( D[ , Predictor ] )
-D[ , paste("zlog" , Predictor , sep = "") ] <- z( log( D[ , Predictor ] ) )
-D[ , paste("q" , Predictor , sep = "") ] <- q( D[ , Predictor ] )
-D[ , paste("ntil4" , Predictor , sep = "") ] <- cutN( D[ , Predictor ] , n = 4 )
-D[ , paste("trend4" , Predictor , sep = "") ] <- as.numeric( cutN( D[ , Predictor ] , n = 4 ) )
 
-D[ , paste( "z" , Modifier , sep = "") ] <- z( D[ , Modifier ] )
-D[ , paste( "zlog" , Modifier , sep = "") ] <- z( log( D[ , Modifier ] ) )
-D[ , paste( "q" , Modifier , sep = "") ] <- q( D[ , Modifier ] )
-D[ , paste( "d" , Modifier , sep = "") ] <- cutN( D[ , Modifier ] , n = 2 )
+for (i in 1:length(Predictors)) {
+    D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
+    D[ , paste("zlogP" , i , sep = "") ] <- z( log( D[ , paste("P" , i , sep = "") ] ))
+    D[ , paste("qP" , i , sep = "") ] <- q( D[ , paste("P" , i , sep = "") ] )
+    D[ , paste("c2P" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , 2)
+    D[ , paste("n2P" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("P" , i , sep = "") ] , 2))
+    D[ , paste("c3P" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , 3)
+    D[ , paste("n3P" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("P" , i , sep = "") ] , 3))
+    D[ , paste("c4P" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , 4)
+    D[ , paste("n4P" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("P" , i , sep = "") ] , 4))
+    D[ , paste("c5P" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , 5)
+    D[ , paste("n5P" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("P" , i , sep = "") ] , 5))
+}
 
-D$Pred <- D[ , Predictor ]
-D$zPred <- D[ , Predictor ]
-D$zlogPred <- D[ , Predictor ]
-D$qPred <- D[ , Predictor ]
-D$Pred2n <- as.numeric(cutN( D[ , Predictor ] , n = 2 ))
-D$Pred2c <- cutN( D[ , Predictor ] , n = 2 )
-D$Pred3n <- as.numeric(cutN( D[ , Predictor ] , n = 3 ))
-D$Pred3c <- cutN( D[ , Predictor ] , n = 3 )
-D$Pred4n <- as.numeric(cutN( D[ , Predictor ] , n = 4 ))
-D$Pred4c <- cutN( D[ , Predictor ] , n = 4 )
-D$Pred5n <- as.numeric(cutN( D[ , Predictor ] , n = 5 ))
-D$Pred5c <- cutN( D[ , Predictor ] , n = 5 )
 
-D$Mod <- D[ , Modifier ]
-D$qMod <- q(D[ , Modifier ])
-D$Mod2n <- as.numeric(cutN( D[ , Modifier ] , n = 2 ))
-D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
+for (i in 1:length(Modifiers)) {
+    D[ , paste("zM" , i , sep = "") ] <- z( D[ , paste("M" , i , sep = "") ] )
+    D[ , paste("zlogM" , i , sep = "") ] <- z( log( D[ , paste("M" , i , sep = "") ] ))
+    D[ , paste("qM" , i , sep = "") ] <- q( D[ , paste("M" , i , sep = "") ] )
+    D[ , paste("c2M" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , 2)
+    D[ , paste("n2M" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , 2))
+    D[ , paste("c3M" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , 3)
+    D[ , paste("n3M" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , 3))
+    D[ , paste("c4M" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , 4)
+    D[ , paste("n4M" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , 4))
+    D[ , paste("c5M" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , 5)
+    D[ , paste("n5M" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , 5))
+}
 
 @ 
 
 
 
 
-\title[\Sexpr{JSON$Endpoint$ShortLabel} and \Sexpr{JSON$Predictor$ShortLabel}]{\Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label}}
+\title[\Sexpr{JSON$Endpoint$ShortLabel} and \Sexpr{JSON$Predictor$ShortLabel}]{\Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]}}
 
 
 \begin{document}
@@ -180,10 +208,10 @@ D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Endpoint$Label}}
-  \Sexpr{paste(JSON$Endpoint$Label)} is observed in \Sexpr{sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )} of \Sexpr{dim(D)[1]} patients (\Sexpr{round(100*sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )/dim(D)[1] , 1)}\%) with a median follow-up time of \Sexpr{median(D[,JSON$Endpoint$Time],na.rm=TRUE)} days.
+  \frametitle{\Sexpr{sapply( JSON$Endpoints , with , Label )[1]}}
+  \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[1])} is observed in \Sexpr{sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )} of \Sexpr{dim(D)[1]} patients (\Sexpr{round(100*sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )/dim(D)[1] , 1)}\%) with a median follow-up time of \Sexpr{median(D[,JSON$Endpoint$Time],na.rm=TRUE)} days.
 
-  The main endpoint \Sexpr{paste(JSON$Endpoint$Label)} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
+  The main endpoint \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[1])} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
   
   Acknowledgment: The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.
 \end{frame}
@@ -347,7 +375,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
   
   \end{table}
 \end{frame}
@@ -386,7 +414,7 @@ latex(
     object = TabCoxSubgroup ,
     rgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
     n.rgroup = c(3,3,3) ,
-    cgroup = c( paste( c("Low","High") ,JSON$Modifier$Label),"Interaction") ,
+    cgroup = c( paste( c("Low","High") ,sapply( JSON$Modifier , with , Label )[1]),"Interaction") ,
     n.cgroup = c(2,2,1) ,
     file = "" ,
     title = "" ,
@@ -398,7 +426,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label} in subgroups of high vs. low levels of \Sexpr{JSON$Modifier$Label} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{JSON$Modifier$Label} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifier , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}. }
   \end{table}
 
 \end{frame}
@@ -443,7 +471,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label} and effect modification by high vs low levels of\Sexpr{JSON$Modifier$Label} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and effect modification by high vs low levels of\Sexpr{sapply( JSON$Modifier , with , Label )[1]} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
   \end{table}
 
 \end{frame}
@@ -457,7 +485,7 @@ latex(
 
     
 @ 
-Smoothing spline estimates of \Sexpr{JSON$Endpoint$Label} hazard by \Sexpr{JSON$Predictor$Label} in subgroups of high vs. low levels of \Sexpr{JSON$Modifier$Label} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{JSON$Modifier$Label} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}.
+Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} hazard by \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifier , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}.
 \end{frame}
 
 
@@ -490,8 +518,8 @@ vis.gam(
     n.grid = 50 ,
     color = "terrain" ,
     type = "response" ,
-    xlab = JSON$Predictor$Label ,
-    ylab = JSON$Modifier$Label ,
+    xlab = sapply( JSON$Predictors , with , Label )[1] ,
+    ylab = sapply( JSON$Modifier , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -499,7 +527,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{JSON$Endpoint$Label} incidence by empirical percentiles of \Sexpr{JSON$Predictor$Label} and \Sexpr{JSON$Modifier$Label} estimated with a Generalized Additve Model.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with a Generalized Additve Model.
 \end{frame}
 
 
@@ -512,8 +540,8 @@ vis.gam(
     n.grid = 50 ,
     se = TRUE ,
     type = "response" ,
-    xlab = JSON$Predictor$Label ,
-    ylab = JSON$Modifier$Label ,
+    xlab = sapply( JSON$Predictors , with , Label )[1] ,
+    ylab = sapply( JSON$Modifier , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -521,7 +549,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{JSON$Endpoint$Label} incidence by empirical percentiles of \Sexpr{JSON$Predictor$Label} and \Sexpr{JSON$Modifier$Label} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
 
 \end{frame}
 
