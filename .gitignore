@@ -36,6 +36,7 @@ vignettes/*.pdf
 *.docx
 
 # Rdata files
+*.Rd
 *.Rdata
 *.data.R
 
