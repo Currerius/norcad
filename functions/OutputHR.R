@@ -26,10 +26,7 @@ OutputHR <- function(
         ### Exclude unrelevant rows of the estimates table
         ###   selected by a regular expression match on
         ###   the variable name
-        IndexOut <- grep(
-            pattern = paste(Predictor , "|" , Modifier , sep = "") ,
-            x = attr( C , "dimnames")[[1]] ,
-            invert = TRUE )
+        IndexOut <- grep( "A" , attr( C , "dimnames")[[1]] )
         
         ### Pick the relevant rows
         C <- C[ -IndexOut , ]

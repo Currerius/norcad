@@ -49,12 +49,14 @@
 	"Name":"ApA1" ,
       "ShortLabel":"apo A1" ,
       "Label":"plasma apolipoproteine A1" ,
+      "Type":"numerical" ,
       "unit":""
     } ,
     {
       "Name":"ApA1" ,
       "ShortLabel":"apo A1" ,
       "Label":"plasma apolipoproteine A1" ,
+      "Type":"numerical" ,
       "unit":""
     }
   ] ,
@@ -66,12 +68,14 @@
       "Name":"choline" ,
       "ShortLabel":"choline" ,
       "Label":"plasma choline" ,
+      "Type":"numerical" ,
       "unit":""
     } ,
     {
       "Name":"KARB" ,
       "ShortLabel":"carbamide" ,
       "Label":"plasma carbamide" ,
+      "Type":"numerical" ,
       "unit":""
     }
   ] ,
@@ -79,36 +83,41 @@
 
   "Adjustments": [
 
-      {
-        "Level": 1 ,
-        "Name":"age" ,
-        "ShortLabel":"age" ,
-        "Label":"age"
-      } ,
-      {
-        "Level": 1 ,
-        "Name":"sex" ,
-        "ShortLabel":"sex" ,
-        "Label":"sex"
-      } ,
-      {
-        "Level": 2 ,
-        "Name":"diabetes_mellitus" ,
-        "ShortLabel":"diabetes" ,
-        "Label":"diabetes mellitus"
-      } ,
-      {
-        "Level": 2 ,
-        "Name":"smoking_habits" ,
-        "ShortLabel":"smoking" ,
-        "Label":"current smoking"
-      } ,
-      {
-        "Level": 2 ,
-        "Name":"hypertension" ,
-        "ShortLabel":"hypertension" ,
-        "Label":"hypertension"
-      }
+    {
+      "Level": 1 ,
+      "Name":"age" ,
+      "ShortLabel":"age" ,
+      "Label":"age" ,
+      "Type":"numerical"
+    } ,
+    {
+      "Level": 1 ,
+      "Name":"sex" ,
+      "ShortLabel":"sex" ,
+      "Label":"sex" ,
+      "Type":"categorical"
+    } ,
+    {
+      "Level": 2 ,
+      "Name":"diabetes_mellitus" ,
+      "ShortLabel":"diabetes" ,
+      "Label":"diabetes mellitus" ,
+      "Type":"categorical"
+    } ,
+    {
+      "Level": 2 ,
+      "Name":"smoking_habits" ,
+      "ShortLabel":"smoking" ,
+      "Label":"current smoking" ,
+      "Type":"categorical"
+    } ,
+    {
+      "Level": 2 ,
+      "Name":"hypertension" ,
+      "ShortLabel":"hypertension" ,
+      "Label":"hypertension" ,
+      "Type":"categorical"
+    }
   ] ,
 
 
@@ -117,42 +126,56 @@
     {
       "Name": "left_ventricular_ejection_fraction" ,
       "ShortLabel": "EF" ,
-      "Label": "left ventricular ejection fraction"
+      "Label": "left ventricular ejection fraction" ,
+      "Type":"numerical"
+    } ,
+    {
+      "Name": "BMI" ,
+      "ShortLabel": "BMI" ,
+      "Label": "body mass index" ,
+      "Type":"numerical"
     } ,
     {
       "Name": "hypercholesterolemia" ,
       "ShortLabel": "hypercholesterolemia" ,
-      "Label": "hypercholesterolemia"
+      "Label": "hypercholesterolemia" ,
+      "Type":"categorical"
     } ,
     {
       "Name": "previous_percutan_coronary_intervention" ,
       "ShortLabel": "previous percutan coronary intervention" ,
-      "Label": "previous percutan coronary intervention"
+      "Label": "previous percutan coronary intervention" ,
+      "Type":"categorical"
     } ,
     {
       "Name": "treatment_baseline" ,
       "ShortLabel": "treatment baseline" ,
-      "Label": "treatment at baseline"
+      "Label": "treatment at baseline" ,
+      "Type":"categorical"
     } ,
     {
       "Name": "randomization_code" ,
       "ShortLabel": "randomization code" ,
-      "Label": "randomization code"
+      "Label": "randomization code" ,
+      "Type":"categorical"
     }
   ] ,
 
 
   "Forestplot": [
-
     {
-      "Name": "BMI" ,
-      "ShortLabel": "BMI" ,
-      "Label": "body mass index"
+      "Level": 1 ,
+      "Name":"sex" ,
+      "ShortLabel":"sex" ,
+      "Label":"sex" ,
+      "Type":"categorical"
     } ,
     {
-      "Name": "sex" ,
-      "ShortLabel": "sex" ,
-      "Label": "sex"
+      "Level": 2 ,
+      "Name":"diabetes_mellitus" ,
+      "ShortLabel":"diabetes" ,
+      "Label":"diabetes mellitus" ,
+      "Type":"categorical"
     }
   ]
 
