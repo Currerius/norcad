@@ -1,0 +1,916 @@
+{
+
+  "Variables": [
+    {
+      "Name":"" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+
+
+    {
+      "NAME":"NORCAD_ID" ,
+      "SHORTLABEL":"patID" ,
+      "LABEL":"patient ID" ,
+      "VALUES": []
+      "VALUELABELS": [] ,
+      "TYPE":"numeric" ,
+      "UNIT":""
+    } ,
+
+    {
+      "Name":"forus_id" ,
+      "ShortLabel":"visID" ,
+      "Label":"visit ID" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"numeric" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"time_of_follow_up" ,
+      "ShortLabel":"visit" ,
+      "Label":"study visit" ,
+      "Values": [0,1,2,3,4]
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_of_visit" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_of_study_visit" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"atrial_fibrillation" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"triglycerides" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"fasting_patient" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"blood_sample_biobank" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"time_of_day" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"patient_position" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"morning_urine" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"new_samples" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"approval" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_of_approval" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"hours_since_meal" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"urine_sample_biobank" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"antidiabetica" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"left_ventricular_ejection_fraction" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_ST_segment" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_AV_block" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_bundle_branch_block" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_infarction_sequelae" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_normal" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_heart_rythm" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"EKG_left_ventricle_hypertrofy" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"forus_hospital" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "NAME":"BMI" ,
+      "SHORTLABEL":"" ,
+      "LABEL":"" ,
+      "VALUES": []
+      "VALUELABELS": [] ,
+      "TYPE":"" ,
+      "UNIT":""
+    } ,
+
+    {
+      "Name":"body_surface" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"diastolic_blood_pressure" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"systolic_blood_pressure" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"heart_rate" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"height" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"weight" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"hip_circumference" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"waist_circumference" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"sex" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"age" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"ethnicity" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"visit_indication" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"intervention" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_aorto_coronary_bypass" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_coronary_intervention" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_acute_myocardial_infarction" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_other_illness" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"number_of_risk_factors" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"sum_of_comorbidity" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_angiographic_coronary_stenosis" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_stroke_tia_carotisoperated_stenosis" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"known_atherotrombotic_CVD" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"diabetes_mellitus" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"premature_CHD" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"heart_failure" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"hypercholesterolemia" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"highest_measured_cholesterol" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"first_appearance_CVD" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"hypertension" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"pulmonary_disease_baseline" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"serious_kidney_failure" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_percutan_coronary_intervention" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"previous_peripheral_artery_disease" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"smoking_habits" ,
+      "ShortLabel":"smoking" ,
+      "Label":"smoking habits" ,
+      "Values": [0,1,2,3]
+      "ValueLabels": ["non-smoker","smoker","ex-smoker",""] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"sedimentation_rate_in" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"work_situation" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"treatment_baseline" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"study_visit" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"diagnose_at_baseline_blood_sampling2" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"diagnose_at_baseline_blood_sampling" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"fracture_localization" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"randomization_date" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"drop_out_date" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"death" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"drop_out_reason" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"endothelium_study" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"nutritional_study" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"study_event" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"randomization_code" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"compliance" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"procedure_date" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"randomized_study" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"WENBIT_study_centre" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_of_last_follow_up" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"number_of_sick_leave_days" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_of_startup_studymedication" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"name_of_study" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"sub_study" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"initially_symptom_free" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_of_discontinued_study_medication" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"date_end_of_study" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    } ,
+
+    {
+      "Name":"extend_of_baseline_CVD" ,
+      "ShortLabel":"" ,
+      "Label":"" ,
+      "Values": []
+      "ValueLabels": [] ,
+      "Type":"" ,
+      "Unit":""
+    }
+  ]
+}

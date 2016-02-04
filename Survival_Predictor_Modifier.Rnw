@@ -11,6 +11,8 @@
 \usepackage{rotating}
 \usepackage{graphicx}
 
+
+
 <<loadLibs,include=FALSE>>=
 
 require(quantreg)
@@ -20,7 +22,9 @@ require(mgcv)
 require(car)
 require(smcfcs)
 require(purrr)
+
 require(knitr)
+opts_chunk$set(warnings=FALSE,echo=FALSE)
 
 lapply(
     X = dir( "./functions") ,
@@ -244,8 +248,8 @@ Table1Proportions <- matrix(
     byrow = TRUE
 )
 
-colnames(Table1Proportions) <- c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" )
-rownames(Table1Proportions) <- Table1NumLabels
+colnames(Table1Proportions) <- c("%","N","%","N","%","N","%","N","P")
+rownames(Table1Proportions) <- Table1CatLabels
 
 latex(
     object = Table1Proportions ,
@@ -319,7 +323,7 @@ Table1Medians <- matrix(
     byrow = TRUE
 )
 
-colnames(Table1Medians) <- c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" )
+colnames(Table1Medians) <- c( "Median","SE","Median","SE","Median","SE","Median","SE","P" )
 rownames(Table1Medians) <- Table1NumLabels
 
 latex(
@@ -363,9 +367,9 @@ TabCoxSimple <- rbind(
         OutputHR( alevel = 1 , ptrans = "zlog" ) ,
         OutputHR( alevel = 2 , ptrans = "zlog" )) ,
     cbind(
-        OutputHR( alevel = 0 , ptrans = "trend4" ) ,
-        OutputHR( alevel = 1 , ptrans = "trend4" ) ,
-        OutputHR( alevel = 2 , ptrans = "trend4" )))
+        OutputHR( alevel = 0 , ptrans = "n4" ) ,
+        OutputHR( alevel = 1 , ptrans = "n4" ) ,
+        OutputHR( alevel = 2 , ptrans = "n4" )))
 
 latex(
     object = TabCoxSimple ,
@@ -408,13 +412,13 @@ latex(
 TabCoxSubgroup <- rbind(
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 0 , ptrans = "trend4" ) ,
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 1 , ptrans = "trend4" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 2 , ptrans = "trend4" ))
+        PrintCoxSubgroupTable( alevel = 2 , ptrans = "n4" ))
 
 latex(
     object = TabCoxSubgroup ,
@@ -449,17 +453,17 @@ latex(
 
 TabCoxInteraction <- rbind(
     cbind(
-        OutputHR( alevel = 0 , ptrans = "z" , mtrans = "d" ) ,
-        OutputHR( alevel = 1 , ptrans = "z" , mtrans = "d" ) ,
-        OutputHR( alevel = 2 , ptrans = "z" , mtrans = "d" )) ,
+        OutputHR( alevel = 0 , ptrans = "z" , mtrans = "c2" ) ,
+        OutputHR( alevel = 1 , ptrans = "z" , mtrans = "c2" ) ,
+        OutputHR( alevel = 2 , ptrans = "z" , mtrans = "c2" )) ,
     cbind(
-        OutputHR( alevel = 0 , ptrans = "zlog" , mtrans = "d" ) ,
-        OutputHR( alevel = 1 , ptrans = "zlog" , mtrans = "d" ) ,
-        OutputHR( alevel = 2 , ptrans = "zlog" , mtrans = "d" )) ,
+        OutputHR( alevel = 0 , ptrans = "zlog" , mtrans = "c2" ) ,
+        OutputHR( alevel = 1 , ptrans = "zlog" , mtrans = "c2" ) ,
+        OutputHR( alevel = 2 , ptrans = "zlog" , mtrans = "c2" )) ,
     cbind(
-        OutputHR( alevel = 0 , ptrans = "trend4" , mtrans = "d" ) ,
-        OutputHR( alevel = 1 , ptrans = "trend4" , mtrans = "d" ) ,
-        OutputHR( alevel = 2 , ptrans = "trend4" , mtrans = "d" )))
+        OutputHR( alevel = 0 , ptrans = "n4" , mtrans = "c2" ) ,
+        OutputHR( alevel = 1 , ptrans = "n4" , mtrans = "c2" ) ,
+        OutputHR( alevel = 2 , ptrans = "n4" , mtrans = "c2" )))
 
 latex(
     object = TabCoxInteraction ,
@@ -503,19 +507,8 @@ Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]}
   \frametitle{}
 <<VisGAMq,fig.width=8,fig.height=8,out.width="3in">>=
 
-F <- as.formula(
-    paste(
-        JSON$Endpoint$Status ,
-        "~" ,
-        "s(" ,
-        "q" , JSON$Predictor$Name ,
-        "," ,
-        "q" , JSON$Modifier$Name ,
-        ")" ,
-        sep = ""))
-
 GAM <- gam(
-    formula = F ,
+    formula = E0 ~ s(qP0,qM0) ,
     data = D ,
     family = "binomial")
 
@@ -557,245 +550,6 @@ vis.gam(
 @ 
 Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
 
-\end{frame}
-
-
-
-
-
-
-\section{Appendix}
-\begin{frame}
-  \huge{Appendix}
-  \tiny{\ldots containing the crude complete output of all models}
-\end{frame}
-
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<z0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<z1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<z2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlog0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlog1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlog2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend40coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend41coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend42coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<zd0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        mtrans = "d" ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<zd1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        mtrans = "d" ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<zd2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        mtrans = "d" ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlogd0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        mtrans = "d" ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlogd1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        mtrans = "d" ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlogd2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        mtrans = "d" ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend4d0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        mtrans = "d" ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend4d1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        mtrans = "d" ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend4d2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        mtrans = "d" ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
 \end{frame}
 
 

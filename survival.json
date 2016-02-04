@@ -1,7 +1,6 @@
 
 {
 
-
   "Population":
 
     {
@@ -46,7 +45,7 @@
   "Predictors": [
 
     {
-	"Name":"ApA1" ,
+      "Name":"ApA1" ,
       "ShortLabel":"apo A1" ,
       "Label":"plasma apolipoproteine A1" ,
       "Type":"numerical" ,
@@ -92,28 +91,28 @@
     } ,
     {
       "Level": 1 ,
-      "Name":"sex" ,
-      "ShortLabel":"sex" ,
-      "Label":"sex" ,
+      "Name":"(sex=1)" ,
+      "ShortLabel":"male" ,
+      "Label":"male" ,
       "Type":"categorical"
     } ,
     {
       "Level": 2 ,
-      "Name":"diabetes_mellitus" ,
+      "Name":"(diabetes_mellitus>0)" ,
       "ShortLabel":"diabetes" ,
       "Label":"diabetes mellitus" ,
       "Type":"categorical"
     } ,
     {
       "Level": 2 ,
-      "Name":"smoking_habits" ,
+      "Name":"(smoking_habits>1)" ,
       "ShortLabel":"smoking" ,
       "Label":"current smoking" ,
       "Type":"categorical"
     } ,
     {
       "Level": 2 ,
-      "Name":"hypertension" ,
+      "Name":"(hypertension>0)" ,
       "ShortLabel":"hypertension" ,
       "Label":"hypertension" ,
       "Type":"categorical"
@@ -122,6 +121,76 @@
 
 
   "PatientCharacteristics": [
+
+    {
+      "Name":"(BMI>30)" ,
+      "ShortLabel":"obesity" ,
+      "Label":"obesity" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"previous_acute_myocardial_infarction>0" ,
+      "ShortLabel":"previous AMI" ,
+      "Label":"previous acute myocardial infarction" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(treatment_baseline IN (0,1))" ,
+      "ShortLabel":"none" ,
+      "Label":"no treatment at baseline" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(treatment_baseline IN (2,4,7))" ,
+      "ShortLabel":"PCI" ,
+      "Label":"PCI at baseline" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(treatment_baseline IN (3,4,6))" ,
+      "ShortLabel":"CABG" ,
+      "Label":"CABG at baseline" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(MED_EASA>0)" ,
+      "ShortLabel":"ASA" ,
+      "Label":"ASA at discharge" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(MED_ESTA_2014>0)" ,
+      "ShortLabel":"statins" ,
+      "Label":"statins at discharge" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(MED_EBET>0)" ,
+      "ShortLabel":"beta-blocker" ,
+      "Label":"beta-blocker at discharge" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(MED_EACE>0)" ,
+      "ShortLabel":"ACE" ,
+      "Label":"ACE at discharge" ,
+      "Type":"categorical"
+    } ,
+
+    {
+      "Name":"(MED_ELOO>0)" ,
+      "ShortLabel":"Loop" ,
+      "Label":"Loop diuretics at discharge" ,
+      "Type":"categorical"
+    } ,
 
     {
       "Name": "left_ventricular_ejection_fraction" ,
@@ -136,29 +205,54 @@
       "Type":"numerical"
     } ,
     {
-      "Name": "hypercholesterolemia" ,
-      "ShortLabel": "hypercholesterolemia" ,
-      "Label": "hypercholesterolemia" ,
-      "Type":"categorical"
+      "Name": "GFR" ,
+      "ShortLabel": "GFR" ,
+      "Label": "glomerular filtration rate" ,
+      "Type":"numerical"
     } ,
+
     {
-      "Name": "previous_percutan_coronary_intervention" ,
-      "ShortLabel": "previous percutan coronary intervention" ,
-      "Label": "previous percutan coronary intervention" ,
-      "Type":"categorical"
+      "Name": "Neopt" ,
+      "ShortLabel": "neopterin" ,
+      "Label": "neopterin" ,
+      "Type":"numerical"
     } ,
+
     {
-      "Name": "treatment_baseline" ,
-      "ShortLabel": "treatment baseline" ,
-      "Label": "treatment at baseline" ,
-      "Type":"categorical"
+      "Name": "KTR" ,
+      "ShortLabel": "KTR" ,
+      "Label": "kynurenine tryptophan ratio" ,
+      "Type":"numerical"
     } ,
+
     {
-      "Name": "randomization_code" ,
-      "ShortLabel": "randomization code" ,
-      "Label": "randomization code" ,
-      "Type":"categorical"
+      "Name": "LDL" ,
+      "ShortLabel": "LDL" ,
+      "Label": "low density lipoprotein" ,
+      "Type":"numerical"
+    } ,
+
+    {
+      "Name": "HDL" ,
+      "ShortLabel": "HDL" ,
+      "Label": "high density lipoprotein" ,
+      "Type":"numerical"
+    } ,
+
+    {
+      "Name": "KOL" ,
+      "ShortLabel": "cholesterol" ,
+      "Label": "total cholesterol" ,
+      "Type":"numerical"
+    } ,
+
+    {
+      "Name": "TG" ,
+      "ShortLabel": "TG" ,
+      "Label": "triglycerides" ,
+      "Type":"numerical"
     }
+
   ] ,
 
 
@@ -172,7 +266,7 @@
     } ,
     {
       "Level": 2 ,
-      "Name":"diabetes_mellitus" ,
+      "Name":"(diabetes_mellitus>0)" ,
       "ShortLabel":"diabetes" ,
       "Label":"diabetes mellitus" ,
       "Type":"categorical"

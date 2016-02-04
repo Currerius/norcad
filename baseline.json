@@ -1,0 +1,36 @@
+
+
+
+
+
+"CAD0"
+"CAD1"
+"CAD2"
+"CAD3"
+"TreatmentNone"
+"TreatmentPCI"
+"TreatmentCABG"
+
+
+
+SAP0 $ CAD0 <- factor(SAP0 $ NAA_CAD == "no or non-significant")
+SAP0 $ CAD1 <- factor(SAP0 $ NAA_CAD == "single vessel disease")
+SAP0 $ CAD2 <- factor(SAP0 $ NAA_CAD == "double vessel disease ")
+SAP0 $ CAD3 <- factor(SAP0 $ NAA_CAD == "triple vessel disease")
+
+SAP0 $ TreatmentNone <- factor( SAP0 $ treatment_baseline %in% c(0,1))
+SAP0 $ TreatmentPCI <- factor( SAP0 $ treatment_baseline %in% c(2,4,7))
+SAP0 $ TreatmentCABG <- factor( SAP0 $ treatment_baseline %in% c(3,4,6))
+
+Ingen behandling	0
+Medikament	1
+PCI	2
+ACB	3
+PCI + ACB	4
+Klaffeoperasjon	5
+Klaffeop + ACB	6
+PCI + Klaffeop	7
+Annen beh.	8
+Ukjent	9
+
+
