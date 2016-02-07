@@ -12,7 +12,11 @@
 \usepackage{rotating}
 \usepackage{graphicx}
 
-\title{\Sexpr{sapply( JSON$Endpoints , with , Label )} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
+<<setOpts,include=FALSE>>=
+opts_chunk$set(warnings=FALSE,echo=FALSE)
+@ 
+
+\title{Patient characteristics at baseline by \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
 
 
 \begin{document}

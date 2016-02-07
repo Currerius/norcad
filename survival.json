@@ -29,16 +29,10 @@
       "ShortLabel": "AMI"
     } ,
     {
-      "Event": "C_DOD" ,
-      "Time": "Dager_dod" ,
-      "Label": "total mortality" ,
-      "ShortLabel": "mors."
-    } ,
-    {
       "Event": "C_CVDOD" ,
       "Time": "Dager_cvdod" ,
       "Label": "CVD mortality" ,
-      "ShortLabel": "CVDmors"
+      "ShortLabel": "CVD mortality"
     }
   ] ,
 
@@ -52,9 +46,9 @@
       "unit":""
     } ,
     {
-      "Name":"ApA1" ,
-      "ShortLabel":"apo A1" ,
-      "Label":"plasma apolipoproteine A1" ,
+      "Name":"HDL" ,
+      "ShortLabel":"HDL" ,
+      "Label":"plasma high density lipoproteine" ,
       "Type":"numerical" ,
       "unit":""
     }
@@ -67,13 +61,6 @@
       "Name":"choline" ,
       "ShortLabel":"choline" ,
       "Label":"plasma choline" ,
-      "Type":"numerical" ,
-      "unit":""
-    } ,
-    {
-      "Name":"KARB" ,
-      "ShortLabel":"carbamide" ,
-      "Label":"plasma carbamide" ,
       "Type":"numerical" ,
       "unit":""
     }

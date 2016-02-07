@@ -12,7 +12,6 @@ require(mgcv)
 require(car)
 require(smcfcs)
 require(purrr)
-
 require(knitr)
 opts_chunk$set(warnings=FALSE,echo=FALSE)
 
@@ -138,7 +137,7 @@ for (i in 0:(length(Modifiers)-1)) {
    ### Rscript iterates through all enpoint, predictor, modifier combinations and
    ### compiles the knitr files to tex
 
-for (n.P in 1:lpngth(Ps)) {
+for (n.P in 1:length(Ps)) {
 
     PatientCharacteristicsOutfile <- gsub(
         " " , "" ,
@@ -148,7 +147,9 @@ for (n.P in 1:lpngth(Ps)) {
             "tex" ,
             sep = "." ))
 
-    knit2pdf( input = "Patient_Characteristics.Rnw" , output = PatientCharacteristicsOutfile )
+    knit2pdf(
+        input = "Patient_Characteristics.Rnw" ,
+        output = PatientCharacteristicsOutfile )
     
     for (n.M in 1:length(Ms)) {
         for (n.Surv in 1:length(Es)) {
@@ -165,7 +166,9 @@ for (n.P in 1:lpngth(Ps)) {
                     "tex" ,
                     sep = "." ))
 
-            knit2pdf( input = "Survival_Predictor_Modifier.Rnw", output = '$OUT')
+            knit2pdf(
+                input = "Survival_Predictor_Modifier.Rnw",
+                output = SurvivalOutfile )
             
         }
     }
@@ -173,9 +176,36 @@ for (n.P in 1:lpngth(Ps)) {
 
 
 
+
 # clean up the auxillary LaTeX files
-# rm -r figure *.aux *.log *.nav *.out *.snm *.tex *.toc *.vrb
+
+system2(
+    command = "rm" ,
+    args = c("-r","figure","*.aux","*.log","*.nav","*.out","*.snm","*.tex","*.toc","*.vrb"),
+    wait = FALSE)
+
+
+
 
 # zip the resulting pdf's, dataset, exported figures and tables
 
+ZipFile <- gsub(
+    " " , "_" ,
+    paste0(
+        c(
+            "SURV" ,
+            sapply( JSON$Endpoints , with , ShortLabel ) ,
+            "PRED" ,
+            sapply( JSON$Predictors , with , ShortLabel ) ,
+            "MOD" ,
+            sapply( JSON$Modifiers , with , ShortLabel ) ) ,
+        collapse = "." ))
+
+    
+system2(
+    command = "zip" ,
+    args = c(ZipFile,"*.pdf"),
+    wait = FALSE)
+
 # email to Rforge
+# proxychains swaks --server localhost --port 25 --from Rscript --to seifert.reinhard@gmail.com

@@ -11,8 +11,12 @@
 \usepackage{rotating}
 \usepackage{graphicx}
 
+<<setOpts,include=FALSE>>=
+opts_chunk$set(warnings=FALSE,echo=FALSE)
+@ 
 
 \title{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
+
 
 
 \begin{document}
