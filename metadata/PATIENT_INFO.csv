@@ -1,0 +1,304 @@
+;date_of_discontinued_study_medication;;;;;;PATIENT_INFO;datetime2
+;date_of_approval;;;;;;PATIENT_INFO;datetime2
+;previous_peripheral_artery_disease;;;;;;PATIENT_INFO;int
+;highest_measured_cholesterol;;;;;;PATIENT_INFO;real
+;date_end_of_study;;;;;;PATIENT_INFO;datetime2
+;compliance;;;;;;PATIENT_INFO;int
+;known_atherotrombotic_CVD;;;;;;PATIENT_INFO;int
+;age;;;PE_ALDER;;;PATIENT_INFO;smallint
+;antidiabetica;;;DM_NPCI;;;PATIENT_INFO;int
+;antidiabetica;no;0;qryDM_NPCI_0;;;PATIENT_INFO;int
+;antidiabetica;insulin;1;qryDM_NPCI_1;;;PATIENT_INFO;int
+;antidiabetica;insulin + tablets;2;qryDM_NPCI_2;;;PATIENT_INFO;int
+;antidiabetica;tablets;3;qryDM_NPCI_3;;;PATIENT_INFO;int
+;antidiabetica;diet;4;qryDM_NPCI_4;;;PATIENT_INFO;int
+;approval;;;BU_SAMT;;;PATIENT_INFO;int
+;atrial_fibrillation;;;AFlim;;;PATIENT_INFO;int
+;blood_sample_biobank;;;BU_FRYS;;;PATIENT_INFO;int
+;BMI;;;KL_BMI;;;PATIENT_INFO;smallint
+;body_surface;;;KL_BSA;;;PATIENT_INFO;smallint
+;date_of_last_follow_up;;;STU_SLEP;;;PATIENT_INFO;datetime2
+;date_of_startup_studymedication;;;STU_STAR;;;PATIENT_INFO;datetime2
+;date_of_study_visit;;;BU_DATO;;;PATIENT_INFO;datetime2
+;date_of_visit;;;PE_FORUS;;;PATIENT_INFO;datetime
+;death;;;STU_DOD;;;PATIENT_INFO;int
+;diabetes_mellitus;;;RI_DM;;;PATIENT_INFO;int
+Diabetes;diabetes_mellitus;no;0;;;Oppdateres fra Pasientrapport;PATIENT_INFO;int
+;diabetes_mellitus;type I;1;;;;PATIENT_INFO;int
+;diabetes_mellitus;type II;2;;;;PATIENT_INFO;int
+;diabetes_mellitus;type I-II;3;;;;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;;;WECAC;BECAC;WENBIT HUS-SUS;PATIENT_INFO;int
+Klinisk diagnose ved biobanking;diagnose_at_baseline_blood_sampling;no;0;0;0;0;PATIENT_INFO;int
+Opdatert 09.11.2010;diagnose_at_baseline_blood_sampling;stable angina pectoris;1;4166;3415;1822-751;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;unstable angina pectoris;2;185;116;72-66;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;non-ST segment elevation myocardial infarction (NSTEMI);3;211;99;94-112;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;ST segment elevation myocardial infarction (STEMI)/unspecific acute myocardial infarction;4;122;88;82-35;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;SUM CAD-mistanke;;4684;3718;;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;aorta stenosis;5;221;281;51-65;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;other valve disorder;6;110;110;;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;other indication;7;195;195;;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;SUM Totalt;;5210;4241;2121-969;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling;;;STU_BIO;;;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling2;;;STU_BIOT;;;PATIENT_INFO;int
+Klinisk diagnose 2;diagnose_at_baseline_blood_sampling2;no;0;;;;PATIENT_INFO;int
+Begge gjelder kun baseline oppholdet i WENBIT samt BECAC;diagnose_at_baseline_blood_sampling2;angiography, stable angina pectoris;1;;;Dersom indikasjonen baade er angina pectoris (med CAD) og annen indikasjon;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling2;elective percutan coronary intervention;2;;;(etc AS), registreres verdi 1 med mindre alvorlighetsgraden av AS er dominerende;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling2;acute coronary syndrome;3;;;de som ender med AVR + ACB kan teoretisk ha begge indikasjoner;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling2;aorta stenosis;4;;;For aa finne alle med AS, maa derfor TT_tent2 ogsaa soekes paa;PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling2;other valve disorder;5;;;"NB i WENBIT_CORDOBA finnes alle klafer i variabelen ""klaff""";PATIENT_INFO;int
+;diagnose_at_baseline_blood_sampling2;other;6;;;NB alle i databasen fra SUS (WENBIT) har verdi 0 med mindre de ble inkludert;PATIENT_INFO;int
+;diastolic_blood_pressure;;;KL_DBT;;;PATIENT_INFO;smallint
+;drop_out_date;;;STU_DDAT;;;PATIENT_INFO;datetime2
+;drop_out_reason;Nei;0;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Pga bivirkninger;1;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Uspesifisert oenske;2;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Pga. hjerte- og karsykdom;3;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Pga. annen sykdom;4;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Avbrutt studie;5;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Doed;6;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Prematur avslutning;7;STU_DROP;;;PATIENT_INFO;int
+;drop_out_reason;Ukjent;9;STU_DROP;;;PATIENT_INFO;int
+;EKG_AV_block;;;EK_AVBL;;;PATIENT_INFO;int
+AV-blokk;EKG_AV_block;no;0;;;;PATIENT_INFO;int
+;EKG_AV_block;1st degree;1;;;;PATIENT_INFO;int
+;EKG_AV_block;2nd degree;2;;;;PATIENT_INFO;int
+;EKG_AV_block;3rd degree;3;;;;PATIENT_INFO;int
+Grenblokk;EKG_bundle_branch_block;no;0;;;;PATIENT_INFO;int
+;EKG_bundle_branch_block;hemiblock;1;;;;PATIENT_INFO;int
+;EKG_bundle_branch_block;right bundle-branch block;2;;;;PATIENT_INFO;int
+;EKG_bundle_branch_block;left bundle-branch block;3;;;;PATIENT_INFO;int
+;EKG_bundle_branch_block;bifascicular;4;;;;PATIENT_INFO;int
+;EKG_bundle_branch_block;;;EK_GRBL;;;PATIENT_INFO;int
+;EKG_heart_rythm;;;EK_RYTM;;;PATIENT_INFO;int
+Hjerterytme;EKG_heart_rythm;no/yes;0;;;;PATIENT_INFO;int
+;EKG_heart_rythm;sinus;1;;;;PATIENT_INFO;int
+;EKG_heart_rythm;atrial fibrillation;2;;;;PATIENT_INFO;int
+;EKG_heart_rythm;atrial flutter;3;;;;PATIENT_INFO;int
+;EKG_heart_rythm;supraventricular tachycardia;4;Kategori 3 0g 4 sammen intil 08.03.05;;;PATIENT_INFO;int
+;EKG_heart_rythm;pacemaker;5;;;;PATIENT_INFO;int
+;EKG_heart_rythm;other;6;;;;PATIENT_INFO;int
+Infarktsekvele;EKG_infarction_sequelae;no;0;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;anterior wall;1;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;inferior wall;2;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;lateral wall;3;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;posterior wall;4;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;global;5;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;septal;6;Ny kategori 04.08.2007 - infoert fordi samme variabel brukes til ventrikulografi og EKKO (AEKG-EKKO skjema).;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;unspecific;8;;;;PATIENT_INFO;int
+;EKG_infarction_sequelae;;;EK_INFS;;;PATIENT_INFO;int
+;EKG_left_ventricle_hypertrofy;;;EK_VVH;;;PATIENT_INFO;int
+Hypertrofi;EKG_left_ventricle_hypertrofy;no;0;;;;PATIENT_INFO;int
+;EKG_left_ventricle_hypertrofy;yes;1;"Kategori 1 og 2 er byttet om ved aarsskiftet 2004 -2005; usikkert om dataene ble oppdatert.";;;PATIENT_INFO;int
+;EKG_left_ventricle_hypertrofy;probably;2;;;;PATIENT_INFO;int
+Normalt:;EKG_normal;no/yes;0/1;;"Boksen ""Normalt"" ikke avkrysset";Gaar videre;PATIENT_INFO;int
+;EKG_normal;;;EK_NORM;;;PATIENT_INFO;int
+;EKG_ST_segment;;;EK_AFOR;;;PATIENT_INFO;int
+ST-forandringer;EKG_ST_segment;no;0;;;Omkodet 231103;PATIENT_INFO;int
+;EKG_ST_segment;ST elevation;1;;;;PATIENT_INFO;int
+;EKG_ST_segment;ST depression;2;;;;PATIENT_INFO;int
+;EKG_ST_segment;T inversion;3;;;;PATIENT_INFO;int
+;EKG_ST_segment;unspecific STT;4;;;;PATIENT_INFO;int
+;EKG_ST_segment;bundle-branch block;5;;;Bare midlirtidig verdi - se nedenfor;PATIENT_INFO;int
+;endothelium_study;;;STU_ENDO;;;PATIENT_INFO;int
+;ethnicity;;;PE_ETN;;;PATIENT_INFO;int
+Etnisk opphav;ethnicity;caucasian;1;Blant 10400 prosedyrer var 10300 = 1 Kaukasis, altsaa 99% per juli 2005;SLETTET;;PATIENT_INFO;int
+;ethnicity;indian/pakistani;2;;SLETTET;;PATIENT_INFO;int
+;ethnicity;other asian;3;;SLETTET;;PATIENT_INFO;int
+;ethnicity;african;4;;SLETTET;;PATIENT_INFO;int
+;ethnicity;other;5;;SLETTET;;PATIENT_INFO;int
+;ethnicity;unspecified;6;Kopiert fra MINERVA95-98;SLETTET;;PATIENT_INFO;int
+Fastende:;fasting_patient;Nei / Ja / Ukjent;0 / 1 / 9;;;;PATIENT_INFO;int
+;fasting_patient;;;BU_FAST;;;PATIENT_INFO;int
+;first_appearance_CVD;;;RI_HKS;;;PATIENT_INFO;int
+Debut av hjertekarsykdom (aarstall);first_appearance_CVD;Heltall;Default=missing;;;;PATIENT_INFO;int
+Sykehus;forus_hospital;no;0;;;;PATIENT_INFO;int
+;forus_hospital;Haukeland university hospital;1;;;;PATIENT_INFO;int
+;forus_hospital;Stavanger university hospital;2;;;;PATIENT_INFO;int
+;forus_hospital;other;3;;;;PATIENT_INFO;int
+;forus_hospital;;;FOR_SH;;;PATIENT_INFO;int
+;forus_id;;;Forus_id;;;PATIENT_INFO;int
+Id som kobler til opphold;forus_id;;Heltall. Auto-genereres. Kopieres til alle andre moduler naar det lagres data i disse.;;;;PATIENT_INFO;int
+Id som kobler til opphold;forus_id;;Legges inn automatisk fra FORUS;;;;PATIENT_INFO;int
+FORUS-id;forus_id;Legges ainn utomatisk fra FORUS;;;;;PATIENT_INFO;int
+Id som kobler til opphold;forus_id;;;;;;PATIENT_INFO;int
+FORUS-id;forus_id;;Legges inn automatisk fra FORUS;;;;PATIENT_INFO;int
+forus_id;forus_id;;;Alle data innhentes via oppkopling mot LKB-databasen………;;;PATIENT_INFO;int
+FORUS-id;forus_id;Legges inn automatsik fra FORUS;;;;;PATIENT_INFO;int
+;fracture_localization;;;STU_BRUDD;;;PATIENT_INFO;int
+;heart_failure;;;RI_HJSV;;;PATIENT_INFO;int
+Hjertesvikt;heart_failure;no;0;;;;PATIENT_INFO;int
+;heart_failure;yes;1;;;;PATIENT_INFO;int
+;heart_rate;;;KL_HJFR;;;PATIENT_INFO;smallint
+;height;;;KL_HOY;;;PATIENT_INFO;smallint
+;hip_circumference;;;KL_HOFT;;;PATIENT_INFO;smallint
+;hours_since_meal;;;BU_TSM;;;PATIENT_INFO;smallint
+;hypercholesterolemia;;;RI_HK;;;PATIENT_INFO;int
+Hypekol (>= 6,5);hypercholesterolemia;no;0;;;;PATIENT_INFO;int
+;hypercholesterolemia;yes;1;;;Lar seg kun registrere hvis ri_kolm ? 6,5;PATIENT_INFO;int
+;hypercholesterolemia;familial hypercholesterolemia;2;;;Lar seg kun registrere hvis ri_kolm ? 6,5;PATIENT_INFO;int
+HT;hypertension;no;0;;;;PATIENT_INFO;int
+;hypertension;yes;1;;;;PATIENT_INFO;int
+;hypertension;yes;2;;;;PATIENT_INFO;int
+;hypertension;;;RI_HT;;;PATIENT_INFO;int
+;initially_symptom_free;;;STU_SYMP;;;PATIENT_INFO;int
+;intervention;;;PE_INTER;;;PATIENT_INFO;int
+Intervensjon;intervention;no;0;;;Variabelen kopieres fra PC_FORC i Intervensjon;PATIENT_INFO;int
+;intervention;percutan coronary intervention;1;;;og vises i Historikklisten;PATIENT_INFO;int
+;intervention;laser treatment;2;;;;PATIENT_INFO;int
+;intervention;stenotic vitium;3;;;;PATIENT_INFO;int
+;intervention;shunt treatment;4;;;;PATIENT_INFO;int
+;intervention;HOCM ablation;5;;;;PATIENT_INFO;int
+;left_ventricular_ejection_fraction;;;EF_NPCI;;;PATIENT_INFO;int
+;morning_urine;;;BU_MURIN;;;PATIENT_INFO;int
+Morgenurin:;morning_urine;Nei / Ja / Ukjent;0 / 1 / 9;;;;PATIENT_INFO;int
+;name_of_study;;;STU_STUD;;;PATIENT_INFO;int
+;new_samples;;;BU_NYE;;;PATIENT_INFO;int
+Nye proever:;new_samples;Nei;0 (default);;;;PATIENT_INFO;int
+;new_samples;LKB;1;;;;PATIENT_INFO;int
+;new_samples;LKB + Biobank;2;;;;PATIENT_INFO;int
+;new_samples;Kun Biobank;3;;;;PATIENT_INFO;int
+;NORCAD_ID;;;NORCAD_ID;;;PATIENT_INFO;smallint
+;number_of_risk_factors;;;RI_ANT;;;PATIENT_INFO;smallint
+Antall risikofaktorer;number_of_risk_factors;Summen av: (ri_hk hvis 1 or 2) + (ri_rok hvis 2 or 3)+ (ri_ht hvis 1 or 2) + (ri_dm hvis 1 or 2 or 3) + (ri_fam hvis 1 or 2);;;;NB Boer vurdere om vi skal kutte verdi 2 i familiaer belastning;PATIENT_INFO;smallint
+PM / RCT / ICD;number_of_risk_factors;Nei;0;;;Ny 24.05.2007, data overfoert fra Arytmi siste aar;PATIENT_INFO;smallint
+;number_of_risk_factors;PM;1;;;;PATIENT_INFO;smallint
+;number_of_risk_factors;RCT;2;;;;PATIENT_INFO;smallint
+;number_of_risk_factors;ICD;3;;;;PATIENT_INFO;smallint
+;number_of_risk_factors;Ukjent;9;;;;PATIENT_INFO;smallint
+;number_of_sick_leave_days;;;STU_SMHJ;;;PATIENT_INFO;int
+;nutritional_study;;;STU_GR;;;PATIENT_INFO;int
+;patient_position;;;BU_KROPP;;;PATIENT_INFO;int
+Kroppsleie:;patient_position;liggende;0;;;;PATIENT_INFO;int
+;patient_position;sittende;1;;;;PATIENT_INFO;int
+;patient_position;Ukjent;9;Default;;;PATIENT_INFO;int
+Familiebelastning;premature_CHD;no;0;;;;PATIENT_INFO;int
+;premature_CHD;1st degree relative at < 55/65 years;1;;;;PATIENT_INFO;int
+;premature_CHD;relative at < 70 years;2;;;;PATIENT_INFO;int
+;premature_CHD;;;RI_FAM;;;PATIENT_INFO;int
+;previous_acute_myocardial_infarction;;;RI_AMI;;;PATIENT_INFO;int
+Tidligere hjerteinfarkt;previous_acute_myocardial_infarction;no/yes;0/1;;;Oppdateres ogsaa fra Pasientrapport;PATIENT_INFO;int
+Tidligere angiografisk koronarstenose;previous_angiographic_coronary_stenosis;no/yes;0/1;;;;PATIENT_INFO;int
+;previous_angiographic_coronary_stenosis;;;RI_CAD;;;PATIENT_INFO;int
+;previous_aorto_coronary_bypass;;;RI_ACB;;;PATIENT_INFO;int
+Tidligere ACB;previous_aorto_coronary_bypass;no/yes;0/1;;;Oppdateres ogsaa fra Pasientrapport;PATIENT_INFO;int
+HJERTEOP., annen hjertesykdom;previous_coronary_intervention;no;0;;;NY 24.04.2005;PATIENT_INFO;int
+;previous_coronary_intervention;mechanical valve;1;;;;PATIENT_INFO;int
+;previous_coronary_intervention;biological valve;2;;;;PATIENT_INFO;int
+;previous_coronary_intervention;unspecific valve;3;;;"Oppdat. ""Tidligere klaffeoperasjon"" = 77. Noen av disse kanskje ikke ventiler.";PATIENT_INFO;int
+;previous_coronary_intervention;other heart surgery;4;;;"Oppdat. ""Tidligere annen hjerteop."" = 191; andre hjerteop. enn ACB og Klaffeop";PATIENT_INFO;int
+;previous_coronary_intervention;percutan intervention;5;;;;PATIENT_INFO;int
+;previous_coronary_intervention;radio-frequency ablation;6;;;;PATIENT_INFO;int
+;previous_coronary_intervention;;;RI_AHJOP;;;PATIENT_INFO;int
+;previous_other_illness;;;RI_ANSY1;;;PATIENT_INFO;int
+Annen sykdom1;previous_other_illness;no;0;Disse to variablene oppdatert sommeren 2005;;;PATIENT_INFO;int
+Annen sykdom2;previous_other_illness;cancer, hematological or metastatic;1;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 10.06.2005;PATIENT_INFO;int
+;previous_other_illness;cancer, not metastasized;2;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Tidligere registrert cancer oppdatert til denne 10.06.2005;PATIENT_INFO;int
+;previous_other_illness;cancer, assumed cured;3;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 08.08.2005;PATIENT_INFO;int
+;previous_other_illness;systemic illness, including rheumatoid arthritis;4;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;former brain hemorrhage;5;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 22.12.2005;PATIENT_INFO;int
+;previous_other_illness;neurological, including dementia;6;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;liver illness;7;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;documented ulcus;8;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;inflammatory bowel disease;9;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;other gastrointestinal illness;10;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;gynecological/urological illness;11;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;other hemorrhage;12;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;NB Ved AMI uten hjertekateterisering faar vi ikke registrert annen;PATIENT_INFO;int
+;previous_other_illness;endocrine illnesse except from diabetes mellitus;13;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;hjertesykdom som f.eks alvorlig hjerteklaffefeil, medfoedte vitier osv;PATIENT_INFO;int
+;previous_other_illness;pulmonary embolism;14;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 08.08.2005;PATIENT_INFO;int
+;previous_other_illness;deep vein thrombosis;15;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;sleep apnoea;16;Ikke oppdatert fra pasientrapport;;Ny oktober 2005;PATIENT_INFO;int
+;previous_other_illness;psycological, depression;17;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Endret fra  Psykisk (medisinert) 22.12.2005, men oppdatert fra MED.;PATIENT_INFO;int
+;previous_other_illness;psycological, anxiety/unspecified;18;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;alcohol or drug abuse;19;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;drug/contrast medium allergies;20;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;osteoporosis;21;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 22.12.2005;PATIENT_INFO;int
+;previous_other_illness;gout;22;Ikke oppdatert fra pasientrapport;;Ny juli 2006;PATIENT_INFO;int
+;previous_other_illness;other musculoskeletal illness;23;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+;previous_other_illness;skin disease;24;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 22.12.2005;PATIENT_INFO;int
+;previous_other_illness;varice operated;25;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;Ny 08.08.2005;PATIENT_INFO;int
+;previous_other_illness;other illness;26;Oppdatert fra Pasientrapport juli 2006, ike fra medikamenter;;;PATIENT_INFO;int
+Tidligere PCI;previous_percutan_coronary_intervention;no/yes;0/1;;;Oppdateres ogsaa fra Pasientrapport;PATIENT_INFO;int
+;previous_percutan_coronary_intervention;;;RI_PCI;;;PATIENT_INFO;int
+;previous_stroke_tia_carotisoperated_stenosis;;;RI_CBV;;;PATIENT_INFO;int
+Tidligere slag/TIA/Carotisop/-stenose;previous_stroke_tia_carotisoperated_stenosis;no/yes;0/1;;;Oppdateres ogsaa fra Pasientrapport;PATIENT_INFO;int
+;procedure_date;;;STU_PDAT;;;PATIENT_INFO;datetime2
+;pulmonary_disease_baseline;;;RI_LUNGE;;;PATIENT_INFO;int
+Lungesykdom;pulmonary_disease_baseline;no;0;;;;PATIENT_INFO;int
+;pulmonary_disease_baseline;periodic asthma;1;;;;PATIENT_INFO;int
+;pulmonary_disease_baseline;chronic obstructive pulmonary disorder;2;;;;PATIENT_INFO;int
+;pulmonary_disease_baseline;other chronic pulmonary disease;3;;;;PATIENT_INFO;int
+;pulmonary_disease_baseline;pulmonary hypertension;4;;;;PATIENT_INFO;int
+;pulmonary_disease_baseline;unspecified pulmonary disease;5;;;Kategori opprettet 080305 pga MIO / Coolgard;PATIENT_INFO;int
+;randomization_code;;;STU_KODE;;;PATIENT_INFO;int
+;randomization_date;;;STU_DATO;;;PATIENT_INFO;datetime2
+;randomized_study;;;STU_RAND;;;PATIENT_INFO;int
+;randomized_study;biobank;1;;;;PATIENT_INFO;int
+;randomized_study;unspecified;2;"231 COPE pasienter omkodet til 1; identifiseres i Studie modulen";;;PATIENT_INFO;int
+;randomized_study;WENBIT;3;;;;PATIENT_INFO;int
+;randomized_study;NORVIT;4;;;;PATIENT_INFO;int
+;sedimentation_rate_in;;;SR_INN;;;PATIENT_INFO;int
+;serious_kidney_failure;;;RI_NYRE;;;PATIENT_INFO;int
+Nyresvikt, alvorlig;serious_kidney_failure;no;0;;;;PATIENT_INFO;int
+;serious_kidney_failure;serum creatinine > 200 umol/L;1;;;Cut-off 150 foer 20.12.2004;PATIENT_INFO;int
+;serious_kidney_failure;dialysis;2;;;;PATIENT_INFO;int
+;serious_kidney_failure;kidney transplated;3;;;;PATIENT_INFO;int
+;serious_kidney_failure;unspecific kidney failure;8;;;Alle tidl. kodet 130 - 200 satt til denne;PATIENT_INFO;int
+;sex;;;PE_KJON;;;PATIENT_INFO;int
+;smoking_habits;;;RI_ROK;;;PATIENT_INFO;int
+;smoking_habits;never smoked;0;;;Oppdateres fra Pasientrapport;PATIENT_INFO;int
+;smoking_habits;ex-smoker;1;;;;PATIENT_INFO;int
+;smoking_habits;ex-smoker < 1 month;2;;;< 3 mndr frem til 01.06.2005;PATIENT_INFO;int
+;smoking_habits;smoker;3;;;;PATIENT_INFO;int
+Studie hendelse knyttet til dette opphold;study_event;Ja / Nei / Brudd/ Ukjent;1/0/2/9;Skjult variabel. Variabelen registreres ikke direkete men oppdateres fra Hendelsesmodul naar hendelser / endepunkt er kvalitetskontrollert;;;PATIENT_INFO;int
+;study_event;;;STU_HEND;;;PATIENT_INFO;int
+;study_visit;;;STU_BES;;;PATIENT_INFO;int
+Studiebesoek;study_visit;no;0;NB Vises i historikklisten - forsiktig ved oppdatering av navn;;;PATIENT_INFO;int
+;study_visit;baseline;1;;;;PATIENT_INFO;int
+;study_visit;control;2;;;;PATIENT_INFO;int
+;study_visit;end of study;3;;;;PATIENT_INFO;int
+;study_visit;additional study;4;Ingen skal ha denne verdien i WENBIT-CORDOBA;;;PATIENT_INFO;int
+;study_visit;substudy;5;Utenom besoek i hovedstudien;Disse er registrert i studiemodulen og har verdi 5 paa STU_TID;;PATIENT_INFO;int
+;study_visit;percutan intervention with event;6;Utenom besoek i hovedstudien;Disse skal IKKE vaere registrert i studiemodulen, men har FORUS_ID lik HE_SNR i Hendelses-modul;;PATIENT_INFO;int
+;study_visit;baseline percutan intervention;7;Utenom besoek i hovedstudien;Disse skal IKKE vaere registrert i Studiemodulen eller i Hendelsemodulen;;PATIENT_INFO;int
+;study_visit;other percutan intervention;8;Utenom besoek i hovedstudien;Disse skal IKKE vaere registrert i Studiemodulen eller i Hendelsemodulen;;PATIENT_INFO;int
+;study_visit;coronary angiography without percutan intervention but with event;9;Utenom besoek i hovedstudien;Disse skal IKKE vaere registrert i Studiemodulen eller i Hendelsemodulen;;PATIENT_INFO;int
+;study_visit;coronary angiography without percutan intervention and event;10;Utenom besoek i hovedstudien;Disse skal IKKE vaere registrert i Studiemodulen eller i Hendelsemodulen;;PATIENT_INFO;int
+;sub_study;;;STU_SUBS;;;PATIENT_INFO;int
+;sum_of_comorbidity;;;RI_ANTKO;;;PATIENT_INFO;int
+Sum komorbiditet;sum_of_comorbidity;Summen av (ri_nyre hvis 1-8) +  (ri_lunge hvis 2-4) + (ri_ansy1  hvis > 0 og < 16) +  (ri_ansy2  hvis > 0 og < 16);;;;Summerer komorbidetet utenom hjertesykdom. Maksverdi 4. krysses av naar alle data paa pasienten er kvalitetskontrollert. Gjelder pasienter med AMI og / eller Intervensjon;PATIENT_INFO;int
+;systolic_blood_pressure;;;KL_SBT;;;PATIENT_INFO;smallint
+;time_of_day;;;BU_KLOK;;;PATIENT_INFO;int
+;time_of_follow_up;Baseline;0;STU_TID;;;PATIENT_INFO;int
+;time_of_follow_up;1 mnd;1;STU_TID;;;PATIENT_INFO;int
+;time_of_follow_up;1 aar;2;STU_TID;;;PATIENT_INFO;int
+;time_of_follow_up;2 aar;3;STU_TID;;;PATIENT_INFO;int
+;time_of_follow_up;Avslutning;4;STU_TID;;;PATIENT_INFO;int
+;treatment_baseline;;;STU_BEH;;;PATIENT_INFO;int
+;triglycerides;;;BK_TRIGL;;;PATIENT_INFO;real
+Triglycerider;triglycerides;0.2-90;2 desimaler;;;;PATIENT_INFO;real
+;urine_sample_biobank;;;BU_URIN;;;PATIENT_INFO;int
+;visit_indication;;;PE_IND;;;PATIENT_INFO;int
+Besoeksaarsak :;visit_indication;elective coronary angiography;1;;;;PATIENT_INFO;int
+;visit_indication;elective intervention;2;;;;PATIENT_INFO;int
+;visit_indication;acute coronary syndrome;3;;;Viser ACS-variable, fane 3;PATIENT_INFO;int
+;visit_indication;emergency coronary angiography;4;;;;PATIENT_INFO;int
+;visit_indication;hospitalized at medical intensive care unit without acute coronary syndrome or coronary angiography;5;;;;PATIENT_INFO;int
+;visit_indication;study;6;;;;PATIENT_INFO;int
+;visit_indication;preventive;7;;;;PATIENT_INFO;int
+WENBIT primary event;visit_indication;0-1 (maa oppdateres manuelt);;end_sum = 1;primary WENBIT event;;PATIENT_INFO;int
+Indication for baseline visit;visit_indication;;;;;;PATIENT_INFO;int
+;waist_circumference;;;KL_MIDJ;;;PATIENT_INFO;smallint
+;weight;;;KL_VEKT;;;PATIENT_INFO;smallint
+;WENBIT_study_centre;;;STU_SENT;;;PATIENT_INFO;int
+WENBIT Study centre;WENBIT_study_centre;HUS;1;;;;PATIENT_INFO;int
+;WENBIT_study_centre;SUS;2;;;;PATIENT_INFO;int
+Arbeid;work_situation;Pensjonert;0;;;;PATIENT_INFO;int
+;work_situation;Hjemmevaerende;1;;;;PATIENT_INFO;int
+;work_situation;I arbeid;2;Deltidspensjonert registreres som i arbeid mens deltids arbeidsledig, sykmeldt eller ufoeretrygdet registreres som;;;PATIENT_INFO;int
+;work_situation;Arbeidsledig / permitert;3;sistnevnte kategorier.;;;PATIENT_INFO;int
+;work_situation;Sykmeldt  deltid;4;;;;PATIENT_INFO;int
+;work_situation;Sykmeldt heltid;5;;;;PATIENT_INFO;int
+;work_situation;Trygdet / attfoering deltid;6;;;;PATIENT_INFO;int
+;work_situation;Trygdet / attfoering heltid;7;;;;PATIENT_INFO;int
+;work_situation;Ukjent;9;Default;;;PATIENT_INFO;int
+;work_situation;;;STU_ARB;;;PATIENT_INFO;int

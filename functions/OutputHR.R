@@ -1,7 +1,9 @@
 OutputHR <- function(
                      alevel = 0 ,
                      ptrans = "z" ,
-                     mtrans = "drop" ) {
+                     mtrans = "drop" ,
+                     n.P = 1 , n.M = 1 , n.Surv = 1
+                     ) {
 
     ### Get the coefficients from the coxph() model
     ###   according to the model
@@ -11,7 +13,9 @@ OutputHR <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = mtrans ) ,
+                    mtrans = mtrans ,
+                    n.P = n.P , n.M = n.M , n.Surv = n.Surv
+                ) ,
                 data = D )))
 
     
@@ -26,10 +30,7 @@ OutputHR <- function(
         ### Exclude unrelevant rows of the estimates table
         ###   selected by a regular expression match on
         ###   the variable name
-        IndexOut <- grep(
-            pattern = paste(Predictor , "|" , Modifier , sep = "") ,
-            x = attr( C , "dimnames")[[1]] ,
-            invert = TRUE )
+        IndexOut <- grep( "A" , attr( C , "dimnames")[[1]] )
         
         ### Pick the relevant rows
         C <- C[ -IndexOut , ]

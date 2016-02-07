@@ -1,16 +1,23 @@
 PrintCoxSubgroupTable <- function(
                      alevel = 0 ,
-                     ptrans = "z" ) {
-    
+                     ptrans = "z" ,
+                     n.P = 1 , n.M = 1 , n.Surv = 1
+                     ) {
+
+    SUB <- D[ , paste( "n2M" , n.M-1 , sep = "" )]
+    i1 <- which(SUB==1)
+    i2 <- which(SUB==2)
+
     Clow <- coef(
         summary(
             coxph(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = "drop" ) ,
-                subset = Mod2n == 1 ,
-                data = D )))
+                    mtrans = "drop" ,
+                    n.P = n.P , n.M = n.M , n.Surv = n.Surv
+                ) ,
+                data = D[i1,] )))
 
     Chigh <- coef(
         summary(
@@ -18,9 +25,10 @@ PrintCoxSubgroupTable <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = "drop" ) ,
-                subset = Mod2n == 2 ,
-                data = D )))
+                    mtrans = "drop" ,
+                    n.P = n.P , n.M = n.M , n.Surv = n.Surv
+                ) ,
+                data = D[i2,] )))
     
     
     ### If there are adjustment variables exclude them from
@@ -34,11 +42,8 @@ PrintCoxSubgroupTable <- function(
         ### Exclude unrelevant rows of the estimates table
         ###   selected by a regular expression match on
         ###   the variable name
-        IndexOut <- grep(
-            pattern = paste(Predictor , "|" , Modifier , sep = "") ,
-            x = attr( Clow , "dimnames")[[1]] ,
-            invert = TRUE )
-        
+        IndexOut <- grep( "A" , rownames(Clow) )
+
         ### Pick the relevant rows
         Clow <- Clow[ -IndexOut , ]
         Chigh <- Chigh[ -IndexOut , ]
@@ -73,7 +78,7 @@ PrintCoxSubgroupTable <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = "d" ) ,
+                    mtrans = "c2" ) ,
                 data = D )))
 
     ### the P value of the interaction term is always the last parameter

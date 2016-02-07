@@ -1,0 +1,319 @@
+;C20_5n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;proBNP;;;;;;LAB_BLOOD_TOTAL;float
+;HOMA2_B_cpep;;;;;;LAB_BLOOD_TOTAL;real
+;PrCarn;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1n_9_p;;;;;;LAB_BLOOD_TOTAL;float
+;C23_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;C10_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;Kyn;;;;;;LAB_BLOOD_TOTAL;float
+;homoArg_2015;;;;;;LAB_BLOOD_TOTAL;float
+;C18_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C14_1n_5_p;;;;;;LAB_BLOOD_TOTAL;float
+;C22_1n_9_p;;;;;;LAB_BLOOD_TOTAL;float
+;C22_6n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;TMLsvardal;;;;;;LAB_BLOOD_TOTAL;float
+;QAD;;;;;;LAB_BLOOD_TOTAL;float
+;BCR;;;;;;LAB_BLOOD_TOTAL;float
+;HOMA2_IR_cpep;;;;;;LAB_BLOOD_TOTAL;real
+;C22_4n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;FEILny;;;;;;LAB_BLOOD_TOTAL;real
+;Insulin_C_peptid_ny;;;;;;LAB_BLOOD_TOTAL;float
+;hemoglobin;;;;;;LAB_BLOOD_TOTAL;float
+;Insulin_ny;;;;;;LAB_BLOOD_TOTAL;float
+;HDL;;;;;;LAB_BLOOD_TOTAL;float
+;Choline;;;;;;LAB_BLOOD_TOTAL;float
+;Creatin_2015;;;;;;LAB_BLOOD_TOTAL;float
+;desat5index_n_6;;;;;;LAB_BLOOD_TOTAL;float
+;vitE;;;;;;LAB_BLOOD_TOTAL;float
+;HK;;;;;;LAB_BLOOD_TOTAL;float
+;C20_3n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;leucocytes;;;;;;LAB_BLOOD_TOTAL;float
+;date_end_of_study;;;;;;LAB_BLOOD_TOTAL;datetime2
+;C18_2n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;C20_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;NeutrophilCount;;;;;;LAB_BLOOD_TOTAL;float
+;P;;;;;;LAB_BLOOD_TOTAL;float
+;C17_0i_p;;;;;;LAB_BLOOD_TOTAL;float
+;Trans_FA_p;;;;;;LAB_BLOOD_TOTAL;float
+;C18_1t_p;;;;;;LAB_BLOOD_TOTAL;float
+;C20_4n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;C20_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;BU_FAST;;;;;;LAB_BLOOD_TOTAL;int
+;MetSo;;;;;;LAB_BLOOD_TOTAL;float
+;BBet;;;;;;LAB_BLOOD_TOTAL;float
+;one_methyl_histedin_2015;;;;;;LAB_BLOOD_TOTAL;float
+;Ribo;;;;;;LAB_BLOOD_TOTAL;float
+;C20_2n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;DBI;;;;;;LAB_BLOOD_TOTAL;float
+;NeutrophilFraction;;;;;;LAB_BLOOD_TOTAL;float
+;pCreat;;;;;;LAB_BLOOD_TOTAL;float
+;C20_3n_9_p;;;;;;LAB_BLOOD_TOTAL;float
+;Neopt;;;;;;LAB_BLOOD_TOTAL;float
+;Cpeptid_nmol_serum_estimert;;;;;;LAB_BLOOD_TOTAL;real
+;C18_1n_7_c;;;;;;LAB_BLOOD_TOTAL;float
+;C22_1n_11_p;;;;;;LAB_BLOOD_TOTAL;float
+;CRP_lab;;;;;;LAB_BLOOD_TOTAL;float
+;ACarn;;;;;;LAB_BLOOD_TOTAL;float
+;C20_4n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;Omega3_index;;;;;;LAB_BLOOD_TOTAL;float
+;VCarn;;;;;;LAB_BLOOD_TOTAL;float
+;C18_1_p;;;;;;LAB_BLOOD_TOTAL;float
+;HOMA2_S_ins;;;;;;LAB_BLOOD_TOTAL;real
+;DMG;;;;;;LAB_BLOOD_TOTAL;float
+;C24_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;Total_FA_c;;;;;;LAB_BLOOD_TOTAL;float
+;opg;;;;;;LAB_BLOOD_TOTAL;float
+;C17_0ai_C17_1n_8_p;;;;;;LAB_BLOOD_TOTAL;float
+;C22_1n_7_c;;;;;;LAB_BLOOD_TOTAL;float
+;GLUKMAX;;;;;;LAB_BLOOD_TOTAL;float
+;PUFA_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;Glucose;;;;;;LAB_BLOOD_TOTAL;real
+;Elongase_index;;;;;;LAB_BLOOD_TOTAL;float
+;PL;;;;;;LAB_BLOOD_TOTAL;float
+;HOMA2_S_cpep;;;;;;LAB_BLOOD_TOTAL;real
+;C18_3n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;C18_1t_c;;;;;;LAB_BLOOD_TOTAL;float
+;SEG_val;;;;;;LAB_BLOOD_TOTAL;float
+;Dato;;;;;;LAB_BLOOD_TOTAL;datetime2
+;PLP;;;;;;LAB_BLOOD_TOTAL;float
+;BIL;;;;;;LAB_BLOOD_TOTAL;float
+;HAA;;;;;;LAB_BLOOD_TOTAL;float
+;GFR2_lab;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1_c;;;;;;LAB_BLOOD_TOTAL;float
+;TrpGC;;;;;;LAB_BLOOD_TOTAL;float
+;vitD3;;;;;;LAB_BLOOD_TOTAL;float
+;Serine;;;;;;LAB_BLOOD_TOTAL;float
+;C18_1n_7_p;;;;;;LAB_BLOOD_TOTAL;float
+;C21_5n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;C20_4n_6_18_2n_6;;;;;;LAB_BLOOD_TOTAL;float
+;C20_4n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;AA;;;;;;LAB_BLOOD_TOTAL;float
+;C20_3n_9_c;;;;;;LAB_BLOOD_TOTAL;float
+;MONO_val;;;;;;LAB_BLOOD_TOTAL;float
+;three_methyl_histedin_2015;;;;;;LAB_BLOOD_TOTAL;float
+;C22_2n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1n_7t_c;;;;;;LAB_BLOOD_TOTAL;float
+;Met;;;;;;LAB_BLOOD_TOTAL;float
+;C14_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C21_5n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;KKR;;;;;;LAB_BLOOD_TOTAL;float
+;PaCarn;;;;;;LAB_BLOOD_TOTAL;float
+;C16_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;desat5index_n_3;;;;;;LAB_BLOOD_TOTAL;float
+;ApoB;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1n_7_c;;;;;;LAB_BLOOD_TOTAL;float
+;BasophilFraction;;;;;;LAB_BLOOD_TOTAL;float
+;EosinophilCount;;;;;;LAB_BLOOD_TOTAL;float
+;PUFA_n_3_PUFA_n_6;;;;;;LAB_BLOOD_TOTAL;float
+;EosinophilFraction;;;;;;LAB_BLOOD_TOTAL;float
+;Trp;;;;;;LAB_BLOOD_TOTAL;float
+;OSM;;;;;;LAB_BLOOD_TOTAL;float
+;HOMA2_B_ins;;;;;;LAB_BLOOD_TOTAL;real
+;C18_1n_9_c;;;;;;LAB_BLOOD_TOTAL;float
+;C16_0i_p;;;;;;LAB_BLOOD_TOTAL;float
+;days_1month;;;;;;LAB_BLOOD_TOTAL;int
+;C15_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;C18_1n_9_p;;;;;;LAB_BLOOD_TOTAL;float
+;C16_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;CystaLCB;;;;;;LAB_BLOOD_TOTAL;float
+;HTR;;;;;;LAB_BLOOD_TOTAL;float
+;C22_2n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;C22_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C23_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C15_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;GFR_lab;;;;;;LAB_BLOOD_TOTAL;float
+;C18_3n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;C18_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;C18_1_c;;;;;;LAB_BLOOD_TOTAL;float
+;Om3_i_p;;;;;;LAB_BLOOD_TOTAL;float
+;LymphocyteCount;;;;;;LAB_BLOOD_TOTAL;float
+;histedin_2015;;;;;;LAB_BLOOD_TOTAL;float
+;Betaine;;;;;;LAB_BLOOD_TOTAL;float
+;TML;;;;;;LAB_BLOOD_TOTAL;float
+;TNT;;;;;;LAB_BLOOD_TOTAL;float
+;SDMA;;;;;;LAB_BLOOD_TOTAL;float
+;SRMAX;;;;;;LAB_BLOOD_TOTAL;float
+;C22_1n_7_p;;;;;;LAB_BLOOD_TOTAL;float
+;Glycine;;;;;;LAB_BLOOD_TOTAL;float
+;C12_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;MonocyteFraction;;;;;;LAB_BLOOD_TOTAL;float
+;LAKTAK;;;;;;LAB_BLOOD_TOTAL;float
+;C22_5n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;C22_5n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;C16_0i_c;;;;;;LAB_BLOOD_TOTAL;float
+;PUFA_n_6;;;;;;LAB_BLOOD_TOTAL;float
+;PUFA_n_3;;;;;;LAB_BLOOD_TOTAL;float
+;Carn;;;;;;LAB_BLOOD_TOTAL;float
+;Cot;;;;;;LAB_BLOOD_TOTAL;float
+;KTR;;;;;;LAB_BLOOD_TOTAL;float
+;C20_1n_7_c;;;;;;LAB_BLOOD_TOTAL;float
+;platelets;;;;;;LAB_BLOOD_TOTAL;float
+;MONO;;;;;;LAB_BLOOD_TOTAL;float
+;HOMA2_IR_ins;;;;;;LAB_BLOOD_TOTAL;real
+;TML_2015;;;;;;LAB_BLOOD_TOTAL;float
+;ApA1;;;;;;LAB_BLOOD_TOTAL;float
+;C14_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;DBI_p;;;;;;LAB_BLOOD_TOTAL;float
+;NAMD;;;;;;LAB_BLOOD_TOTAL;float
+;Cpeptid_nmol_citrat;;;;;;LAB_BLOOD_TOTAL;real
+;C22_5n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;UMALB;;;;;;LAB_BLOOD_TOTAL;float
+;C20_1n_11_p;;;;;;LAB_BLOOD_TOTAL;float
+;TMAO_2015;;;;;;LAB_BLOOD_TOTAL;float
+;date_1year;;;;;;LAB_BLOOD_TOTAL;datetime2
+;C16_1n_7t_p;;;;;;LAB_BLOOD_TOTAL;float
+;C20_1n_7_p;;;;;;LAB_BLOOD_TOTAL;float
+;days_end_of_study;;;;;;LAB_BLOOD_TOTAL;int
+;C22_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;C20_1n_11_c;;;;;;LAB_BLOOD_TOTAL;float
+;TrigD;;;;;;LAB_BLOOD_TOTAL;float
+;spFolate;;;;;;LAB_BLOOD_TOTAL;float
+;PUFA_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;C15_0ai_c;;;;;;LAB_BLOOD_TOTAL;float
+;CKMB;;;;;;LAB_BLOOD_TOTAL;float
+;ADMA;;;;;;LAB_BLOOD_TOTAL;float
+;C18_4n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;Insulin_pmol_citrat;;;;;;LAB_BLOOD_TOTAL;real
+;LYMF_val;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1_p;;;;;;LAB_BLOOD_TOTAL;float
+;C17_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;C17_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1n_7_p;;;;;;LAB_BLOOD_TOTAL;float
+;C14_1n_5_c;;;;;;LAB_BLOOD_TOTAL;float
+;MonocyteCount;;;;;;LAB_BLOOD_TOTAL;float
+;XA;;;;;;LAB_BLOOD_TOTAL;float
+;days_1year;;;;;;LAB_BLOOD_TOTAL;int
+;C20_3n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;C24_0_p;;;;;;LAB_BLOOD_TOTAL;float
+;NHDL;;;;;;LAB_BLOOD_TOTAL;float
+;Cob;;;;;;LAB_BLOOD_TOTAL;float
+;PA;;;;;;LAB_BLOOD_TOTAL;float
+;MMA;;;;;;LAB_BLOOD_TOTAL;float
+;Arginin;;;;;;LAB_BLOOD_TOTAL;float
+;C22_1n_11_c;;;;;;LAB_BLOOD_TOTAL;float
+;TNTMAX;;;;;;LAB_BLOOD_TOTAL;float
+;MetLC;;;;;;LAB_BLOOD_TOTAL;float
+;C18_4n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;K;;;;;;LAB_BLOOD_TOTAL;float
+;BasophilCount;;;;;;LAB_BLOOD_TOTAL;float
+;C22_1n_9_c;;;;;;LAB_BLOOD_TOTAL;float
+;desat6index_n_6;;;;;;LAB_BLOOD_TOTAL;float
+;Insulin_mIE_citrat;;;;;;LAB_BLOOD_TOTAL;real
+;days_from_baseline;;;;;;LAB_BLOOD_TOTAL;int
+;EOS_val;;;;;;LAB_BLOOD_TOTAL;float
+;CRPMAX;;;;;;LAB_BLOOD_TOTAL;float
+;PN;;;;;;LAB_BLOOD_TOTAL;float
+;Trans_FA;;;;;;LAB_BLOOD_TOTAL;float
+;OCarn;;;;;;LAB_BLOOD_TOTAL;float
+;date_1month;;;;;;LAB_BLOOD_TOTAL;datetime2
+;KREATMX;;;;;;LAB_BLOOD_TOTAL;float
+;BASO_val;;;;;;LAB_BLOOD_TOTAL;float
+;C20_5n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;SEG;;;;;;LAB_BLOOD_TOTAL;float
+;Antiinfl_index;;;;;;LAB_BLOOD_TOTAL;float
+;C15_0i_c;;;;;;LAB_BLOOD_TOTAL;float
+;C16_1n_9_c;;;;;;LAB_BLOOD_TOTAL;float
+;C18_2n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;C22_5n_6_c;;;;;;LAB_BLOOD_TOTAL;float
+;C22_6n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;C15_0ai_p;;;;;;LAB_BLOOD_TOTAL;float
+;tCys;;;;;;LAB_BLOOD_TOTAL;float
+;Insulin_pmol_serum_estimert;;;;;;LAB_BLOOD_TOTAL;real
+;C10_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C20_1n_9_c;;;;;;LAB_BLOOD_TOTAL;float
+;baseline_date;;;;;;LAB_BLOOD_TOTAL;datetime2
+;C18_3n_3_c;;;;;;LAB_BLOOD_TOTAL;float
+;Lpa;;;;;;LAB_BLOOD_TOTAL;float
+;C20_4n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;LymphocyteFraction;;;;;;LAB_BLOOD_TOTAL;float
+;C24_1n_9_p;;;;;;LAB_BLOOD_TOTAL;float
+;tHcy;;;;;;LAB_BLOOD_TOTAL;float
+;homoArg;;;;;;LAB_BLOOD_TOTAL;float
+;C12_0_c;;;;;;LAB_BLOOD_TOTAL;float
+;C17_0ai_C17_1n_8_c;;;;;;LAB_BLOOD_TOTAL;float
+;Sarcosine;;;;;;LAB_BLOOD_TOTAL;float
+;C18_3n_3_p;;;;;;LAB_BLOOD_TOTAL;float
+;C15_0i_p;;;;;;LAB_BLOOD_TOTAL;float
+;desat6index_n_3;;;;;;LAB_BLOOD_TOTAL;float
+;NAD;;;;;;LAB_BLOOD_TOTAL;float
+;vitA;;;;;;LAB_BLOOD_TOTAL;float
+;C24_1n_9_c;;;;;;LAB_BLOOD_TOTAL;float
+;C22_4n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;tMet;;;;;;LAB_BLOOD_TOTAL;float
+;C17_0i_c;;;;;;LAB_BLOOD_TOTAL;float
+;C20_2n_6_p;;;;;;LAB_BLOOD_TOTAL;float
+;C20_1n_9_p;;;;;;LAB_BLOOD_TOTAL;float
+;mNAMD;;;;;;LAB_BLOOD_TOTAL;float
+;DMG_2015;;;;;;LAB_BLOOD_TOTAL;float
+;vitD2;;;;;;LAB_BLOOD_TOTAL;float
+serum alanine amino transferase;ALAT;;;lk_alat (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+seurm albumin;ALB;;;lk_alb (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum alkaline phosphatase;ALP;;;lk_alp (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum aspartate amino transferase;ASAT;;;lk_asat (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+BASO;BASO;;;lk_baso (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+;BU_BNR;;;Blodnummeret til pasienten lesjonen tilhører;;;LAB_BLOOD_TOTAL;smallint
+ID i biobank:;BU_BNR;;Heltall;Kopieres fra forrige KF/Kontroll;;;LAB_BLOOD_TOTAL;smallint
+WENBIT laboratory identification number;BU_BNR;;;;;;LAB_BLOOD_TOTAL;smallint
+;BU_BNR;;;BU_BNR;;;LAB_BLOOD_TOTAL;smallint
+Dato for studiebesøk;BU_DATO;Dato;Dato;Default=dagens dato;Denne datoen gjelder dato for studiebesøk med prøvetaking til biobank eller uten slik prøvetaking;Om det er tatt prøvetaking, evt klokkelsett osv fremgår på de neste variablene;LAB_BLOOD_TOTAL;datetime
+serum calcium;CA;;;lk_ca (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+;CDIFF;;;;;;LAB_BLOOD_TOTAL;float
+creatine  kinase;CK;;;lk_ck (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+CKMB;CKMBNY;;;lk_ckmb (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+c reactive protein;CRP;;;lk_crp (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+EOS;EOS;;;lk_eos (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+erythrocyte particle concentration;EPK;;;lk_ery (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+erythrocyte volume fraction;EVF;;;lk_evf (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+fibrinogen;FIBR;;;lk_fib (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+forus_id;FORUS_ID;;;Alle data innhentes via oppkopling mot LKB-databasen………;;;LAB_BLOOD_TOTAL;int
+FORUS-id;FORUS_ID;Legges inn automatsik fra FORUS;;;;;LAB_BLOOD_TOTAL;int
+FORUS-id;FORUS_ID;;Legges inn automatisk fra FORUS;;;;LAB_BLOOD_TOTAL;int
+FORUS-id;FORUS_ID;Legges ainn utomatisk fra FORUS;;;;;LAB_BLOOD_TOTAL;int
+Id som kobler til opphold;FORUS_ID;;;;;;LAB_BLOOD_TOTAL;int
+Id som kobler til opphold;FORUS_ID;;Legges inn automatisk fra FORUS;;;;LAB_BLOOD_TOTAL;int
+Id som kobler til opphold;FORUS_ID;;Heltall. Auto-genereres. Kopieres til alle andre moduler når det lagres data i disse.;;;;LAB_BLOOD_TOTAL;int
+;FORUS_ID;;;Forus_id;;;LAB_BLOOD_TOTAL;int
+glomerular filtration ratio;GFR;Formel fra LKB:;;GFR (mL/min/1.73 m2) = 175 x (S-creatinin/88.4)opphøyd i -1.154 x (Age)opphøyd i -0.203 x (0.742 if female) x (1.210 if African American);;;LAB_BLOOD_TOTAL;int
+serum glucose;GLUK;;;lk_gluk (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+glycosylated hemoglobin;HBA1C;;;lk_hba1c (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+prothrombin international normalized ratio;INR;;;lk_inr (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum potassium;KA;;;lk_ka (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum carbamid;KARB;;;lk_karb (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum total cholesterol;KOL;;;lk_kol (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum kreatinin;KREAT;;;lk_krea (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum lactate dehydrogenase;LD;;;lk_ld (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum  low  density  lipoprotein;LDL;;;lk_ldl (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+LYMF;LYMF;;;lk_lymf (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+MALB;MALB;;;lk_um (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+mean corposcular hemoglobin;MCH;;;lk_mch (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+mean corposcular hemoglobin concentration;MCHC;;;lk_mchc (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+mean corposcular volume;MCV;;;lk_mcv (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum magnesium;MG;;;lk_mg (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+;MG;Numeric;;;;;LAB_BLOOD_TOTAL;float
+mean platelet volume;MPV;;;lk_mpv (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+Total MUFA;MUFA;Numeric;;;;;LAB_BLOOD_TOTAL;float
+MUFA as percentage of total energy;MUFA_p;Numeric;;;;;LAB_BLOOD_TOTAL;float
+serum sodium;Na;;;lk_na (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+;NORCAD_ID;;;NORCAD_ID;;;LAB_BLOOD_TOTAL;smallint
+Besøksdato;PE_FORUS;;Dato;Hentes fra FORUS skjema. Må lagres her for å kunne kopiere forrige pasientskjema sortert på besøksdato.;;;LAB_BLOOD_TOTAL;datetime
+Besøksdato;PE_FORUS;;Dato;Hentes fra FORUS skjema. Må lagres her for å kunne kopiere forrige medikament-data sortert på besøksdato.;;;LAB_BLOOD_TOTAL;datetime
+Besøksdato;PE_FORUS;Dato;Dato;er dagens dato;;;LAB_BLOOD_TOTAL;datetime
+;PM;ukjent;9;"Direkte når ""Tidligere hjertekarsykdom""=9.";;;LAB_BLOOD_TOTAL;float
+;PM;Ja, 3 eller flere;3;;;Antall ggr =3.;LAB_BLOOD_TOTAL;float
+;PM;Ja, 2;2;;;Antall ggr =2.;LAB_BLOOD_TOTAL;float
+;PM;Ja, minst 1;1;;;Antall ggr =1 eller ikke besvart.;LAB_BLOOD_TOTAL;float
+Innlagt pacemaker;PM;Nei;0;Default;;;LAB_BLOOD_TOTAL;float
+serum protein;PROT;;;lk_prot (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+;PROT;Numeric;;;;;LAB_BLOOD_TOTAL;float
+Total SFA;SFA;Numeric;;;;;LAB_BLOOD_TOTAL;float
+SFA as percentage of total energy;SFA_p;Numeric;;;;;LAB_BLOOD_TOTAL;float
+sedimentation rate;SR;;;lk_sr (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+Tidspunkt;STU_TID;Baseline;0;Default=missing;;;LAB_BLOOD_TOTAL;smallint
+variabel_verdier_studiekontroll;STU_TID;1 mnd;1;1 mnd;;;LAB_BLOOD_TOTAL;smallint
+;STU_TID;1 år;2;1 år;;;LAB_BLOOD_TOTAL;smallint
+;STU_TID;2 år;3;2 år;;;LAB_BLOOD_TOTAL;smallint
+;STU_TID;Avslutning;4;Avslutning;;;LAB_BLOOD_TOTAL;smallint
+;STU_TID;Substudie;5;Opphold der baseline PCI i QCA Atero-studien er utføert utenom de vanlige WENBIT oppholdene (83 pasienter). Opphold der kontroll Angio i QCA Atero-studien er utføert utenom de vanlige WENBIT oppholdene (78 pas). På noen pasienter er det påfølgende PCI som;;;LAB_BLOOD_TOTAL;smallint
+serum  triglycerides;TG;;;lk_tg (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+urine creatinine;UKREAT;;;lk_uk (i LKB-databasen);;;LAB_BLOOD_TOTAL;float
+serum uric acid;URAT;;;lk_urat (i LKB-databasen);;;LAB_BLOOD_TOTAL;float

@@ -1,154 +1,22 @@
 
-\documentclass[presentation,xcolor=pdftex,dvipsnames,table]{beamer}
+\documentclass[presentation,xcolor=pdtex,dvipsnames,table]{beamer}
 \usetheme{Singapore}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[english, norsk]{babel}
+\usepackage[english]{babel}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{xspace}
 \usepackage{booktabs}
 \usepackage{rotating}
 \usepackage{graphicx}
 
-<<loadLibs,include=FALSE>>=
-
-require(quantreg)
-require(Hmisc)
-require(survival)
-require(mgcv)
-require(car)
-require(smcfcs)
-require(purrr)
-require(knitr)
-
+<<setOpts,include=FALSE>>=
 opts_chunk$set(warnings=FALSE,echo=FALSE)
-
-lapply(
-    X = dir( "./functions") ,
-    FUN = function(X) source( paste( "./functions/" , X , sep = "" )))
-
-options(width="130")
-
 @ 
 
+\title{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
 
-<<getDesign,include=FALSE>>=
-## Hadley, you amazing genius!!
-# http://r4ds.had.co.nz/lists.html#hierarchy
-
-JSON <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
-
-Status <- JSON$Endpoint$Status
-Time <- JSON$Endpoint$Time
-
-Predictor <- JSON$Predictor$Name
-Modifier <- JSON$Modifier$Name
-Adjustments <- sapply( JSON$Adjustments , with , Name )
-nLevels <- sapply( JSON$Adjustments , with , Level )
-PatientCharacteristics <- sapply( JSON$PatientCharacteristics , with , Name )
-Forestplot <- sapply( JSON$Forestplot , with , Name )
-
-@ 
-
-
-
-<<getData,include=FALSE>>=
-
-dbVars <- paste0(
-    c(
-        Status ,
-        Time ,
-        Predictor ,
-        Modifier ,
-        Adjustments ,
-        PatientCharacteristics ,
-        Forestplot ) , 
-    collapse = ", ")
-
-dbWhere <- paste0(
-    sapply(
-        JSON$Population$Subset ,
-        with ,
-        Where ) ,
-    collapse = " AND " )
-        
-dbStatement <- paste(
-    "SELECT" ,
-    dbVars ,
-    "FROM PATIENT_INFO P
-       LEFT JOIN LAB_BLOOD_TOTAL B ON P.FORUS_ID=B.FORUS_ID
-       LEFT JOIN hs_medikament_skjema M ON P.FORUS_ID=M.FORUS_ID
-       LEFT JOIN hs_hendelser_CVDNOR_mars14 C ON P.NORCAD_ID=C.NORCAD_ID
-         WHERE" ,
-    dbWhere )
-
-if ( !exists("con") )
-    con <- DBI::dbConnect(
-        drv = RMySQL::MySQL() ,
-        dbname = JSON$Population$Database )
-
-D <- DBI::dbGetQuery(
-    conn = con , 
-    statement = dbStatement)
-
-@ 
-
-
-<<createTransformations,include=FALSE>>=
-
-D$Survival <- survival::Surv(
-    time = D[,Time] ,
-    event = D[,Status] )
-
-z <- function(X) (X - mean( X , na.rm = TRUE )) / sd( X , na.rm = TRUE )
-q <- function(X) 100 * rank( X , na.last = "keep" ) / length( na.exclude(X) )
-cutN <- function(X,n=4) cut(
-                          x = X + rnorm(
-                                      n = length(X) ,
-                                      mean = 0 ,
-                                      sd = 10^-10 ) ,
-                          include.lowest = TRUE ,
-                          breaks = quantile(
-                              x = X ,
-                              na.rm = TRUE ,
-                              probs = 0:n/n ))
-
-D[ , paste("z" , Predictor , sep = "") ] <- z( D[ , Predictor ] )
-D[ , paste("zlog" , Predictor , sep = "") ] <- z( log( D[ , Predictor ] ) )
-D[ , paste("q" , Predictor , sep = "") ] <- q( D[ , Predictor ] )
-D[ , paste("ntil4" , Predictor , sep = "") ] <- cutN( D[ , Predictor ] , n = 4 )
-D[ , paste("trend4" , Predictor , sep = "") ] <- as.numeric( cutN( D[ , Predictor ] , n = 4 ) )
-
-D[ , paste( "z" , Modifier , sep = "") ] <- z( D[ , Modifier ] )
-D[ , paste( "zlog" , Modifier , sep = "") ] <- z( log( D[ , Modifier ] ) )
-D[ , paste( "q" , Modifier , sep = "") ] <- q( D[ , Modifier ] )
-D[ , paste( "d" , Modifier , sep = "") ] <- cutN( D[ , Modifier ] , n = 2 )
-
-D$Pred <- D[ , Predictor ]
-D$zPred <- D[ , Predictor ]
-D$zlogPred <- D[ , Predictor ]
-D$qPred <- D[ , Predictor ]
-D$Pred2n <- as.numeric(cutN( D[ , Predictor ] , n = 2 ))
-D$Pred2c <- cutN( D[ , Predictor ] , n = 2 )
-D$Pred3n <- as.numeric(cutN( D[ , Predictor ] , n = 3 ))
-D$Pred3c <- cutN( D[ , Predictor ] , n = 3 )
-D$Pred4n <- as.numeric(cutN( D[ , Predictor ] , n = 4 ))
-D$Pred4c <- cutN( D[ , Predictor ] , n = 4 )
-D$Pred5n <- as.numeric(cutN( D[ , Predictor ] , n = 5 ))
-D$Pred5c <- cutN( D[ , Predictor ] , n = 5 )
-
-D$Mod <- D[ , Modifier ]
-D$qMod <- q(D[ , Modifier ])
-D$Mod2n <- as.numeric(cutN( D[ , Modifier ] , n = 2 ))
-D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
-
-@ 
-
-
-
-
-\title[\Sexpr{JSON$Endpoint$ShortLabel} and \Sexpr{JSON$Predictor$ShortLabel}]{\Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label}}
 
 
 \begin{document}
@@ -157,19 +25,13 @@ D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
 \maketitle
 
 
-\section{Population}
 \begin{frame}
-  \huge{Population}
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Population$Label}}
-
-  \Sexpr{paste(JSON$Population$Description)}
-  
-  Only patients with \Sexpr{paste(sapply(JSON$Population$Subset , with , Comment))} were included.
-  
+  \frametitle{Overview}
+  \begin{description}
+    \item[Endpoint]{  \Sexpr{sapply( JSON$Endpoints  , with , Label)[n.Surv]}}
+    \item[Predictor]{ \Sexpr{sapply( JSON$Predictors , with , Label)[n.P]}}
+    \item[Modifier]{  \Sexpr{sapply( JSON$Modifiers  , with , Label)[n.M]}}
+  \end{description}
 \end{frame}
 
 
@@ -180,129 +42,13 @@ D$Mod2c <- cutN( D[ , Modifier ] , n = 2 )
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Endpoint$Label}}
-  \Sexpr{paste(JSON$Endpoint$Label)} is observed in \Sexpr{sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )} of \Sexpr{dim(D)[1]} patients (\Sexpr{round(100*sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )/dim(D)[1] , 1)}\%) with a median follow-up time of \Sexpr{median(D[,JSON$Endpoint$Time],na.rm=TRUE)} days.
+  \frametitle{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]}}
+  \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[n.Surv])} is observed in \Sexpr{sum(D$E0 , na.rm = TRUE )} of \Sexpr{dim(D)[n.Surv]} patients (\Sexpr{round(100*sum(D$E0 , na.rm = TRUE )/dim(D)[n.Surv] , 1)}\%) with a median follow-up time of \Sexpr{median(D[ , paste("T",n.Surv-1,sep="")],na.rm=TRUE)} days.
 
-  The main endpoint \Sexpr{paste(JSON$Endpoint$Label)} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
+  The main endpoint \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[n.Surv])} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
   
   Acknowledgment: The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.
 \end{frame}
-
-
-
-\section{Patient characteristics}
-\begin{frame}
-  \huge{Patient characteristics}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\end{frame}
-
-
-\begin{frame}
-  \begin{table}
-    \centering
-    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}
-    \resizebox{0.8\textwidth}{!}{
-<<LaTeXproportions,echo=FALSE,results='asis'>>=
-
-T <- lapply(
-    X = PatientCharacteristics ,
-    FUN = MeansOverGroups ,
-    groups = Pred4 )
-    
-
-Table1Proportions <- rbind(
-    ProportionsOverGroups("male","tHcy4") ,
-    ProportionsOverGroups("current_smoking","tHcy4") ,
-    ProportionsOverGroups("obesity","tHcy4")
-)
-
-
-attr( Table1Proportions , "dimnames")[[1]] <- c(
-    "Male" ,
-    "Current smoker" ,
-    "Obesity (BMI>30)")
-
-
-write.csv2(
-    x = Table1Proportions ,
-    file = gsub(
-        " " ,
-        "_" ,
-        paste(
-            "./export/Table1_Proportions_over_quartiles_of_" ,
-            JSON$Predictor$ShortLabel ,
-            ".csv" ,
-            sep = ""
-        )
-    )
-)
-
-
-latex(
-    object = Table1Proportions ,
-    title = "" ,
-    n.cgroup = c(2,2,2,2,1) ,
-    cgroup = c("Q1","Q2","Q3","Q4","") ,
-    center = "none",
-    table.env = FALSE ,
-    file = "" ,
-    booktabs = TRUE )
-
-
-@ 
-}
-  \end{table}
-\end{frame}
-
-
-\begin{frame}
-  \begin{table}
-    \centering
-    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for continuous variables reported as means (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.}
-    \resizebox{0.8\textwidth}{!}{
-<<LaTeXMeans,echo=FALSE,results='asis'>>=
-
-latex(
-    object = Table1Means ,
-    title = "" ,
-    n.cgroup = c(2,2,2,2,1) ,
-    cgroup = c("Q1","Q2","Q3","Q4","") ,
-    center = "none",
-    table.env = FALSE ,
-    file = "" ,
-    booktabs = TRUE )
-
-@ 
-}
-  \end{table}
-\end{frame}
-
-
-\begin{frame}
-  \begin{table}
-    \centering
-    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}
-    \resizebox{0.8\textwidth}{!}{
-<<LaTeXMedians,echo=FALSE,results='asis'>>=
-
-latex(
-    object = Table1Medians ,
-    title = "" ,
-    n.cgroup = c(2,2,2,2,1) ,
-    cgroup = c("Q1","Q2","Q3","Q4","") ,
-    center = "none",
-    table.env = FALSE ,
-    file = "" ,
-    booktabs = TRUE )
-
-@ 
-}
-  \end{table}
-\end{frame}
-
 
 
 
@@ -312,7 +58,7 @@ latex(
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Endpoint$ShortLabel} $\backsim$ \Sexpr{JSON$Predictor$ShortLabel}}
+  \frametitle{\Sexpr{sapply( JSON$Endpoints, with , ShortLabel)[n.Surv]} $\backsim$ \Sexpr{sapply( JSON$Predictors, with , ShortLabel)[n.P]}}
   
   \begin{table}
     \resizebox{\textwidth}{!}{
@@ -329,9 +75,9 @@ TabCoxSimple <- rbind(
         OutputHR( alevel = 1 , ptrans = "zlog" ) ,
         OutputHR( alevel = 2 , ptrans = "zlog" )) ,
     cbind(
-        OutputHR( alevel = 0 , ptrans = "trend4" ) ,
-        OutputHR( alevel = 1 , ptrans = "trend4" ) ,
-        OutputHR( alevel = 2 , ptrans = "trend4" )))
+        OutputHR( alevel = 0 , ptrans = "n4" ) ,
+        OutputHR( alevel = 1 , ptrans = "n4" ) ,
+        OutputHR( alevel = 2 , ptrans = "n4" )))
 
 latex(
     object = TabCoxSimple ,
@@ -347,7 +93,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \caption{\tiny{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }}
   
   \end{table}
 \end{frame}
@@ -355,7 +101,7 @@ latex(
 
 
 
-\section[Interaction]{\Sexpr{JSON$Predictor$ShortLabel} $\times$ \Sexpr{JSON$Modifier$ShortLabel}}
+\section[Interaction]{\Sexpr{sapply( JSON$Predictors , with , ShortLabel )[n.P]} $\times$ \Sexpr{sapply( JSON$Modifiers , with ,ShortLabel )[n.M]}}
 \section{Interaction}
 \begin{frame}
   \huge{Interaction}
@@ -364,7 +110,7 @@ latex(
 
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Endpoint$ShortLabel} and \Sexpr{JSON$Predictor$ShortLabel} in subgroups of high/low \Sexpr{JSON$Modifier$ShortLabel}}
+  \frametitle{\Sexpr{sapply( JSON$Endpoints , with , ShortLabel )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , ShortLabel )[n.P]} in subgroups of high/low \Sexpr{sapply( JSON$Modifiers , with , ShortLabel )[n.M]}}
 
   \begin{table}
     \resizebox{\textwidth}{!}{
@@ -374,19 +120,19 @@ latex(
 TabCoxSubgroup <- rbind(
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 0 , ptrans = "trend4" ) ,
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 1 , ptrans = "trend4" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 2 , ptrans = "trend4" ))
+        PrintCoxSubgroupTable( alevel = 2 , ptrans = "n4" ))
 
 latex(
     object = TabCoxSubgroup ,
     rgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
     n.rgroup = c(3,3,3) ,
-    cgroup = c( paste( c("Low","High") ,JSON$Modifier$Label),"Interaction") ,
+    cgroup = c( paste( c("Low","High") ,sapply( JSON$Modifiers , with , Label )[n.M]),"Interaction") ,
     n.cgroup = c(2,2,1) ,
     file = "" ,
     title = "" ,
@@ -398,7 +144,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label} in subgroups of high vs. low levels of \Sexpr{JSON$Modifier$Label} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{JSON$Modifier$Label} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}. }
+  \caption{\tiny{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}. }}
   \end{table}
 
 \end{frame}
@@ -406,7 +152,7 @@ latex(
 
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Endpoint$ShortLabel} and \Sexpr{JSON$Predictor$ShortLabel} and interaction with high/low \Sexpr{JSON$Modifier$ShortLabel}}
+  \frametitle{\Sexpr{sapply( JSON$Endpoints , with , ShortLabel )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , ShortLabel )[n.P]} and interaction with high/low \Sexpr{sapply( JSON$Modifiers , with , ShortLabel )[n.M]}}
 
   \begin{table}
     \resizebox{\textwidth}{!}{
@@ -415,17 +161,17 @@ latex(
 
 TabCoxInteraction <- rbind(
     cbind(
-        OutputHR( alevel = 0 , ptrans = "z" , mtrans = "d" ) ,
-        OutputHR( alevel = 1 , ptrans = "z" , mtrans = "d" ) ,
-        OutputHR( alevel = 2 , ptrans = "z" , mtrans = "d" )) ,
+        OutputHR( alevel = 0 , ptrans = "z" , mtrans = "c2" ) ,
+        OutputHR( alevel = 1 , ptrans = "z" , mtrans = "c2" ) ,
+        OutputHR( alevel = 2 , ptrans = "z" , mtrans = "c2" )) ,
     cbind(
-        OutputHR( alevel = 0 , ptrans = "zlog" , mtrans = "d" ) ,
-        OutputHR( alevel = 1 , ptrans = "zlog" , mtrans = "d" ) ,
-        OutputHR( alevel = 2 , ptrans = "zlog" , mtrans = "d" )) ,
+        OutputHR( alevel = 0 , ptrans = "zlog" , mtrans = "c2" ) ,
+        OutputHR( alevel = 1 , ptrans = "zlog" , mtrans = "c2" ) ,
+        OutputHR( alevel = 2 , ptrans = "zlog" , mtrans = "c2" )) ,
     cbind(
-        OutputHR( alevel = 0 , ptrans = "trend4" , mtrans = "d" ) ,
-        OutputHR( alevel = 1 , ptrans = "trend4" , mtrans = "d" ) ,
-        OutputHR( alevel = 2 , ptrans = "trend4" , mtrans = "d" )))
+        OutputHR( alevel = 0 , ptrans = "n4" , mtrans = "c2" ) ,
+        OutputHR( alevel = 1 , ptrans = "n4" , mtrans = "c2" ) ,
+        OutputHR( alevel = 2 , ptrans = "n4" , mtrans = "c2" )))
 
 latex(
     object = TabCoxInteraction ,
@@ -443,7 +189,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{JSON$Endpoint$Label} and \Sexpr{JSON$Predictor$Label} and effect modification by high vs low levels of\Sexpr{JSON$Modifier$Label} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \caption{\tiny{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and effect modification by high vs low levels of\Sexpr{sapply( JSON$Modifiers , with , Label )[1]} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }}
   \end{table}
 
 \end{frame}
@@ -455,9 +201,10 @@ latex(
   \frametitle{}
 <<CoxGAMqSubgroups,fig.width=8,fig.height=8,out.width="3in">>=
 
+
     
 @ 
-Smoothing spline estimates of \Sexpr{JSON$Endpoint$Label} hazard by \Sexpr{JSON$Predictor$Label} in subgroups of high vs. low levels of \Sexpr{JSON$Modifier$Label} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{JSON$Modifier$Label} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}.
+Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} hazard by \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}.
 \end{frame}
 
 
@@ -469,19 +216,8 @@ Smoothing spline estimates of \Sexpr{JSON$Endpoint$Label} hazard by \Sexpr{JSON$
   \frametitle{}
 <<VisGAMq,fig.width=8,fig.height=8,out.width="3in">>=
 
-F <- as.formula(
-    paste(
-        JSON$Endpoint$Status ,
-        "~" ,
-        "s(" ,
-        "q" , JSON$Predictor$Name ,
-        "," ,
-        "q" , JSON$Modifier$Name ,
-        ")" ,
-        sep = ""))
-
 GAM <- gam(
-    formula = F ,
+    formula = E0 ~ s(qP0,qM0) ,
     data = D ,
     family = "binomial")
 
@@ -490,8 +226,8 @@ vis.gam(
     n.grid = 50 ,
     color = "terrain" ,
     type = "response" ,
-    xlab = JSON$Predictor$Label ,
-    ylab = JSON$Modifier$Label ,
+    xlab = sapply( JSON$Predictors , with , Label )[1] ,
+    ylab = sapply( JSON$Modifiers , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -499,7 +235,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{JSON$Endpoint$Label} incidence by empirical percentiles of \Sexpr{JSON$Predictor$Label} and \Sexpr{JSON$Modifier$Label} estimated with a Generalized Additve Model.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with a Generalized Additve Model.
 \end{frame}
 
 
@@ -512,8 +248,8 @@ vis.gam(
     n.grid = 50 ,
     se = TRUE ,
     type = "response" ,
-    xlab = JSON$Predictor$Label ,
-    ylab = JSON$Modifier$Label ,
+    xlab = sapply( JSON$Predictors , with , Label )[1] ,
+    ylab = sapply( JSON$Modifiers , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -521,247 +257,8 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{JSON$Endpoint$Label} incidence by empirical percentiles of \Sexpr{JSON$Predictor$Label} and \Sexpr{JSON$Modifier$Label} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
 
-\end{frame}
-
-
-
-
-
-
-\section{Appendix}
-\begin{frame}
-  \huge{Appendix}
-  \tiny{\ldots containing the crude complete output of all models}
-\end{frame}
-
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<z0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<z1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<z2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlog0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlog1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlog2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend40coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend41coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend42coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<zd0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        mtrans = "d" ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<zd1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        mtrans = "d" ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized}
-<<zd2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        mtrans = "d" ,
-        ptrans = "z" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlogd0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        mtrans = "d" ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlogd1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        mtrans = "d" ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Normalized log}
-<<zlogd2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        mtrans = "d" ,
-        ptrans = "zlog" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend4d0coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 0 ,
-        mtrans = "d" ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend4d1coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 1 ,
-        mtrans = "d" ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Trend over quartiles}
-<<trend4d2coxph>>=
-coxph(
-    formula = BuildCoxFormula(
-        alevel = 2 ,
-        mtrans = "d" ,
-        ptrans = "trend4" ) ,
-    data = D )
-@ 
 \end{frame}
 
 
