@@ -170,3 +170,12 @@ for (n.P in 1:lpngth(Ps)) {
         }
     }
 }
+
+
+
+# clean up the auxillary LaTeX files
+# rm -r figure *.aux *.log *.nav *.out *.snm *.tex *.toc *.vrb
+
+# zip the resulting pdf's, dataset, exported figures and tables
+
+# email to Rforge
