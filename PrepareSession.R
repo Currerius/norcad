@@ -132,3 +132,41 @@ for (i in 0:(length(Modifiers)-1)) {
     D[ , paste("c5M" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , 5)
     D[ , paste("n5M" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , 5))
 }
+
+
+
+   ### Rscript iterates through all enpoint, predictor, modifier combinations and
+   ### compiles the knitr files to tex
+
+for (n.P in 1:lpngth(Ps)) {
+
+    PatientCharacteristicsOutfile <- gsub(
+        " " , "" ,
+        paste(
+            "PatientCharacteristics",
+            sapply( JSON$Predictors , with , ShortLabel )[n.P] ,
+            "tex" ,
+            sep = "." ))
+
+    knit2pdf( input = "Patient_Characteristics.Rnw" , output = PatientCharacteristicsOutfile )
+    
+    for (n.M in 1:length(Ms)) {
+        for (n.Surv in 1:length(Es)) {
+
+            # Build the name of the PDF outfile from the
+            # endpoint, predictor, modifier combination:
+            SurvivalOutfile <- gsub(
+                " " , "" ,
+                paste(
+                    "SurvivalAnalysis" ,
+                    sapply( JSON$Endpoints , with , ShortLabel )[n.Surv] ,
+                    sapply( JSON$Predictors , with , ShortLabel )[n.P] ,
+                    sapply( JSON$Modifiers , with , ShortLabel )[n.M] ,
+                    "tex" ,
+                    sep = "." ))
+
+            knit2pdf( input = "Survival_Predictor_Modifier.Rnw", output = '$OUT')
+            
+        }
+    }
+}
