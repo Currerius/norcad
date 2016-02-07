@@ -1,7 +1,9 @@
 BuildIndependent <- function(
                          alevel = 0 ,
                          ptrans = "z" ,
-                         mtrans = "drop") {
+                         mtrans = "drop",
+                         n.P = 1 , n.M = 1 , n.Surv = 1
+                         ) {
 
     ### Choose the correct predictor variable according to
     ###    the chosen transformation "ptrans"
@@ -9,7 +11,7 @@ BuildIndependent <- function(
     P <- if (
         ptrans %in% c("","q","z","zlog","n2","c2","n3","c3","n4","c4","n5","c5")
     ) {
-             paste( ptrans , "P0" , sep = "" )
+             paste( ptrans , "P" , n.P-1 , sep = "" )
          } else warning("Invalid value of ptrans.\nPossible values: q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
 
     
@@ -18,7 +20,7 @@ BuildIndependent <- function(
     M <- if (
         mtrans %in% c("","q","z","zlog","n2","c2","n3","c3","n4","c4","n5","c5","drop")
     ) {
-             if ( mtrans == "drop" ) NULL else paste( "*", mtrans , "M0" , sep = "" )
+             if ( mtrans == "drop" ) NULL else paste( "*", mtrans , "M" , n.M-1 , sep = "" )
          } else warning("Invalid value of ptrans.\nPossible values: drop, q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
     
 

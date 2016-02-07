@@ -63,6 +63,11 @@ PCs <- paste( "PC" , 0:(length(PatientCharacteristics) - 1) , sep = "" )
 Forestplot <- sapply( JSON$Forestplot , with , Name )
 Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
 
+
+n.P <- 1     # which predictor this run
+n.M <- 1     # which modifier this run
+n.Surv <- 1  # which endpoint this run
+
 @ 
 
 
@@ -165,7 +170,7 @@ for (i in 0:(length(Modifiers)-1)) {
 
 
 
-\title[\Sexpr{JSON$Endpoint$ShortLabel} and \Sexpr{JSON$Predictor$ShortLabel}]{\Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]}}
+\title{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
 
 
 \begin{document}
@@ -197,10 +202,10 @@ for (i in 0:(length(Modifiers)-1)) {
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{sapply( JSON$Endpoints , with , Label )[1]}}
-  \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[1])} is observed in \Sexpr{sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )} of \Sexpr{dim(D)[1]} patients (\Sexpr{round(100*sum(D[ ,JSON$Endpoint$Status] , na.rm = TRUE )/dim(D)[1] , 1)}\%) with a median follow-up time of \Sexpr{median(D[,JSON$Endpoint$Time],na.rm=TRUE)} days.
+  \frametitle{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]}}
+  \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[n.Surv])} is observed in \Sexpr{sum(D$E0 , na.rm = TRUE )} of \Sexpr{dim(D)[n.Surv]} patients (\Sexpr{round(100*sum(D$E0 , na.rm = TRUE )/dim(D)[n.Surv] , 1)}\%) with a median follow-up time of \Sexpr{median(D[ , paste("T",n.Surv-1,sep="")],na.rm=TRUE)} days.
 
-  The main endpoint \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[1])} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
+  The main endpoint \Sexpr{paste(sapply( JSON$Endpoints , with , Label )[n.Surv])} followed up until end of 2009 obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
   
   Acknowledgment: The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.
 \end{frame}
@@ -233,7 +238,7 @@ Table1CatLabels <- Table1Labels[which(Table1Types == "categorical")]
 \begin{frame}
   \begin{table}
     \centering
-    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}
+    \caption{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXproportions,echo=FALSE,results='asis'>>=
 
@@ -242,7 +247,7 @@ Table1Proportions <- matrix(
         lapply(
             X = paste( Table1CatVars ) ,
             FUN = ProportionsOverGroups ,
-            groups = "c4P0" )
+            groups = paste("c4P" , n.P-1 , sep = "" ))
         ) ,
     ncol = 9 ,
     byrow = TRUE
@@ -271,7 +276,7 @@ latex(
 \begin{frame}
   \begin{table}
     \centering
-    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for continuous variables reported as means (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.}
+    \caption{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as means (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.}
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXMeans,echo=FALSE,results='asis'>>=
 
@@ -280,7 +285,7 @@ Table1Means <- matrix(
         lapply(
             X = paste( Table1NumVars ) ,
             FUN = MeansOverGroups ,
-            groups = "c4P0" )
+            groups = paste("c4P" , n.P-1 , sep = "" ))
         ) ,
     ncol = 9 ,
     byrow = TRUE
@@ -308,7 +313,7 @@ latex(
 \begin{frame}
   \begin{table}
     \centering
-    \caption{Patient characteristics over \Sexpr{Predictor} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}
+    \caption{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXMedians,echo=FALSE,results='asis'>>=
 
@@ -317,7 +322,7 @@ Table1Medians <- matrix(
         lapply(
             X = paste( Table1NumVars ) ,
             FUN = MediansOverGroups ,
-            groups = "c4P0" )
+            groups = paste("c4P" , n.P-1 , sep = "" ))
         ) ,
     ncol = 9 ,
     byrow = TRUE
@@ -385,7 +390,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
   
   \end{table}
 \end{frame}
@@ -424,7 +429,7 @@ latex(
     object = TabCoxSubgroup ,
     rgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
     n.rgroup = c(3,3,3) ,
-    cgroup = c( paste( c("Low","High") ,sapply( JSON$Modifier , with , Label )[1]),"Interaction") ,
+    cgroup = c( paste( c("Low","High") ,sapply( JSON$Modifier , with , Label )[n.M]),"Interaction") ,
     n.cgroup = c(2,2,1) ,
     file = "" ,
     title = "" ,
@@ -436,7 +441,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifier , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifier , with , Label )[n.M]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifier , with , Label )[n.M]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}. }
   \end{table}
 
 \end{frame}

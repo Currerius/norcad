@@ -1,7 +1,9 @@
 BuildCoxFormula <- function(
                          alevel = 0 ,
                          ptrans = "z" ,
-                         mtrans = "drop" ) {
+                         mtrans = "drop" ,
+                         n.P = 1 , n.M = 1 , n.Surv = 1
+                         ) {
 
     
     ### Choose the correct predictor variable according to
@@ -10,7 +12,7 @@ BuildCoxFormula <- function(
     P <- if (
         ptrans %in% c("","q","z","zlog","n2","c2","n3","c3","n4","c4","n5","c5")
     ) {
-             paste( ptrans , "P0" , sep = "" )
+             paste( ptrans , "P" , n.P-1 , sep = "" )
          } else warning("Invalid value of ptrans.\nPossible values: q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
 
     
@@ -19,7 +21,7 @@ BuildCoxFormula <- function(
     M <- if (
         mtrans %in% c("","q","z","zlog","n2","c2","n3","c3","n4","c4","n5","c5","drop")
     ) {
-             if ( mtrans == "drop" ) NULL else paste( "*", mtrans , "M0" , sep = "" )
+             if ( mtrans == "drop" ) NULL else paste( "*", mtrans , "M" , n.M-1 , sep = "" )
          } else warning("Invalid value of ptrans.\nPossible values: drop, q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
     
 
@@ -36,8 +38,9 @@ BuildCoxFormula <- function(
            ) ,
             collapse = " + " )
 
+    S <- paste( "Surv" , n.Surv-1 , " ~" , sep = "" )
     
     ### Return the model formula for the coxph() model
-    return(as.formula( paste( "Surv0 ~" , P , M , A )))
+    return(as.formula( paste( S , P , M , A )))
     
 }
