@@ -5,7 +5,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[english, norsk]{babel}
+\usepackage[english]{babel}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{xspace}
 \usepackage{booktabs}
@@ -48,7 +48,7 @@ Table1CatLabels <- Table1Labels[which(Table1Types == "categorical")]
 \begin{frame}
   \begin{table}
     \centering
-    \caption{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}
+    \caption{\tiny{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}}
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXproportions,echo=FALSE,results='asis'>>=
 
@@ -86,7 +86,7 @@ latex(
 \begin{frame}
   \begin{table}
     \centering
-    \caption{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as means (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.}
+    \caption{\tiny{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as means (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.}}
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXMeans,echo=FALSE,results='asis'>>=
 
@@ -123,7 +123,7 @@ latex(
 \begin{frame}
   \begin{table}
     \centering
-    \caption{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}
+    \caption{\tiny{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}}
     \resizebox{0.8\textwidth}{!}{
 <<LaTeXMedians,echo=FALSE,results='asis'>>=
 

@@ -1,5 +1,10 @@
 #!/usr/bin/Rscript
 
+
+# n.Surv=1;n.P=1;n.M=1;
+# knit2pdf("Survival_Predictor_Modifier.Rnw")
+# knit2pdf("Patient_Characteristics.Rnw")
+
 require(quantreg)
 require(Hmisc)
 require(survival)
