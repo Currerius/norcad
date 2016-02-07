@@ -30,6 +30,12 @@ vignettes/*.pdf
 *.vrb
 *.pdf
 
+# archives
+*.zip
+*.tar
+*.gz
+*.xz
+
 # SPSS, word,..
 *.sav
 *.doc

@@ -1,5 +1,8 @@
 #!/usr/bin/Rscript
 
+
+ # load packages
+
 require(quantreg)
 require(Hmisc)
 require(survival)
@@ -7,15 +10,25 @@ require(mgcv)
 require(car)
 require(smcfcs)
 require(purrr)
+
+
+ # prepare knitr
+
 require(knitr)
 opts_chunk$set(warnings=FALSE,echo=FALSE)
+options(width="130")
+
+
+ # load all R functions from the directory
 
 lapply(
     X = dir( "./functions") ,
     FUN = function(X) source( paste( "./functions/" , X , sep = "" )))
 
-options(width="130")
 
+
+
+ # open the JSON with the study design
 
 JSON <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
 
@@ -40,6 +53,10 @@ PCs <- paste( "PC" , 0:(length(PatientCharacteristics) - 1) , sep = "" )
 
 Forestplot <- sapply( JSON$Forestplot , with , Name )
 Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
+
+
+
+ # create DB statements
 
 dbVars <- paste0(
     c(
@@ -69,6 +86,9 @@ dbStatement <- paste(
          WHERE" ,
     dbWhere )
 
+
+ # connect to DB and get data
+
 if ( !exists("con") )
     con <- DBI::dbConnect(
         drv = RMySQL::MySQL() ,
@@ -78,25 +98,20 @@ D <- DBI::dbGetQuery(
     conn = con , 
     statement = dbStatement)
 
+
+
+ # create survival objects for Cox regression
+
 for (i in 0:(length(Events)-1)) {
     D[ , paste("Surv" , i , sep = "") ] <- Surv(
         time = D[,paste("T" , i , sep = "") ] ,
         event = D[,paste("E" , i , sep = "") ] )
 }
 
-z <- function(X) (X - mean( X , na.rm = TRUE )) / sd( X , na.rm = TRUE )
-q <- function(X) 100 * rank( X , na.last = "keep" ) / length( na.exclude(X) )
-cutN <- function(X,n=4) cut(
-                          x = X + rnorm(
-                                      n = length(X) ,
-                                      mean = 0 ,
-                                      sd = 10^-10 ) ,
-                          include.lowest = TRUE ,
-                          breaks = quantile(
-                              x = X ,
-                              na.rm = TRUE ,
-                              probs = 0:n/n ))
 
+
+
+ # create transformations of the original variables
 
 for (i in 0:(length(Predictors)-1)) {
     D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
@@ -203,19 +218,18 @@ system2(
     args = c(ZipFile,"*.pdf"),
     wait = FALSE)
 
-# email to Rforge
-# proxychains swaks --server localhost --port 25 --from Rscript --to seifert.reinhard@gmail.com --attach
 
-MailMessage <- "Hello World"
+
+# email to Rforge
 
 system2(
     command = "swaks" ,
     args = c(
         "--server","localhost",
         "--port","8025",
-        "--from","Rscript",
+        "--from","Rscript@currerius.com",
         "--to","seifert.reinhard@gmail.com",
         "--attach",ZipFile,
-        "--body",MailMessage))
-
-        
+        "--suppress-data" ,
+        "--h-Subject" , "Analyses from NORCAD" ,
+        "--body","survival.json"))
