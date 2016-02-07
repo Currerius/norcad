@@ -1,5 +1,5 @@
 
-\documentclass[presentation,xcolor=pdftex,dvipsnames,table]{beamer}
+\documentclass[presentation,xcolor=pdtex,dvipsnames,table]{beamer}
 \usetheme{Singapore}
 
 \usepackage[utf8]{inputenc}
@@ -32,6 +32,7 @@ lapply(
 
 options(width="130")
 
+# n.Surv=1;n.P=1;n.M=1;knit2pdf("Survival_Predictor_Modifier.Rnw")
 @ 
 
 
@@ -62,11 +63,6 @@ PCs <- paste( "PC" , 0:(length(PatientCharacteristics) - 1) , sep = "" )
 
 Forestplot <- sapply( JSON$Forestplot , with , Name )
 Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
-
-
-n.P <- 1     # which predictor this run
-n.M <- 1     # which modifier this run
-n.Surv <- 1  # which endpoint this run
 
 @ 
 
@@ -179,19 +175,13 @@ for (i in 0:(length(Modifiers)-1)) {
 \maketitle
 
 
-\section{Population}
 \begin{frame}
-  \huge{Population}
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Population$Label}}
-
-  \Sexpr{paste(JSON$Population$Description)}
-  
-  Only patients with \Sexpr{paste(sapply(JSON$Population$Subset , with , Comment))} were included.
-  
+  \frametitle{Overview}
+  \begin{description}
+    \item[Endpoint]{  \Sexpr{sapply( JSON$Endpoints  , with , Label)[n.Surv]}}
+    \item[Predictor]{ \Sexpr{sapply( JSON$Predictors , with , Label)[n.P]}}
+    \item[Modifier]{  \Sexpr{sapply( JSON$Modifiers  , with , Label)[n.M]}}
+  \end{description}
 \end{frame}
 
 
@@ -218,7 +208,7 @@ for (i in 0:(length(Modifiers)-1)) {
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{\Sexpr{JSON$Endpoint$ShortLabel} $\backsim$ \Sexpr{JSON$Predictor$ShortLabel}}
+  \frametitle{\Sexpr{sapply( JSON$Endpoints, with , ShortLabel)[n.Surv]} $\backsim$ \Sexpr{sapply( JSON$Predictors, with , ShortLabel)[n.P]}}
   
   \begin{table}
     \resizebox{\textwidth}{!}{
@@ -292,7 +282,7 @@ latex(
     object = TabCoxSubgroup ,
     rgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
     n.rgroup = c(3,3,3) ,
-    cgroup = c( paste( c("Low","High") ,sapply( JSON$Modifier , with , Label )[n.M]),"Interaction") ,
+    cgroup = c( paste( c("Low","High") ,sapply( JSON$Modifiers , with , Label )[n.M]),"Interaction") ,
     n.cgroup = c(2,2,1) ,
     file = "" ,
     title = "" ,
@@ -304,7 +294,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifier , with , Label )[n.M]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifier , with , Label )[n.M]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}. }
   \end{table}
 
 \end{frame}
@@ -349,7 +339,7 @@ latex(
 @ 
 
 }
-  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and effect modification by high vs low levels of\Sexpr{sapply( JSON$Modifier , with , Label )[1]} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
+  \caption{Hazard ratios for association between \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} and \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and effect modification by high vs low levels of\Sexpr{sapply( JSON$Modifiers , with , Label )[1]} (divided into high/low levels according to the population median of\Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)})  estimated with Cox proportional hazards models; adjustment 1 for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}; adjustment 2 additionally  for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ')}. }
   \end{table}
 
 \end{frame}
@@ -363,7 +353,7 @@ latex(
 
     
 @ 
-Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} hazard by \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifier , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , Modifier ] , na.rm = TRUE ),3)}.
+Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} hazard by \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}.
 \end{frame}
 
 
@@ -386,7 +376,7 @@ vis.gam(
     color = "terrain" ,
     type = "response" ,
     xlab = sapply( JSON$Predictors , with , Label )[1] ,
-    ylab = sapply( JSON$Modifier , with , Label )[1] ,
+    ylab = sapply( JSON$Modifiers , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -394,7 +384,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with a Generalized Additve Model.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with a Generalized Additve Model.
 \end{frame}
 
 
@@ -408,7 +398,7 @@ vis.gam(
     se = TRUE ,
     type = "response" ,
     xlab = sapply( JSON$Predictors , with , Label )[1] ,
-    ylab = sapply( JSON$Modifier , with , Label )[1] ,
+    ylab = sapply( JSON$Modifiers , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -416,7 +406,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifier , with , Label )[1]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
 
 \end{frame}
 
