@@ -1,10 +1,5 @@
 #!/usr/bin/Rscript
 
-
-# n.Surv=1;n.P=1;n.M=1;
-# knit2pdf("Survival_Predictor_Modifier.Rnw")
-# knit2pdf("Patient_Characteristics.Rnw")
-
 require(quantreg)
 require(Hmisc)
 require(survival)
@@ -198,7 +193,8 @@ ZipFile <- gsub(
             "PRED" ,
             sapply( JSON$Predictors , with , ShortLabel ) ,
             "MOD" ,
-            sapply( JSON$Modifiers , with , ShortLabel ) ) ,
+            sapply( JSON$Modifiers , with , ShortLabel ) ,
+            "zip") ,
         collapse = "." ))
 
     
@@ -208,4 +204,18 @@ system2(
     wait = FALSE)
 
 # email to Rforge
-# proxychains swaks --server localhost --port 25 --from Rscript --to seifert.reinhard@gmail.com
+# proxychains swaks --server localhost --port 25 --from Rscript --to seifert.reinhard@gmail.com --attach
+
+MailMessage <- "Hello World"
+
+system2(
+    command = "swaks" ,
+    args = c(
+        "--server","localhost",
+        "--port","8025",
+        "--from","Rscript",
+        "--to","seifert.reinhard@gmail.com",
+        "--attach",ZipFile,
+        "--body",MailMessage))
+
+        
