@@ -1,4 +1,4 @@
-PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 ) {
+PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 , xlab = "") {
     
     F <- BuildCoxFormula( alevel = alevel , ptrans = ptrans , psmooth = TRUE , mtrans = "drop" )
 
@@ -58,11 +58,11 @@ PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 ) {
         type = "n" ,
         bty = "n" ,
         axes = FALSE ,
-        main = main ,
+        main = "" ,
         xlab = xlab ,
         ylab = "Partial hazard" ,
         xlim = range( c(S1$x,S2$x) ) ,
-        ylim = range(log(AtYaxis)) )
+        ylim = range( log(AtYaxis)) )
 
     
     axis(1)
@@ -117,13 +117,13 @@ PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 ) {
         col = "#7570B388" )
 
     legend(
-        "bottom" ,
+        "top" ,
         bty = "n" ,
         horiz = TRUE , 
         col = c("#D95F0288","#7570B388") ,
         lwd = 5 ,
         legend = c(
-            paste( "Low" ) ,
-            paste( "High" )))
+            paste( "Low" , sapply( JSON$Modifiers , with , Label )[n.M] ) ,
+            paste( "High" , sapply( JSON$Modifiers , with , Label )[n.M] )))
         
 }
