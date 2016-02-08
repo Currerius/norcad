@@ -13,7 +13,7 @@
 \usepackage{graphicx}
 
 <<setOpts,include=FALSE>>=
-opts_chunk$set(warnings=FALSE,echo=FALSE)
+opts_chunk$set(warnings=FALSE,echo=FALSE,errors=FALSE)
 @ 
 
 \title{Patient characteristics at baseline by \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
@@ -54,7 +54,7 @@ Table1CatLabels <- Table1Labels[which(Table1Types == "categorical")]
     \centering
     \caption{\tiny{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.}}
     \resizebox{0.8\textwidth}{!}{
-<<LaTeXproportions,echo=FALSE,results='asis'>>=
+<<LaTeXproportions,results='asis'>>=
 
 Table1Proportions <- matrix(
     unlist(
@@ -129,7 +129,7 @@ latex(
     \centering
     \caption{\tiny{Patient characteristics over \Sexpr{Predictors[n.P]} quartiles for continuous variables reported as medians (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.}}
     \resizebox{0.8\textwidth}{!}{
-<<LaTeXMedians,echo=FALSE,results='asis'>>=
+<<LaTeXMedians,results='asis'>>=
 
 Table1Medians <- matrix(
     unlist(

@@ -13,6 +13,7 @@
 
 <<setOpts,include=FALSE>>=
 opts_chunk$set(warnings=FALSE,echo=FALSE)
+# n.P <- 1; n.M <- 1; n.Surv <- 1
 @ 
 
 \title{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
@@ -196,16 +197,95 @@ latex(
 
 
 
+\begin{frame}[fragile]
+  \frametitle{}
+<<CoxGAMqSubgroups,fig.width=16,fig.height=8,out.width="4in">>=
+i.Low <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1 )
+i.High <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2 )
+
+F <- as.formula(
+    paste(
+        "Surv" , n.Surv-1 ,
+        "~pspline(qP" , n.P-1 , ")+" ,
+        paste0( As[ which(nLevels==1) ] , collapse="+" ) ,
+        sep = ""
+    )
+)
+
+par( mfcol = c(1,2) , las = 1 )
+
+termplot(
+    model = coxph(
+        formula = F ,
+        data = D[i.Low,] ) ,
+    terms = 1 ,
+    se = TRUE ,
+    main = paste( "Low" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
+    xlabs = paste( "Percentiles of" , sapply( JSON$Predictors , with , Label )[n.P]) ,
+    ylabs = "Partial log-hazard"
+)
+
+termplot(
+    model = coxph(
+        formula = F ,
+        data = D[i.High,] ) ,
+    terms = 1 ,
+    se = TRUE ,
+    main = paste( "High" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
+    xlabs = paste( "Percentiles of" , sapply( JSON$Predictors , with , Label )[n.P]) ,
+    ylabs = "Partial log-hazard"
+)
+
+@ 
+Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} hazard by percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}.
+\end{frame}
+
+
 
 \begin{frame}[fragile]
   \frametitle{}
-<<CoxGAMqSubgroups,fig.width=8,fig.height=8,out.width="3in">>=
+<<CoxGAMzlogSubgroups,fig.width=16,fig.height=8,out.width="4in">>=
 
+i.Low <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1 )
+i.High <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2 )
 
-    
+F <- as.formula(
+    paste(
+        "Surv" , n.Surv-1 ,
+        "~pspline(zlogP" , n.P-1 , ")+" ,
+        paste0( As[ which(nLevels==1) ] , collapse="+" ) ,
+        sep = ""
+    )
+)
+
+par( mfcol = c(1,2) , las = 1 )
+
+termplot(
+    model = coxph(
+        formula = F ,
+        data = D[i.Low,] ) ,
+    terms = 1 ,
+    se = TRUE ,
+    main = paste( "Low" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
+    xlabs = paste( "SD log -" , sapply( JSON$Predictors , with , Label )[n.P]) ,
+    ylabs = "Partial log-hazard"
+)
+
+termplot(
+    model = coxph(
+        formula = F ,
+        data = D[i.High,] ) ,
+    terms = 1 ,
+    se = TRUE ,
+    main = paste( "High" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
+    xlabs = paste( "SD log -" , sapply( JSON$Predictors , with , Label )[n.P]) ,
+    ylabs = "Partial log-hazard"
+)
+
 @ 
-Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} hazard by \Sexpr{sapply( JSON$Predictors , with , Label )[1]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}.
+Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} hazard by SD of log-transformed \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} in subgroups of high vs. low levels of \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} estimated with Cox proportional hazards models adjusted for \Sexpr{paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')}. The effect modifier \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} is divided into high/low levels according to the population median of \Sexpr{signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)}.
 \end{frame}
+
 
 
 
