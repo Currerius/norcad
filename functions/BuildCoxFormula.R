@@ -1,6 +1,7 @@
 BuildCoxFormula <- function(
                          alevel = 0 ,
                          ptrans = "z" ,
+                         psmooth = FALSE ,
                          mtrans = "drop" ,
                          n.P = 1 , n.M = 1 , n.Surv = 1
                          ) {
@@ -15,6 +16,7 @@ BuildCoxFormula <- function(
              paste( ptrans , "P" , n.P-1 , sep = "" )
          } else warning("Invalid value of ptrans.\nPossible values: q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
 
+    if (psmooth) P <- paste("pspline(",P,")")
     
     ### Choose the correct modifier variable according to
     ###    the chosen transformation "mtrans"

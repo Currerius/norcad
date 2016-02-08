@@ -258,7 +258,7 @@ F <- as.formula(
     )
 )
 
-par( mfcol = c(1,2) , las = 1 )
+par( mfcol = c(2,2) , las = 1 )
 
 termplot(
     model = coxph(
@@ -280,6 +280,24 @@ termplot(
     main = paste( "High" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
     xlabs = paste( "SD log -" , sapply( JSON$Predictors , with , Label )[n.P]) ,
     ylabs = "Partial log-hazard"
+)
+
+
+
+termplot8(
+    model = coxph(
+        formula = F ,
+        data = D[i.Low,] ) ,
+    main = paste( "Low" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
+    xlab = paste( "SD log -" , sapply( JSON$Predictors , with , Label )[n.P])
+)
+
+termplot8(
+    model = coxph(
+        formula = F ,
+        data = D[i.High,] ) ,
+    main = paste( "High" , sapply( JSON$Modifiers , with , Label )[n.M]) ,
+    xlab = paste( "SD log -" , sapply( JSON$Predictors , with , Label )[n.P])
 )
 
 @ 
