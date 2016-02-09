@@ -2,11 +2,10 @@ PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 , xlab = "") {
     
     F <- BuildCoxFormula( alevel = alevel , ptrans = ptrans , psmooth = TRUE , mtrans = "drop" )
 
-    i1 <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1 )
-
     cox1 <- coxph(
         formula = F ,
-        data = D[ i1 , ] )
+        data = D ,
+        subset = D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1  )
 
     S1 <- termplot(
         model = cox1 ,
@@ -16,11 +15,10 @@ PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 , xlab = "") {
     S1$lcl <- S1$y - 1.96 * S1$se
     S1$ucl <- S1$y + 1.96 * S1$se
 
-    i2 <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2 )
-
     cox2 <- coxph(
         formula = F ,
-        data = D[ i2 , ] )
+        data = D ,
+        subset = D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2  )
 
     S2 <- termplot(
         model = cox2 ,
