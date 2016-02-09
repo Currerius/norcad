@@ -330,9 +330,10 @@ Smoothing spline estimates of \Sexpr{sapply( JSON$Endpoints , with , Label )[n.S
 \begin{frame}[fragile]
   \frametitle{}
 <<VisGAMq,fig.width=8,fig.height=8,out.width="3in">>=
+F <- as.formula( paste( "E" , n.Surv-1 , "~s(qP" , n.P-1 , ",qM" , n.M-1 , ")" , sep = "" ))
 
 GAM <- gam(
-    formula = E0 ~ s(qP0,qM0) ,
+    formula = F ,
     data = D ,
     family = "binomial")
 
@@ -341,8 +342,8 @@ vis.gam(
     n.grid = 50 ,
     color = "terrain" ,
     type = "response" ,
-    xlab = sapply( JSON$Predictors , with , Label )[1] ,
-    ylab = sapply( JSON$Modifiers , with , Label )[1] ,
+    xlab = sapply( JSON$Predictors , with , Label )[n.P] ,
+    ylab = sapply( JSON$Modifiers , with , Label )[n.M] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -350,7 +351,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with a Generalized Additve Model.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} estimated with a Generalized Additve Model.
 \end{frame}
 
 
@@ -372,7 +373,7 @@ vis.gam(
 )
     
 @ 
-Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[1]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[1]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[1]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
+Surface spline of \Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} incidence by empirical percentiles of \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]} and \Sexpr{sapply( JSON$Modifiers , with , Label )[n.M]} estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
 
 \end{frame}
 

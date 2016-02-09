@@ -104,7 +104,7 @@ for (i in 0:(length(Events)-1)) {
 
 for (i in 0:(length(Predictors)-1)) {
     D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
-    D[ , paste("zlogP" , i , sep = "") ] <- z( log( D[ , paste("P" , i , sep = "") ] ))
+    D[ , paste("zlogP" , i , sep = "") ] <- z( log( D[ , paste("P" , i , sep = "") ]+.000000001 ))
     D[ , paste("qP" , i , sep = "") ] <- q( D[ , paste("P" , i , sep = "") ] )
     D[ , paste("c2P" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , 2)
     D[ , paste("n2P" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("P" , i , sep = "") ] , 2))
@@ -119,7 +119,7 @@ for (i in 0:(length(Predictors)-1)) {
 
 for (i in 0:(length(Modifiers)-1)) {
     D[ , paste("zM" , i , sep = "") ] <- z( D[ , paste("M" , i , sep = "") ] )
-    D[ , paste("zlogM" , i , sep = "") ] <- z( log( D[ , paste("M" , i , sep = "") ] ))
+    D[ , paste("zlogM" , i , sep = "") ] <- z( log( D[ , paste("M" , i , sep = "") ]+.000000001 ))
     D[ , paste("qM" , i , sep = "") ] <- q( D[ , paste("M" , i , sep = "") ] )
     D[ , paste("c2M" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , 2)
     D[ , paste("n2M" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , 2))
