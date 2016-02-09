@@ -186,7 +186,7 @@
       "Type":"numerical"
     } ,
     {
-      "Name": "BMI" ,
+      "Name": "(10000*weight/height/height)" ,
       "ShortLabel": "BMI" ,
       "Label": "body mass index" ,
       "Type":"numerical"

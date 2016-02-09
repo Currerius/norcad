@@ -1,21 +1,31 @@
 MediansOverGroups <- function( measure , groups ){
+    
+      # since ranks statistics are sensitive to ties
+      # add a tiny bit of random noise
+    thisDATA <- D[ , c(measure , groups ) ]
+    thisDATA[,1] <- thisDATA[,1] + rnorm( n = length(thisDATA[,1]) , mean = 0 , sd = .000001 )
+    names(thisDATA) <- c("measure","groups")
+
     MarginalMedian <- coef(
         summary(
             rq(
-                formula = as.formula(
-                    paste( measure , "~" , groups , "- 1" )) ,
+                formula = measure ~ groups -1 ,
+                method = "fn" ,
                 tau = 0.5 ,
-                data = D )))[,1:2]
+                data = thisDATA )))[,1:2]
+    
     PforTrend <- sprintf(
         fmt = "%.3f" ,
         coef(
             summary(
                 rq(
-                    formula = as.formula(
-                        paste( measure , "~ as.numeric(" , groups , ")" )) ,
+                    formula = measure ~ as.numeric(groups) ,
+                    method = "fn" ,
                     tau = 0.5 ,
-                    data = D )))[8])
-        if (PforTrend == "0.000") PforTrend <- "<0.001"
+                    data = thisDATA )))[8])
+    
+    if (PforTrend == "0.000") PforTrend <- "<0.001"
+    
     LINE <- c(
         rbind(
             signif(
