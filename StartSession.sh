@@ -12,20 +12,11 @@ require(smcfcs)
 require(purrr)
 
 
- # prepare knitr
-
-require(knitr)
-opts_chunk$set(warnings=FALSE,echo=FALSE)
-options(width="130")
-
-
  # load all R functions from the directory
 
 lapply(
     X = dir( "./functions") ,
     FUN = function(X) source( paste( "./functions/" , X , sep = "" )))
-
-
 
 
  # open the JSON with the study design
@@ -109,8 +100,6 @@ for (i in 0:(length(Events)-1)) {
 }
 
 
-
-
  # create transformations of the original variables
 
 for (i in 0:(length(Predictors)-1)) {
@@ -144,6 +133,38 @@ for (i in 0:(length(Modifiers)-1)) {
 
 
 
+
+   ### prepare the export directory and
+   ### switch to it for reporting
+
+system2(
+    command = "rm" ,
+    args = c("-r","export"))
+
+system2(
+    command = "mkdir" ,
+    args = c("export"))
+
+system2(
+    command = "cp" ,
+    args = c("*.Rnw","./export/"))
+
+system2(
+    command = "cp" ,
+    args = c("*.json","./export/"))
+
+setwd( "./export/" )
+
+
+
+
+   ### prepare knitr
+
+require(knitr)
+opts_chunk$set(warnings=FALSE,echo=FALSE)
+options(width="130")
+
+
    ### Rscript iterates through all enpoint, predictor, modifier combinations and
    ### compiles the knitr files to tex
 
@@ -166,15 +187,21 @@ for (n.P in 1:length(Ps)) {
 
             # Build the name of the PDF outfile from the
             # endpoint, predictor, modifier combination:
-            SurvivalOutfile <- gsub(
+            SurvFileName <- gsub(
                 " " , "" ,
                 paste(
                     "SurvivalAnalysis" ,
                     sapply( JSON$Endpoints , with , ShortLabel )[n.Surv] ,
                     sapply( JSON$Predictors , with , ShortLabel )[n.P] ,
                     sapply( JSON$Modifiers , with , ShortLabel )[n.M] ,
-                    "tex" ,
-                    sep = "." ))
+                    sep = "-" ))
+
+            SurvivalOutfile <- paste(
+                SurvFileName ,
+                ".tex" ,
+                sep = "" )
+
+            opts_chunk$set(fig.path=paste("./figure/" , SurvFileName , "-" , sep = "" ))
 
             knit2pdf(
                 input = "Survival_Predictor_Modifier.Rnw",
@@ -186,50 +213,31 @@ for (n.P in 1:length(Ps)) {
 
 
 
-
 # clean up the auxillary LaTeX files
 
 system2(
     command = "rm" ,
-    args = c("-r","figure","*.aux","*.log","*.nav","*.out","*.snm","*.tex","*.toc","*.vrb"),
+    args = c("*.aux","*.log","*.nav","*.out","*.snm","*.tex","*.toc","*.vrb","*.Rnw"),
     wait = FALSE)
-
-
 
 
 # zip the resulting pdf's, dataset, exported figures and tables
-
-ZipFile <- gsub(
-    " " , "_" ,
-    paste0(
-        c(
-            "SURV" ,
-            sapply( JSON$Endpoints , with , ShortLabel ) ,
-            "PRED" ,
-            sapply( JSON$Predictors , with , ShortLabel ) ,
-            "MOD" ,
-            sapply( JSON$Modifiers , with , ShortLabel ) ,
-            "zip") ,
-        collapse = "." ))
-
     
 system2(
     command = "zip" ,
-    args = c(ZipFile,"*.pdf"),
+    args = c("export.zip","*.pdf","./figure/","*.json"),
     wait = FALSE)
 
 
-
 # email to Rforge
-
 system2(
     command = "swaks" ,
     args = c(
-        "--server","localhost",
-        "--port","8025",
-        "--from","Rscript@currerius.com",
-        "--to","seifert.reinhard@gmail.com",
-        "--attach",ZipFile,
+        "--server","localhost" ,
+        "--port","8025" ,
+        "--from","Rscript@currerius.com" ,
+        "--to","seifert.reinhard@gmail.com" ,
+        "--attach" , "export.zip" ,
         "--suppress-data" ,
-        "--h-Subject" , "Analyses from NORCAD" ,
+        "--h-Subject" , "Analyses_from_NORCAD" ,
         "--body","survival.json"))
