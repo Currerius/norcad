@@ -1,6 +1,14 @@
-PlotCoxSmoothSubgroups <- function( ptrans = "q" , alevel = 1 , xlab = "") {
+PlotCoxSmoothSubgroups <- function(
+                                   ptrans = "q" ,
+                                   alevel = 1 ,
+                                   xlab = ""
+                                   ) {
     
-    F <- BuildCoxFormula( alevel = alevel , ptrans = ptrans , psmooth = TRUE , mtrans = "drop" )
+    F <- BuildCoxFormula(
+        alevel = alevel ,
+        ptrans = ptrans ,
+        psmooth = TRUE ,
+        mtrans = "drop" )
 
     cox1 <- coxph(
         formula = F ,

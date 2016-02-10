@@ -1,7 +1,6 @@
 PrintCoxSubgroupTable <- function(
                      alevel = 0 ,
-                     ptrans = "z" ,
-                     n.P = 1 , n.M = 1 , n.Surv = 1
+                     ptrans = "z"
                      ) {
 
     SUB <- D[ , paste( "n2M" , n.M-1 , sep = "" )]
@@ -14,8 +13,7 @@ PrintCoxSubgroupTable <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = "drop" ,
-                    n.P = n.P , n.M = n.M , n.Surv = n.Surv
+                    mtrans = "drop"
                 ) ,
                 data = D[i1,] )))
 
@@ -25,8 +23,7 @@ PrintCoxSubgroupTable <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = "drop" ,
-                    n.P = n.P , n.M = n.M , n.Surv = n.Surv
+                    mtrans = "drop"
                 ) ,
                 data = D[i2,] )))
     

@@ -156,6 +156,9 @@ system2(
 setwd( "./export/" )
 
 
+   # export the dataset
+save( D , file = paste( JSON$Population$Database , "Rdata" , sep = "." ))
+
 
 
    ### prepare knitr
@@ -170,17 +173,19 @@ options(width="130")
 
 for (n.P in 1:length(Ps)) {
 
-    PatientCharacteristicsOutfile <- gsub(
+    PCFileName <- gsub(
         " " , "" ,
         paste(
             "PatientCharacteristics",
             sapply( JSON$Predictors , with , ShortLabel )[n.P] ,
-            "tex" ,
-            sep = "." ))
+            sep = "-" ))
+
+
+    PCOutfile <- paste( PCFileName , "tex" , sep = "." )
 
     knit2pdf(
         input = "Patient_Characteristics.Rnw" ,
-        output = PatientCharacteristicsOutfile )
+        output = PCOutfile )
     
     for (n.M in 1:length(Ms)) {
         for (n.Surv in 1:length(Es)) {
@@ -225,7 +230,7 @@ system2(
     
 system2(
     command = "zip" ,
-    args = c("export.zip","*.pdf","./figure/","*.json"),
+    args = c("export.zip","*.pdf","./figure/","*.json","*.Rdata"),
     wait = FALSE)
 
 

@@ -1,8 +1,7 @@
 OutputHR <- function(
                      alevel = 0 ,
                      ptrans = "z" ,
-                     mtrans = "drop" ,
-                     n.P = 1 , n.M = 1 , n.Surv = 1
+                     mtrans = "drop"
                      ) {
 
     ### Get the coefficients from the coxph() model
@@ -13,8 +12,7 @@ OutputHR <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = mtrans ,
-                    n.P = n.P , n.M = n.M , n.Surv = n.Surv
+                    mtrans = mtrans
                 ) ,
                 data = D )))
 
