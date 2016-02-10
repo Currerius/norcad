@@ -2,8 +2,7 @@ BuildCoxFormula <- function(
                          alevel = 0 ,
                          ptrans = "z" ,
                          psmooth = FALSE ,
-                         mtrans = "drop" ,
-                         n.P = 1 , n.M = 1 , n.Surv = 1
+                         mtrans = "drop"
                          ) {
 
     

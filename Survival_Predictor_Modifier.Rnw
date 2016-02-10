@@ -13,7 +13,7 @@
 
 <<setOpts,include=FALSE>>=
 opts_chunk$set(warnings=FALSE,echo=FALSE)
-# n.P <- 1; n.M <- 1; n.Surv <- 1
+# n.P <- 2; n.M <- 1; n.Surv <- 1
 @ 
 
 \title{\Sexpr{sapply( JSON$Endpoints , with , Label )[n.Surv]} and \Sexpr{sapply( JSON$Predictors , with , Label )[n.P]}}
