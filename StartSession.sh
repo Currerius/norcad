@@ -153,6 +153,7 @@ system2(
     command = "cp" ,
     args = c("*.json","./export/"))
 
+   # move into the export/ directory
 setwd( "./export/" )
 
 
@@ -225,20 +226,20 @@ for (n.P in 1:length(Ps)) {
 
 
 
-
-# clean up the auxillary markdown
-
-system2(
-    command = "rm" ,
-    args = c("*.Rmd","*.md"),
-    wait = FALSE)
-
-
 # zip the resulting pdf's, dataset, exported figures and tables
     
 system2(
     command = "zip" ,
-    args = c("export.zip","*.html","./figure/","*.json","*.Rdata"))
+    args = c("../export.zip","*.html","./figure/","*.json","*.Rdata"))
+
+setwd("../")
+
+# clean up
+# system2(
+#     command = "rm" ,
+#     args = c("-r","export/"))
+
+
 
 # email to Rforge
 system2(
