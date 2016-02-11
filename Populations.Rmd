@@ -1,0 +1,8 @@
+
+# Population: `r JSON$Population$Label`
+
+`r JSON$Population$Description)`
+  
+# Subset:
+Only patients with `r sapply(JSON$Population$Subset , with , Comment))` were included.
+  

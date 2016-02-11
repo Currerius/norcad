@@ -147,7 +147,7 @@ system2(
 
 system2(
     command = "cp" ,
-    args = c("*.Rnw","./export/"))
+    args = c("*.Rmd","./export/"))
 
 system2(
     command = "cp" ,
@@ -181,10 +181,11 @@ for (n.P in 1:length(Ps)) {
             sep = "-" ))
 
 
-    PCOutfile <- paste( PCFileName , "tex" , sep = "." )
+    PCOutfile <- paste( PCFileName , "md" , sep = "." )
 
-    knit2pdf(
-        input = "Patient_Characteristics.Rnw" ,
+    knit2html(
+        input = "Patient_Characteristics.Rmd" ,
+        stylesheet = "/home/rforge/Documents/github/tufte-css/tufte.css",
         output = PCOutfile )
     
     for (n.M in 1:length(Ms)) {
@@ -208,8 +209,9 @@ for (n.P in 1:length(Ps)) {
 
             opts_chunk$set(fig.path=paste("./figure/" , SurvFileName , "-" , sep = "" ))
 
-            knit2pdf(
-                input = "Survival_Predictor_Modifier.Rnw",
+            knit2html(
+                input = "Survival_Predictor_Modifier.Rmd",
+                stylesheet = "/home/rforge/Documents/github/tufte-css/tufte.css",
                 output = SurvivalOutfile )
             
         }
@@ -217,12 +219,18 @@ for (n.P in 1:length(Ps)) {
 }
 
 
+# pandoc -c /home/rforge/Documents/github/tufte-css/tufte.css -s -S -i -t html --mathjax Patient_Characteristics.md -o PCtmp.html
+# pandoc -c https://raw.githubusercontent.com/edwardtufte/tufte-css/master/tufte.css -s -S -i -t html --mathjax Patient_Characteristics.md -o PCtmp.html
+# pandoc  -s -S -i -t dzslides --mathjax Check_SDMA.md -o Check_SDMA_dzslides.html
 
-# clean up the auxillary LaTeX files
+
+
+
+# clean up the auxillary markdown
 
 system2(
     command = "rm" ,
-    args = c("*.aux","*.log","*.nav","*.out","*.snm","*.tex","*.toc","*.vrb","*.Rnw"),
+    args = c("*.Rmd","*.md"),
     wait = FALSE)
 
 
@@ -230,9 +238,7 @@ system2(
     
 system2(
     command = "zip" ,
-    args = c("export.zip","*.pdf","./figure/","*.json","*.Rdata"),
-    wait = FALSE)
-
+    args = c("export.zip","*.html","./figure/","*.json","*.Rdata"))
 
 # email to Rforge
 system2(
