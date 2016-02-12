@@ -218,7 +218,7 @@ kable(
 
 Smoothing spline estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` hazard by percentiles of `r sapply( JSON$Predictors , with , Label )[n.P]` in subgroups of high vs. low levels of `r sapply( JSON$Modifiers , with , Label )[n.M]` estimated with Cox proportional hazards models adjusted for `r paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')`. The effect modifier `r sapply( JSON$Modifiers , with , Label )[n.M]` is divided into high/low levels according to the population median of `r signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)`.
               
-```{r,CoxGAMqSubgroups,fig.width=16,fig.height=8,out.width="4in"}
+```{r,CoxGAMqSubgroups,fig.width=16,fig.height=8,out.width="800pt"}
 i.Low <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1 )
 i.High <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2 )
 
@@ -262,7 +262,7 @@ termplot(
 
 ## GAM plot log transformed normalized
     
-```{r,CoxGAMzlogSubgroups,fig.width=16,fig.height=8,out.width="4in"}
+```{r,CoxGAMzlogSubgroups,fig.width=16,fig.height=8,out.width="800pt"}
 
 i.Low <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1 )
 i.High <- which(D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2 )
@@ -312,7 +312,7 @@ Smoothing spline estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]
 
 ## GAM plot percentiles (ranked)
               
-```{r,CoxSmoothSubgroupsq,fig.width=8,fig.height=8,out.width="3in"}
+```{r,CoxSmoothSubgroupsq,fig.width=8,fig.height=8,out.width="600pt"}
 
 PlotCoxSmoothSubgroups(
     ptrans = "q" ,
@@ -330,7 +330,7 @@ Smoothing spline estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]
 
 ## GAM plot normalized logarithm
 
-```{r,CoxSmoothSubgroupszlog,fig.width=8,fig.height=8,out.width="3in"}
+```{r,CoxSmoothSubgroupszlog,fig.width=8,fig.height=8,out.width="600pt"}
 
 PlotCoxSmoothSubgroups(
     ptrans = "zlog" ,
@@ -352,7 +352,7 @@ Smoothing spline estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]
 
 ## 3d-GAM
 
-```{r,VisGAMq,fig.width=8,fig.height=8,out.width="3in"}
+```{r,VisGAMq,fig.width=8,fig.height=8,out.width="600pt"}
 
 F <- as.formula( paste( "E" , n.Surv-1 , "~s(qP" , n.P-1 , ",qM" , n.M-1 , ")" , sep = "" ))
 
@@ -383,7 +383,7 @@ Surface spline of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` incidence 
 
 ## 3d-GAM with SE
       
-```{r,VisGAMqSE,fig.width=8,fig.height=8,out.width="3in"}
+```{r,VisGAMqSE,fig.width=8,fig.height=8,out.width="600pt"}
 
 vis.gam(
     x = GAM ,

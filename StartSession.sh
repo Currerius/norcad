@@ -166,8 +166,12 @@ save( D , file = paste( JSON$Population$Database , "Rdata" , sep = "." ))
 
 require(knitr)
 opts_chunk$set(warnings=FALSE,echo=FALSE)
-options(width="130")
-
+options(
+    # set width of text output
+    width="130" ,
+    # To turn on package default HTML options globally:
+    markdown.HTML.options = c("use_xhtml","smartypants","base64_images","mathjax","highlight_code")
+)
 
    ### Rscript iterates through all enpoint, predictor, modifier combinations and
    ### compiles the knitr files to tex
@@ -211,14 +215,29 @@ for (n.P in 1:length(Ps)) {
             opts_chunk$set(fig.path=paste("./figure/" , SurvFileName , "-" , sep = "" ))
 
             knit2html(
-                input = "Survival_Predictor_Modifier.Rmd",
-                stylesheet = "/home/rforge/Documents/github/tufte-css/tufte.css",
+                input = "Survival_Predictor_Modifier.Rmd" ,
+                stylesheet = "/home/rforge/Documents/github/tufte-css/tufte.css" ,
+                options=c("use_xhtml","smartypants","mathjax","highlight_code") ,
                 output = SurvivalOutfile )
             
         }
     }
 }
 
+
+#      # To turn on package default HTML options globally:
+#      options(markdown.HTML.options = markdownHTMLOptions(default = TRUE))
+#      # HTML OPTIONS
+#      
+#      # The following examples are short, so we allways add the HTML option 'fragment_only'
+#      tOpt <- "fragment_only"
+#      
+#      # skip_html example
+#      mkd = '<style></style><img src="http://cran.rstudio.com/Rlogo.jpg"><a href="#">Hello</a>'
+#      cat(markdownToHTML(text = mkd, options = c(tOpt)))
+#      cat(markdownToHTML(text = mkd, options = c(tOpt, "skip_html")))
+
+#     ‘'fragment_only'’ eliminates the inclusion of any HTML header or body tags, CSS, or Javascript components.
 
 # pandoc -c /home/rforge/Documents/github/tufte-css/tufte.css -s -S -i -t html --mathjax Patient_Characteristics.md -o PCtmp.html
 # pandoc -c https://raw.githubusercontent.com/edwardtufte/tufte-css/master/tufte.css -s -S -i -t html --mathjax Patient_Characteristics.md -o PCtmp.html
