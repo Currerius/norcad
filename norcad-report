@@ -1,5 +1,6 @@
 #!/usr/bin/Rscript
 
+HOMEDIR <- "/home/rforge/Documents/github/norcad"
 
  # load packages
 
@@ -15,8 +16,8 @@ require(purrr)
  # load all R functions from the directory
 
 lapply(
-    X = dir( "./functions") ,
-    FUN = function(X) source( paste( "./functions/" , X , sep = "" )))
+    X = dir( paste( HOMEDIR , "functions" , sep = "/") ) ,
+    FUN = function(X) source( paste( HOMEDIR , "functions" , X , sep = "/"))) -> DoNotPrint
 
 
  # open the JSON with the study design
@@ -147,11 +148,9 @@ system2(
 
 system2(
     command = "cp" ,
-    args = c("*.Rmd","./export/"))
-
-system2(
-    command = "cp" ,
-    args = c("*.json","./export/"))
+    args = c(
+        paste( HOMEDIR , "*.Rmd" , sep = "/" ) ,
+        "./export/"))
 
    # move into the export/ directory
 setwd( "./export/" )
@@ -246,18 +245,17 @@ for (n.P in 1:length(Ps)) {
 
 
 # zip the resulting pdf's, dataset, exported figures and tables
-    
+
+system2(
+    command = "rm" ,
+    args = c("*.Rmd","*.md"))
+
 system2(
     command = "zip" ,
     args = c("../export.zip","*.html","./figure/","*.json","*.Rdata"))
 
+
 setwd("../")
-
-# clean up
-# system2(
-#     command = "rm" ,
-#     args = c("-r","export/"))
-
 
 
 # email to Rforge
