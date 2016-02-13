@@ -6,6 +6,7 @@ HOMEDIR <- "/home/rforge/Documents/github/norcad"
 
 require(quantreg)
 require(Hmisc)
+require(htmlTable)
 require(survival)
 require(mgcv)
 require(car)
@@ -164,7 +165,7 @@ save( D , file = paste( JSON$Population$Database , "Rdata" , sep = "." ))
    ### prepare knitr
 
 require(knitr)
-opts_chunk$set(warnings=FALSE,echo=FALSE)
+opts_chunk$set(warnings=FALSE,echo=FALSE,dev="svg")
 options(
     # set width of text output
     width="130" ,
@@ -259,14 +260,14 @@ setwd("../")
 
 
 # email to Rforge
-system2(
-    command = "swaks" ,
-    args = c(
-        "--server","localhost" ,
-        "--port","8025" ,
-        "--from","Rscript@currerius.com" ,
-        "--to","seifert.reinhard@gmail.com" ,
-        "--attach" , "export.zip" ,
-        "--suppress-data" ,
-        "--h-Subject" , "Analyses_from_NORCAD" ,
-        "--body","survival.json"))
+# system2(
+#     command = "swaks" ,
+#     args = c(
+#         "--server","localhost" ,
+#         "--port","8025" ,
+#         "--from","Rscript@currerius.com" ,
+#         "--to","seifert.reinhard@gmail.com" ,
+#         "--attach" , "export.zip" ,
+#         "--suppress-data" ,
+#         "--h-Subject" , "Analyses_from_NORCAD" ,
+#         "--body","survival.json"))

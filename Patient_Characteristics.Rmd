@@ -4,7 +4,7 @@
 
 
 ```{r,PCgetAllVars,include=FALSE}
-
+# n.P <- 1 ; n.M <- 1 ; n.Surv <- 1
 opts_chunk$set(warnings=FALSE,echo=FALSE,errors=FALSE)
 
 Table1Types <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Type )
@@ -20,6 +20,7 @@ Table1CatLabels <- Table1Labels[which(Table1Types == "categorical")]
 ``` 
 
 
+## Proportions
 
 ```{r,LaTeXproportions,results='as.is'}
 
@@ -37,20 +38,22 @@ Table1Proportions <- matrix(
 colnames(Table1Proportions) <- c("%","N","%","N","%","N","%","N","P")
 rownames(Table1Proportions) <- Table1CatLabels
 
-kable(
-    x = Table1Proportions ,
-    format = "html" ,
-    caption = paste("Patient characteristics over" , Predictors[n.P] , "quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.")
-    )
+htmlTable(
+          Table1Proportions,
+          header =  c("%","N","%","N","%","N","%","N","P"),
+          rnames = Table1CatLabels ,
+          cgroup = c("Q1","Q2","Q3","Q4",""),
+          n.cgroup = c(2,2,2,2,1), 
+          caption=paste("Patient characteristics over" , Predictors[n.P] , "quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.") ,
+          tfoot="")
+
 
 ``` 
     
 
     
-    
-Patient characteristics over `r Predictors[n.P]` quartiles for continuous variables reported as means (standard error).
-Standard errors and p for trend over quartiles were estimated with general linear models.
 
+## Means    
 
 ```{r,LaTeXMeans}
 
@@ -65,16 +68,21 @@ Table1Means <- matrix(
     byrow = TRUE
 )
 
-colnames(Table1Means) <- c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" )
-rownames(Table1Means) <- Table1NumLabels
 
-kable(Table1Means)
+htmlTable(
+          Table1Means ,
+          header =  c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" ),
+          rnames = Table1NumLabels ,
+          cgroup = c("Q1","Q2","Q3","Q4",""),
+          n.cgroup = c(2,2,2,2,1), 
+          caption = paste("Patient characteristics over" , Predictors[n.P] , "quartiles for continuous variables reported as mean (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.") ,
+          tfoot="")
+
 
 ```
     
 
-Patient characteristics over `r Predictors[n.P]` quartiles for continuous variables reported as medians (standard error).
-Standard errors and p for trend over quartiles were estimated with median regression models.
+## Medians
 
 ```{r,LaTeXMedians}
 
@@ -89,10 +97,13 @@ Table1Medians <- matrix(
     byrow = TRUE
 )
 
-colnames(Table1Medians) <- c( "Median","SE","Median","SE","Median","SE","Median","SE","P" )
-rownames(Table1Medians) <- Table1NumLabels
-
-kable(Table1Medians)
-
+htmlTable(
+          Table1Medians ,
+          header =  c( "Median","SE","Median","SE","Median","SE","Median","SE","P" ),
+          rnames = Table1NumLabels ,
+          cgroup = c("Q1","Q2","Q3","Q4",""),
+          n.cgroup = c(2,2,2,2,1), 
+          caption = paste("Patient characteristics over" , Predictors[n.P] , "quartiles for continuous variables reported as median (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.") ,
+          tfoot="")
 
 ``` 
