@@ -116,23 +116,21 @@ htmlTable(
 
 TabCoxSubgroup <- rbind(
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "z" ) ,
-        PrintCoxSubgroupTable( alevel = 0 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 0 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "z" ) ,
-        PrintCoxSubgroupTable( alevel = 1 , ptrans = "zlog" ) ,
-        PrintCoxSubgroupTable( alevel = 1 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "z" ) ,
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "zlog" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "zlog" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "zlog" ) ,
+        PrintCoxSubgroupTable( alevel = 0 , ptrans = "n4" ) ,
+        PrintCoxSubgroupTable( alevel = 1 , ptrans = "n4" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "n4" ))
         
 htmlTable(
     TabCoxSubgroup ,
-    rnames = rep(
-        paste(
-            c("Per SD increase of","Per SD increase of log-transformed","Trend over quartiles of") ,
-            sapply( JSON$Predictors , with , Label )[n.P]) ,
-        times = 3 ) ,
-    rgroup = c("Unadjusted","Adjustment 1","Adjustment 2") ,
+    rnames = rep( c("Unadjusted","Adjustment 1","Adjustment 2") , 3 ) ,
+    rgroup = paste(
+        c("Per SD increase of","Per SD increase of log-transformed","Trend over quartiles of") ,
+        sapply( JSON$Predictors , with , Label )[n.P]) ,
     n.rgroup = c(3,3,3) ,
     cgroup = c( 
         paste( "Low" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] ) ,
@@ -154,7 +152,7 @@ htmlTable(
         sapply( JSON$Modifiers , with , Label )[n.M] ,
         "divided into high/low levels according to the population median of" ,
         signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
-        sapply( JSON$Modifiers , with , unit )[n.M] ,
+        sapply( JSON$Modifiers , with , unit )[n.M]
         )
     )
         

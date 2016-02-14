@@ -1,21 +1,20 @@
 
 
-# Patient characteristics at baseline by `r sapply( JSON$Predictors , with , Label )[n.P]`
+# Patient baseline characteristics
+## over quartiles of `r sapply( JSON$Predictors , with , Label )[n.P]`
 
 
 ```{r,PCgetAllVars,include=FALSE}
 # n.P <- 1 ; n.M <- 1 ; n.Surv <- 1
 opts_chunk$set(warnings=FALSE,echo=FALSE,errors=FALSE)
 
-Table1Types <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Type )
-
-Table1Vars <- c(Ms,As,PCs)
-Table1NumVars <- Table1Vars[which(Table1Types == "numerical")]
-Table1CatVars <- Table1Vars[which(Table1Types == "categorical")]
-
+Table1Vars   <- c(Ms,As,PCs)
+Table1Types  <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Type )
 Table1Labels <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Label )
+
+
+
 Table1NumLabels <- Table1Labels[which(Table1Types == "numerical")]
-Table1CatLabels <- Table1Labels[which(Table1Types == "categorical")]
 
 ``` 
 
@@ -27,7 +26,7 @@ Table1CatLabels <- Table1Labels[which(Table1Types == "categorical")]
 Table1Proportions <- matrix(
     unlist(
         lapply(
-            X = paste( Table1CatVars ) ,
+            X = paste( Table1Vars[which(Table1Types == "categorical")] ) ,
             FUN = ProportionsOverGroups ,
             groups = paste("c4P" , n.P-1 , sep = "" ))
         ) ,
@@ -35,18 +34,21 @@ Table1Proportions <- matrix(
     byrow = TRUE
 )
 
-colnames(Table1Proportions) <- c("%","N","%","N","%","N","%","N","P")
-rownames(Table1Proportions) <- Table1CatLabels
 
 htmlTable(
           Table1Proportions,
           header =  c("%","N","%","N","%","N","%","N","P"),
-          rnames = Table1CatLabels ,
+          rnames = Table1Labels[which(Table1Types == "categorical")] ,
           cgroup = c("Q1","Q2","Q3","Q4",""),
           n.cgroup = c(2,2,2,2,1), 
-          caption=paste("Patient characteristics over" , Predictors[n.P] , "quartiles for categorical variables reported as proportions (counts). Trends over quartiles where estimated with a logistic regression model.") ,
+          caption = paste(
+                          "Patient characteristics over" ,
+                          "quartiles of" ,
+                          Predictors[n.P] ,
+                          "for categorical variables reported as proportions (counts)." ,
+                          "Trends over quartiles" ,
+                          "where estimated with a logistic regression model.") ,
           tfoot="")
-
 
 ``` 
     
@@ -60,7 +62,7 @@ htmlTable(
 Table1Means <- matrix(
     unlist(
         lapply(
-            X = paste( Table1NumVars ) ,
+            X = paste( Table1Vars[which(Table1Types == "numerical")] ) ,
             FUN = MeansOverGroups ,
             groups = paste("c4P" , n.P-1 , sep = "" ))
         ) ,
@@ -89,7 +91,7 @@ htmlTable(
 Table1Medians <- matrix(
     unlist(
         lapply(
-            X = paste( Table1NumVars ) ,
+            X = paste( Table1Vars[which(Table1Types == "numerical")] ) ,
             FUN = MediansOverGroups ,
             groups = paste("c4P" , n.P-1 , sep = "" ))
         ) ,
