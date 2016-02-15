@@ -13,10 +13,8 @@ Table1Types  <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteris
 Table1Labels <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Label )
 
 
-
-Table1NumLabels <- Table1Labels[which(Table1Types == "numerical")]
-
 ``` 
+
 
 
 ## Proportions
@@ -26,9 +24,9 @@ Table1NumLabels <- Table1Labels[which(Table1Types == "numerical")]
 Table1Proportions <- matrix(
     unlist(
         lapply(
-            X = paste( Table1Vars[which(Table1Types == "categorical")] ) ,
+            X = paste( Table1Vars[which(Table1Types == "factor")] ) ,
             FUN = ProportionsOverGroups ,
-            groups = paste("c4P" , n.P-1 , sep = "" ))
+            groups = paste("cP" , n.P-1 , sep = "" ))
         ) ,
     ncol = 9 ,
     byrow = TRUE
@@ -38,7 +36,7 @@ Table1Proportions <- matrix(
 htmlTable(
           Table1Proportions,
           header =  c("%","N","%","N","%","N","%","N","P"),
-          rnames = Table1Labels[which(Table1Types == "categorical")] ,
+          rnames = Table1Labels[which(Table1Types == "factor")] ,
           cgroup = c("Q1","Q2","Q3","Q4",""),
           n.cgroup = c(2,2,2,2,1), 
           caption = paste(
@@ -62,19 +60,20 @@ htmlTable(
 Table1Means <- matrix(
     unlist(
         lapply(
-            X = paste( Table1Vars[which(Table1Types == "numerical")] ) ,
+            X = paste( Table1Vars[which(Table1Types == "numeric")] ) ,
             FUN = MeansOverGroups ,
-            groups = paste("c4P" , n.P-1 , sep = "" ))
+            groups = paste("cP" , n.P-1 , sep = "" ))
         ) ,
     ncol = 9 ,
     byrow = TRUE
 )
 
+Table1NumLabels <- 
 
 htmlTable(
           Table1Means ,
           header =  c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" ),
-          rnames = Table1NumLabels ,
+          rnames = Table1Labels[which(Table1Types == "numeric")] ,
           cgroup = c("Q1","Q2","Q3","Q4",""),
           n.cgroup = c(2,2,2,2,1), 
           caption = paste("Patient characteristics over" , Predictors[n.P] , "quartiles for continuous variables reported as mean (standard error). Standard errors and p for trend over quartiles were estimated with general linear models.") ,
@@ -91,9 +90,9 @@ htmlTable(
 Table1Medians <- matrix(
     unlist(
         lapply(
-            X = paste( Table1Vars[which(Table1Types == "numerical")] ) ,
+            X = paste( Table1Vars[which(Table1Types == "numeric")] ) ,
             FUN = MediansOverGroups ,
-            groups = paste("c4P" , n.P-1 , sep = "" ))
+            groups = paste("cP" , n.P-1 , sep = "" ))
         ) ,
     ncol = 9 ,
     byrow = TRUE
@@ -102,7 +101,7 @@ Table1Medians <- matrix(
 htmlTable(
           Table1Medians ,
           header =  c( "Median","SE","Median","SE","Median","SE","Median","SE","P" ),
-          rnames = Table1NumLabels ,
+          rnames = Table1Labels[which(Table1Types == "numeric")] ,
           cgroup = c("Q1","Q2","Q3","Q4",""),
           n.cgroup = c(2,2,2,2,1), 
           caption = paste("Patient characteristics over" , Predictors[n.P] , "quartiles for continuous variables reported as median (standard error). Standard errors and p for trend over quartiles were estimated with median regression models.") ,

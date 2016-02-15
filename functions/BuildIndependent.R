@@ -8,19 +8,21 @@ BuildIndependent <- function(
     ###    the chosen transformation "ptrans"
     ###    the transformations are created automatically
     P <- if (
-        ptrans %in% c("","q","z","zlog","n2","c2","n3","c3","n4","c4","n5","c5")
+        ptrans %in% c("","q","z","zlog","n","c")
     ) {
              paste( ptrans , "P" , n.P-1 , sep = "" )
-         } else warning("Invalid value of ptrans.\nPossible values: q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
+         } else warning("Invalid value of ptrans.\nPossible values: q, z, zlog, n, c or empty string.")
+
+    if (psmooth) P <- paste("pspline(",P,")")
 
     
     ### Choose the correct modifier variable according to
     ###    the chosen transformation "mtrans"
     M <- if (
-        mtrans %in% c("","q","z","zlog","n2","c2","n3","c3","n4","c4","n5","c5","drop")
+        mtrans %in% c("","q","z","zlog","n","c","drop")
     ) {
              if ( mtrans == "drop" ) NULL else paste( "*", mtrans , "M" , n.M-1 , sep = "" )
-         } else warning("Invalid value of ptrans.\nPossible values: drop, q, z, zlog, n2, c2, n3, c3, n4, c4, n5, c5 or empty string.")
+         } else warning("Invalid value of ptrans.\nPossible values: drop, q, z, zlog, n, c or empty string.")
     
 
     

@@ -3,7 +3,7 @@ PrintCoxSubgroupTable <- function(
                      ptrans = "z"
                      ) {
 
-    SUB <- D[ , paste( "n2M" , n.M-1 , sep = "" )]
+    SUB <- D[ , paste( "nM" , n.M-1 , sep = "" )]
     i1 <- which(SUB==1)
     i2 <- which(SUB==2)
 
@@ -75,7 +75,7 @@ PrintCoxSubgroupTable <- function(
                 formula = BuildCoxFormula(
                     alevel = alevel ,
                     ptrans = ptrans ,
-                    mtrans = "c2" ) ,
+                    mtrans = "c" ) ,
                 data = D )))
 
     ### the P value of the interaction term is always the last parameter

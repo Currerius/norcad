@@ -13,7 +13,7 @@ PlotCoxSmoothSubgroups <- function(
     cox1 <- coxph(
         formula = F ,
         data = D ,
-        subset = D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 1  )
+        subset = D[ , paste( "nM" , n.M-1 , sep = "" ) ] == 1  )
 
     S1 <- termplot(
         model = cox1 ,
@@ -26,7 +26,7 @@ PlotCoxSmoothSubgroups <- function(
     cox2 <- coxph(
         formula = F ,
         data = D ,
-        subset = D[ , paste( "n2M" , n.M-1 , sep = "" ) ] == 2  )
+        subset = D[ , paste( "nM" , n.M-1 , sep = "" ) ] == 2  )
 
     S2 <- termplot(
         model = cox2 ,
@@ -129,7 +129,7 @@ PlotCoxSmoothSubgroups <- function(
         col = c("#D95F0288","#7570B388") ,
         lwd = 5 ,
         legend = c(
-            paste( "Low" , sapply( JSON$Modifiers , with , Label )[n.M] ) ,
-            paste( "High" , sapply( JSON$Modifiers , with , Label )[n.M] )))
+            paste( "Low" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] ) ,
+            paste( "High" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] )))
         
 }
