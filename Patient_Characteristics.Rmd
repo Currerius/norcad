@@ -1,16 +1,16 @@
 
 
 # Patient baseline characteristics
-## over quartiles of `r sapply( JSON$Predictors , with , Label )[n.P]`
+## over quartiles of `r sapply( JSON$Characteristics$Groups , with , Label )[n.P]`
 
 
 ```{r,PCgetAllVars,include=FALSE}
 # n.P <- 1 ; n.M <- 1 ; n.Surv <- 1
 opts_chunk$set(warnings=FALSE,echo=FALSE,errors=FALSE)
 
-Table1Vars   <- c(Ms,As,PCs)
-Table1Types  <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Type )
-Table1Labels <- sapply(c(JSON$Modifiers,JSON$Adjustments,JSON$PatientCharacteristics) , with , Label )
+Table1Vars   <- c(Ms,As,PMs)
+Table1Types  <- sapply(c(JSON$Survival$Modifiers,JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , Type )
+Table1Labels <- sapply(c(JSON$Survival$Modifiers,JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , Label )
 
 
 ``` 

@@ -26,32 +26,33 @@ lapply(
 
  # open the JSON with the study design
 
-survivalJSON <- jsonlite::fromJSON( txt = "survival.json" , simplifyVector = FALSE)
+JSON <- jsonlite::fromJSON( txt = "report.json" , simplifyVector = FALSE)
 
-Events <- sapply( survivalJSON$Endpoints , with , Event )
+Events <- sapply( JSON$Survival$Endpoints , with , Event )
 Es <- paste( "E" , 0:(length(Events) - 1) , sep = "" )
 
-Times <- sapply( survivalJSON$Endpoints , with , Time )
+Times <- sapply( JSON$Survival$Endpoints , with , Time )
 Ts <- paste( "T" , 0:(length(Times) - 1) , sep = "" )
 
-Predictors <- sapply( survivalJSON$Predictors , with , Name )
+Predictors <- sapply( JSON$Survival$Predictors , with , Name )
 Ps <- paste( "P" , 0:(length(Predictors) - 1) , sep = "" )
 
-Modifiers <- sapply( survivalJSON$Modifiers , with , Name )
+Modifiers <- sapply( JSON$Survival$Modifiers , with , Name )
 Ms <- paste( "M" , 0:(length(Modifiers) - 1) , sep = "" )
 
-Adjustments <- sapply( survivalJSON$Adjustments , with , Name )
+Adjustments <- sapply( JSON$Survival$Adjustments , with , Name )
 As <- paste( "A" , 0:(length(Adjustments) - 1) , sep = "" )
-nLevels <- sapply( survivalJSON$Adjustments , with , Level )
+nLevels <- sapply( JSON$Survival$Adjustments , with , Level )
 
-Forestplot <- sapply( survivalJSON$Forestplot , with , Name )
+Forestplot <- sapply( JSON$Survival$Forestplot , with , Name )
 Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
 
-characteristicsJSON <- jsonlite::fromJSON( txt = "characteristics.json" , simplifyVector = FALSE)
-Measures <- sapply( characteristicsJSON$Measures , with , Name )
-PCMs <- paste( "PCM" , 0:(length(PatientCharacteristics) - 1) , sep = "" )
-Groups <- sapply( characteristicsJSON$Groups , with , Name )
-PCGs <- 
+
+Measures <- sapply( JSON$Characteristics$Measures , with , Name )
+PMs <- paste( "PM" , 0:(length(Measures) - 1) , sep = "" )
+
+Groups <- sapply( JSON$Characteristics$Groups , with , Name )
+PGs <- paste( "PG" , 0:(length(Groups) - 1) , sep = "" )
 
 
  # create DB statements
@@ -63,7 +64,8 @@ dbVars <- paste0(
         paste( Predictors , "AS" , Ps ) ,
         paste( Modifiers , "AS" , Ms ) ,
         paste( Adjustments , "AS" , As) ,
-        paste( PatientCharacteristics , "AS" , PCMs ) ,
+        paste( Measures , "AS" , PMs ) ,
+        paste( Groups , "AS" , PGs ) ,
         paste( Forestplot , "AS" , Fs )) ,
         collapse = ", ")
 
@@ -111,7 +113,7 @@ for (i in 0:(length(Events)-1)) {
  # create transformations of the original variables
 
 for (i in 0:(length(Predictors)-1)) {
-    if ( sapply( survivalJSON$Predictors , with , Type )[i+1] == "numeric" ) {
+    if ( sapply( JSON$Survival$Predictors , with , Type )[i+1] == "numeric" ) {
         NlevelsMainPredictorClass <- 4
         D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
         D[ , paste("zlogP" , i , sep = "") ] <- zlog( D[ , paste("P" , i , sep = "") ] )
@@ -127,7 +129,7 @@ for (i in 0:(length(Predictors)-1)) {
 
 
 for (i in 0:(length(Modifiers)-1)) {
-    if ( sapply( survivalJSON$Modifiers , with , Type )[i+1] == "numeric" ) {
+    if ( sapply( JSON$Survival$Modifiers , with , Type )[i+1] == "numeric" ) {
         NlevelsMainModifierClass <- 2
         D[ , paste("zM" , i , sep = "") ] <- z( D[ , paste("M" , i , sep = "") ] )
         D[ , paste("zlogM" , i , sep = "") ] <- zlog( D[ , paste("M" , i , sep = "") ])
@@ -169,9 +171,9 @@ save( D , file = paste(
               paste0(
                   gsub(
                       " " , "" , c(
-                                     sapply( survivalJSON$Endpoints , with , ShortLabel ) ,
-                                     sapply( survivalJSON$Predictors , with , ShortLabel ) ,
-                                     sapply( survivalJSON$Modifiers , with , ShortLabel )
+                                     sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
+                                     sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
+                                     sapply( JSON$Survival$Modifiers , with , ShortLabel )
                                  )
                   ) ,
                   collapse = "-"
@@ -204,7 +206,7 @@ for (n.P in 1:length(Ps)) {
         " " , "" ,
         paste(
             "PatientCharacteristics",
-            sapply( characteristicsJSON$Groups , with , ShortLabel )[n.P] ,
+            sapply( JSON$Characteristics$Groups , with , ShortLabel )[n.P] ,
             sep = "-" ))
 
 
@@ -223,9 +225,9 @@ for (n.P in 1:length(Ps)) {
             FileName <- gsub(
                 " " , "" ,
                 paste(
-                    sapply( JSON$Endpoints , with , ShortLabel )[n.Surv] ,
-                    sapply( JSON$Predictors , with , ShortLabel )[n.P] ,
-                    sapply( JSON$Modifiers , with , ShortLabel )[n.M] ,
+                    sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] ,
+                    sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
+                    sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ,
                     sep = "-" ))
 
             opts_chunk$set(
@@ -244,8 +246,8 @@ for (n.P in 1:length(Ps)) {
 
 
             if (
-                ( sapply( JSON$Predictors , with , Type )[n.P] == "numeric" ) &
-                ( sapply( JSON$Modifiers , with , Type )[n.M] == "numeric" )
+                ( sapply( JSON$Survival$Predictors , with , Type )[n.P] == "numeric" ) &
+                ( sapply( JSON$Survival$Modifiers , with , Type )[n.M] == "numeric" )
             ) {
 
                 GAM3dOutfile <- paste(
@@ -275,9 +277,9 @@ ZipName <- paste0(
     gsub(
         " " , "" , c(
                        "../Results" ,
-                       sapply( JSON$Endpoints , with , ShortLabel ) ,
-                       sapply( JSON$Predictors , with , ShortLabel ) ,
-                       sapply( JSON$Modifiers , with , ShortLabel )
+                       sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
+                       sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
+                       sapply( JSON$Survival$Modifiers , with , ShortLabel )
                    )
         ) ,
     collapse = "-"
