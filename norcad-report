@@ -49,11 +49,31 @@ Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
 
 
 Measures <- sapply( JSON$Characteristics$Measures , with , Name )
-PMs <- paste( "PM" , 0:(length(Measures) - 1) , sep = "" )
+CMs <- paste( "CM" , 0:(length(Measures) - 1) , sep = "" )
 
 Groups <- sapply( JSON$Characteristics$Groups , with , Name )
-PGs <- paste( "PG" , 0:(length(Groups) - 1) , sep = "" )
+CGs <- paste( "CG" , 0:(length(Groups) - 1) , sep = "" )
 
+
+
+ # the report.json contains a section for the survival predictor and the characteristics grouping
+ # ususally the predictors are the grouping variables, but anyway they have to be specified in the
+ # report.json and there should be one pat. char. table per predictor
+if ( length(Groups) != length(Predictors) ) {
+    warning(
+        paste(
+            "There should be one patient characteristic table per predictor, but:\n" ,
+            " - Predictors:\n" ,
+            Predictors ,
+            " - Patient characteristic groupings:\n",
+            Groups ,
+            ".\n Check the report.json..."
+        )
+    )
+}
+
+            
+            
 
  # create DB statements
 
@@ -64,8 +84,8 @@ dbVars <- paste0(
         paste( Predictors , "AS" , Ps ) ,
         paste( Modifiers , "AS" , Ms ) ,
         paste( Adjustments , "AS" , As) ,
-        paste( Measures , "AS" , PMs ) ,
-        paste( Groups , "AS" , PGs ) ,
+        paste( Groups , "AS" , CGs ) ,
+        paste( Measures , "AS" , CMs ) ,
         paste( Forestplot , "AS" , Fs )) ,
         collapse = ", ")
 
@@ -110,7 +130,9 @@ for (i in 0:(length(Events)-1)) {
 }
 
 
- # create transformations of the original variables
+ # create transformations of the predictor variables
+ # the standard classification for numeric variables is quartiles
+ # for categorical variables the levels from the DB query are taken
 
 for (i in 0:(length(Predictors)-1)) {
     if ( sapply( JSON$Survival$Predictors , with , Type )[i+1] == "numeric" ) {
@@ -127,6 +149,9 @@ for (i in 0:(length(Predictors)-1)) {
 }
 
 
+ # create transformations of the modifier variables
+ # the standard classification for numeric variables is dichotomous at median
+ # for categorical variables the levels from the DB query are taken
 
 for (i in 0:(length(Modifiers)-1)) {
     if ( sapply( JSON$Survival$Modifiers , with , Type )[i+1] == "numeric" ) {
@@ -141,7 +166,21 @@ for (i in 0:(length(Modifiers)-1)) {
         D[ , paste("nM" , i , sep = "") ] <- as.numeric( factor(D[ , paste("M" , i , sep = "") ] ))
     }
 }
-    
+
+
+ # check if the grouping variables for the
+ # patient characteristics tables are categorical or
+ # numeric and transform to quartiles in the latter case
+
+for (i in 0:(length(Groups)-1)) {
+    if ( sapply( JSON$Characteristics$Groups , with , Type )[i+1] == "numeric" ) {
+        D[ , paste("cCG" , i , sep = "") ] <- cutN( D[ , paste("CG" , i , sep = "") ] , n = 4 )
+        D[ , paste("nCG" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("CG" , i , sep = "") ] , n = 4 ))
+    } else {
+        D[ , paste("cCG" , i , sep = "") ] <- factor( D[ , paste("CG" , i , sep = "") ] )
+        D[ , paste("nCG" , i , sep = "") ] <- as.numeric( factor(D[ , paste("CG" , i , sep = "") ] ))
+    }
+}
 
 
 

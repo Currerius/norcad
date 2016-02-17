@@ -1,4 +1,4 @@
-MeansOverGroups <- function( measure , groups ){
+MeansOverGroups <- function( measure , groups , labels){
     MarginalMean <- coef(
         summary(
             lm(
