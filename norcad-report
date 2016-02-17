@@ -1,8 +1,8 @@
 #!/usr/bin/Rscript
+
 args<-commandArgs(TRUE)
 
 HOME_DIR <- "/home/rforge/Documents/github/norcad"
-RCPT_TO <- NULL
 
  # load packages
 
@@ -328,14 +328,16 @@ ZipName <- paste0(
 
 system2(
     command = "zip" ,
-    args = c(ZipName,"*.html","./figure/","*.Rdata"))
+    args = c("-r" , ZipName , "*.html" , "./figure" , "*.Rdata" ))
 
 
 
-# email to Rforge
+ ### email to Rforge
 
-# is the server there?
+ # get an recipient from the commandline
+RCPT_TO <- gsub( "-m=" , "" , args[ grep( "-m=" , args ) ] )
 
+ # is the server there?
 MailServerUp <- grep(
     "succeeded" ,
     system2(
@@ -344,6 +346,8 @@ MailServerUp <- grep(
         stdout = TRUE , stderr = TRUE )) == 1
 
 
+ # if both the SMTP server is listening and
+ # an email address is provided go ahead
 if (!is.null(RCPT_TO)&MailServerUp) {
     system2(
         command = "swaks" ,
@@ -355,7 +359,7 @@ if (!is.null(RCPT_TO)&MailServerUp) {
             "--attach" , paste(ZipName,".zip",sep="") ,
             "--suppress-data" ,
             "--h-Subject" , "Analyses_from_NORCAD" ,
-            "--body","survival.json"))}
+            "--body","report.json"))}
 
 
 #      # To turn on package default HTML options globally:
