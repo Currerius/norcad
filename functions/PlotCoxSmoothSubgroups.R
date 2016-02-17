@@ -129,7 +129,7 @@ PlotCoxSmoothSubgroups <- function(
         col = c("#D95F0288","#7570B388") ,
         lwd = 5 ,
         legend = c(
-            paste( "Low" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] ) ,
-            paste( "High" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] )))
+            paste( "Low" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
+            paste( "High" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] )))
         
 }
