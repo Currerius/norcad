@@ -8,13 +8,13 @@ opts_chunk$set(warnings=FALSE,echo=FALSE)
 
 
 # Survival analysis
-## Endpoint: `r sapply( JSON$Endpoints  , with , Label)[n.Surv]`
-## Predictor: `r sapply( JSON$Predictors , with , Label)[n.P]`
-## Modifier:  `r sapply( JSON$Modifiers  , with , Label)[n.M]`
+## Endpoint: `r sapply( JSON$Survival$Endpoints  , with , Label)[n.Surv]`
+## Predictor: `r sapply( JSON$Survival$Predictors , with , Label)[n.P]`
+## Modifier:  `r sapply( JSON$Survival$Modifiers  , with , Label)[n.M]`
 
 
 
-`r sapply( JSON$Endpoints , with , Label )[n.Surv]` is observed in `r sum(D$E0 , na.rm = TRUE )` of `r dim(D)[n.Surv]` patients (`r round(100*sum(D$E0 , na.rm = TRUE )/dim(D)[n.Surv] , 1)`%) with a median follow-up time of `r median(D[ , paste("T",n.Surv-1,sep="")],na.rm=TRUE)` days.
+`r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` is observed in `r sum(D$E0 , na.rm = TRUE )` of `r dim(D)[n.Surv]` patients (`r round(100*sum(D$E0 , na.rm = TRUE )/dim(D)[n.Surv] , 1)`%) with a median follow-up time of `r median(D[ , paste("T",n.Surv-1,sep="")],na.rm=TRUE)` days.
 
 Endpoint data until end of 2009 are obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
   
@@ -25,7 +25,7 @@ The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Hea
 
 ## Kaplan-Meyer plot
 
-Kaplan-Meyer estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` survival over quartiles of `r sapply( JSON$Predictors , with , Label )[n.P]`.
+Kaplan-Meyer estimates of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` survival over quartiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]`.
               
 ```{r,KMplotcP,fig.width=6,fig.height=6,out.width="600pt"}
 
@@ -41,7 +41,7 @@ plot(
     ylim = range(atY) ,
     lwd = 3 ,
     xlab = "Days" ,
-    ylab = paste( "Percent" , sapply( JSON$Endpoints , with , ShortLabel )[n.Surv] , "survival" ) ,
+    ylab = paste( "Percent" , sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] , "survival" ) ,
     col = pal ,
     axes = FALSE ,
     bty = "n" ,
@@ -56,14 +56,14 @@ legend(
     bty = "n" ,
     lwd = 5 ,
     col = pal ,
-    title = sapply( JSON$Predictors , with , ShortLabel )[n.P] ,
+    title = sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
     legend = paste( "Q",1:4,sep="" ))
 
 ``` 
 
 
 
-## Cox-Regression: `r sapply( JSON$Endpoints, with , ShortLabel)[n.Surv]` ~ `r sapply( JSON$Predictors, with , ShortLabel)[n.P]`
+## Cox-Regression: `r sapply( JSON$Survival$Endpoints, with , ShortLabel)[n.Surv]` ~ `r sapply( JSON$Survival$Predictors, with , ShortLabel)[n.P]`
   
 
   
@@ -87,18 +87,18 @@ htmlTable(
     TabCoxSimple ,
     rnames = paste(
         c("Normalized","Normalized logarithm of","Trend over Quartiles of") ,
-        sapply( JSON$Predictors , with , Label )[n.P]) ,
+        sapply( JSON$Survival$Predictors , with , Label )[n.P]) ,
     cgroup = c("Unadjusted" , "Adjustment 1" , "Adjustment 2") ,
     n.cgroup = c(3,3,3) ,
     caption = paste(
         "Hazard ratios for association between" ,
-        sapply( JSON$Endpoints , with , Label )[n.Surv] ,
+        sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
         "and" , 
-        sapply( JSON$Predictors , with , Label )[n.P] ,
+        sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
         "estimated with Cox proportional hazards models; adjustment 1 for" , 
-        paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ') ,
+        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ') ,
         "; adjustment 2 additionally for" , 
-        paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ') ,
+        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==2] , collapse = ', ') ,
         "."))
 
 ``` 
@@ -106,10 +106,10 @@ htmlTable(
 
 
 
-## Interaction: `r sapply( JSON$Predictors , with , ShortLabel )[n.P]` x `r sapply( JSON$Modifiers , with ,ShortLabel )[n.M]`
+## Interaction: `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` x `r sapply( JSON$Survival$Modifiers , with ,ShortLabel )[n.M]`
 
 
-## `r sapply( JSON$Endpoints , with , ShortLabel )[n.Surv]` and `r sapply( JSON$Predictors , with , ShortLabel )[n.P]` in subgroups of high/low `r sapply( JSON$Modifiers , with , ShortLabel )[n.M]`
+## `r sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv]` and `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` in subgroups of high/low `r sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M]`
 
       
 ```{r,TabCoxSubgroup,results='asis'}
@@ -130,29 +130,29 @@ htmlTable(
     rnames = rep( c("Unadjusted","Adjustment 1","Adjustment 2") , 3 ) ,
     rgroup = paste(
         c("Per SD increase of","Per SD increase of log-transformed","Trend over quartiles of") ,
-        sapply( JSON$Predictors , with , Label )[n.P]) ,
+        sapply( JSON$Survival$Predictors , with , Label )[n.P]) ,
     n.rgroup = c(3,3,3) ,
     cgroup = c( 
-        paste( "Low" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] ) ,
-        paste( "High" , sapply( JSON$Modifiers , with , ShortLabel )[n.M] ) ,
+        paste( "Low" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
+        paste( "High" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
         "Between group" ) ,
     n.cgroup = c(2,2,1) ,
     caption = paste(
         "Hazard ratios for association between" ,
-        sapply( JSON$Endpoints , with , Label )[n.Surv] ,
+        sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
         "and" ,
-        sapply( JSON$Predictors , with , Label )[n.P] ,
+        sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
         "in subgroups of high vs. low levels of" ,
-        sapply( JSON$Modifiers , with , Label )[n.M] ,
+        sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
         "estimated with Cox proportional hazards models; adjustment 1 for" ,
-        paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ') ,
+        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ') ,
         "; adjustment 2 additionally  for" ,
-        paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ') ,
+        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==2] , collapse = ', ') ,
         ". The between group p-value is estimated from the interaction term with the effect modifier" ,
-        sapply( JSON$Modifiers , with , Label )[n.M] ,
+        sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
         "divided into high/low levels according to the population median of" ,
         signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
-        sapply( JSON$Modifiers , with , unit )[n.M]
+        sapply( JSON$Survival$Modifiers , with , unit )[n.M]
         )
     )
         
@@ -161,7 +161,7 @@ htmlTable(
 
 
 
-## `r sapply( JSON$Endpoints , with , ShortLabel )[n.Surv]` and `r sapply( JSON$Predictors , with , ShortLabel )[n.P]` and interaction with high/low `r sapply( JSON$Modifiers , with , ShortLabel )[n.M]`
+## `r sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv]` and `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` and interaction with high/low `r sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M]`
 
       
 ```{r,TabCoxInteraction,results='asis'}
@@ -186,14 +186,14 @@ TabCoxInteraction <- rbind(
 htmlTable(
     TabCoxInteraction ,
     rnames = c(
-         paste( "Per SD increase" , sapply( JSON$Predictors , with , Label )[n.P] ) ,
-         paste( "High vs. low" , sapply( JSON$Modifiers , with , Label )[n.M] ) ,
+         paste( "Per SD increase" , sapply( JSON$Survival$Predictors , with , Label )[n.P] ) ,
+         paste( "High vs. low" , sapply( JSON$Survival$Modifiers , with , Label )[n.M] ) ,
          "Multiplicative effect modification" ,
-         paste( "Per SD increase of log-transformed" , sapply( JSON$Predictors , with , Label )[n.P] ) ,
-         paste( "High vs. low" , sapply( JSON$Modifiers , with , Label )[n.M] ) ,
+         paste( "Per SD increase of log-transformed" , sapply( JSON$Survival$Predictors , with , Label )[n.P] ) ,
+         paste( "High vs. low" , sapply( JSON$Survival$Modifiers , with , Label )[n.M] ) ,
          "Multiplicative effect modification" ,
-         paste( "Per quartile increase of" , sapply( JSON$Predictors , with , Label )[n.P] ) ,
-         paste( "High vs. low" , sapply( JSON$Modifiers , with , Label )[n.M] ) ,
+         paste( "Per quartile increase of" , sapply( JSON$Survival$Predictors , with , Label )[n.P] ) ,
+         paste( "High vs. low" , sapply( JSON$Survival$Modifiers , with , Label )[n.M] ) ,
          "Multiplicative effect modification") ,
     rgroup = c("Normalized" , "Normalized logarithmic" , "Trend over quartiles" ) ,
     n.rgroup = c(3,3,3) ,
@@ -201,17 +201,17 @@ htmlTable(
     n.cgroup = c(3,3,3) ,
     caption = paste(
         "Hazard ratios for association between" ,
-        sapply( JSON$Endpoints , with , Label )[1] ,
+        sapply( JSON$Survival$Endpoints , with , Label )[1] ,
         "and" ,
-        sapply( JSON$Predictors , with , Label )[1] ,
+        sapply( JSON$Survival$Predictors , with , Label )[1] ,
         "and effect modification by high vs low levels of" ,
-        sapply( JSON$Modifiers , with , Label )[1] ,
+        sapply( JSON$Survival$Modifiers , with , Label )[1] ,
         "( divided into high/low levels according to the population median of" ,
         signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
         ")  estimated with Cox proportional hazards models; adjustment 1 for" ,
-        paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ') ,
+        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ') ,
         "; adjustment 2 additionally  for" ,
-        paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==2] , collapse = ', ') ,
+        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==2] , collapse = ', ') ,
         "."
         ))
 
@@ -221,14 +221,14 @@ htmlTable(
 
 ## GAM plot percentiles (ranked)
 
-Smoothing spline estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` hazard by percentiles of `r sapply( JSON$Predictors , with , Label )[n.P]` in subgroups of high vs. low levels of `r sapply( JSON$Modifiers , with , Label )[n.M]` estimated with Cox proportional hazards models adjusted for `r paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')`. The effect modifier `r sapply( JSON$Modifiers , with , Label )[n.M]` is divided into high/low levels according to the population median of `r signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)`.
+Smoothing spline estimates of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` hazard by percentiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]` in subgroups of high vs. low levels of `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` estimated with Cox proportional hazards models adjusted for `r paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ')`. The effect modifier `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` is divided into high/low levels according to the population median of `r signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)`.
               
 ```{r,CoxSmoothSubgroupsq,fig.width=6,fig.height=6,out.width="600pt"}
 
 PlotCoxSmoothSubgroups(
     ptrans = "q" ,
     alevel = 1 ,
-    xlab = paste("Percentiles of" , sapply( JSON$Predictors , with , Label )[n.P])
+    xlab = paste("Percentiles of" , sapply( JSON$Survival$Predictors , with , Label )[n.P])
 )
 
 ``` 
@@ -236,14 +236,14 @@ PlotCoxSmoothSubgroups(
 
 ## GAM plot normalized logarithm
 
-Smoothing spline estimates of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` hazard by SD of log-transformed `r sapply( JSON$Predictors , with , Label )[n.P]` in subgroups of high vs. low levels of `r sapply( JSON$Modifiers , with , Label )[n.M]` estimated with Cox proportional hazards models adjusted for `r paste0( sapply( JSON$Adjustments , with , Label )[sapply( JSON$Adjustments , with , Level )==1] , collapse = ', ')`. The effect modifier `r sapply( JSON$Modifiers , with , Label )[n.M]` is divided into high/low levels according to the population median of `r signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)`.
+Smoothing spline estimates of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` hazard by SD of log-transformed `r sapply( JSON$Survival$Predictors , with , Label )[n.P]` in subgroups of high vs. low levels of `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` estimated with Cox proportional hazards models adjusted for `r paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ')`. The effect modifier `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` is divided into high/low levels according to the population median of `r signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3)`.
 
 ```{r,CoxSmoothSubgroupszlog,fig.width=6,fig.height=6,out.width="600pt"}
 
 PlotCoxSmoothSubgroups(
     ptrans = "zlog" ,
     alevel = 1 ,
-    xlab = paste("SD of log-transformed" , sapply( JSON$Predictors , with , Label )[n.P])
+    xlab = paste("SD of log-transformed" , sapply( JSON$Survival$Predictors , with , Label )[n.P])
 )
 
 ``` 

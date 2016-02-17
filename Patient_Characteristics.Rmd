@@ -68,8 +68,6 @@ Table1Means <- matrix(
     byrow = TRUE
 )
 
-Table1NumLabels <- 
-
 htmlTable(
           Table1Means ,
           header =  c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" ),

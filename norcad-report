@@ -179,7 +179,7 @@ save( D , file = paste(
                   collapse = "-"
               ) ,
               "Rdata" ,
-              sep = "." )
+              sep = "." ))
 
    ### prepare knitr
 

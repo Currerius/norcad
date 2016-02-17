@@ -3,7 +3,7 @@
 
 ## 3d-GAM
 
-Surface spline of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` incidence by empirical percentiles of `r sapply( JSON$Predictors , with , Label )[n.P]` and `r sapply( JSON$Modifiers , with , Label )[n.M]` estimated with a Generalized Additve Model.
+Surface spline of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` incidence by empirical percentiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]` and `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` estimated with a Generalized Additve Model.
 
 ```{r,VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
 
@@ -19,8 +19,8 @@ vis.gam(
     n.grid = 50 ,
     color = "terrain" ,
     type = "response" ,
-    xlab = sapply( JSON$Predictors , with , Label )[n.P] ,
-    ylab = sapply( JSON$Modifiers , with , Label )[n.M] ,
+    xlab = sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
+    ylab = sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
@@ -33,7 +33,7 @@ vis.gam(
 
 ## 3d-GAM with SE
 
-Surface spline of `r sapply( JSON$Endpoints , with , Label )[n.Surv]` incidence by empirical percentiles of `r sapply( JSON$Predictors , with , Label )[n.P]` and `r sapply( JSON$Modifiers , with , Label )[n.M]` estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
+Surface spline of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` incidence by empirical percentiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]` and `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
       
 ```{r,VisGAMqSE,fig.width=6,fig.height=6,out.width="600pt"}
 
@@ -42,8 +42,8 @@ vis.gam(
     n.grid = 50 ,
     se = TRUE ,
     type = "response" ,
-    xlab = sapply( JSON$Predictors , with , Label )[1] ,
-    ylab = sapply( JSON$Modifiers , with , Label )[1] ,
+    xlab = sapply( JSON$Survival$Predictors , with , Label )[1] ,
+    ylab = sapply( JSON$Survival$Modifiers , with , Label )[1] ,
     zlab = "Incidence" ,
     phi = 0 ,
     theta = -20 ,
