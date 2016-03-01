@@ -15,13 +15,14 @@ zlog <- function(X) {
 q <- function(X) 100 * rank( X , na.last = "keep" ) / length( na.exclude(X) )
 
 
-cutN <- function(X,n=4) cut(
+cutN <- function(X,n=4,breaks=NULL) cut(
                           x = X + rnorm(
                                       n = length(X) ,
                                       mean = 0 ,
-                                      sd = 10^-10 ) ,
+                                      sd = 10^-9 ) ,
                           include.lowest = TRUE ,
-                          breaks = quantile(
-                              x = X ,
-                              na.rm = TRUE ,
-                              probs = 0:n/n ))
+                          breaks = if (is.null(breaks)) quantile(
+                                                            x = X ,
+                                                            na.rm = TRUE ,
+                                                            probs = 0:n/n
+                                                        ) else breaks )

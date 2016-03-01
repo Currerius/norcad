@@ -41,19 +41,32 @@
       "Predictors": [
 
         {
+          "Name":"TNT" ,
+          "ShortLabel":"TNT" ,
+          "Label":"Troponin-T" ,
+          "Type":"numeric" ,
+          "Breaks":[4,11,20] ,
+          "Unit":""
+        } ,
+
+        {
           "Name":"ApA1" ,
           "ShortLabel":"apo A1" ,
           "Label":"plasma apolipoproteine A1" ,
           "Type":"numeric" ,
-          "unit":""
+          "Breaks":[4] ,
+          "Unit":""
         } ,
+
         {
           "Name":"HDL" ,
           "ShortLabel":"HDL" ,
           "Label":"plasma high density lipoproteine" ,
           "Type":"numeric" ,
-          "unit":""
+          "Breaks":[] ,
+          "Unit":""
         }
+
       ] ,
 
 
@@ -64,8 +77,17 @@
           "ShortLabel":"choline" ,
           "Label":"plasma choline" ,
           "Type":"numeric" ,
-          "unit":""
+          "Unit":""
+        } ,
+
+        {
+          "Name":"CRP" ,
+          "ShortLabel":"CRP" ,
+          "Label":"plasma C-reactive proteine" ,
+          "Type":"numeric" ,
+          "Unit":""
         }
+
       ] ,
 
 
@@ -153,14 +175,14 @@
           "ShortLabel":"apo A1" ,
           "Label":"plasma apolipoproteine A1" ,
           "Type":"numeric" ,
-          "unit":""
+          "Unit":""
         } ,
         {
           "Name":"HDL" ,
           "ShortLabel":"HDL" ,
           "Label":"plasma high density lipoproteine" ,
           "Type":"numeric" ,
-          "unit":""
+          "Unit":""
         }
       ] ,
 
@@ -171,61 +193,89 @@
           "Name":"(BMI>30)" ,
           "ShortLabel":"obesity" ,
           "Label":"obesity" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
+        } ,
+        {
+          "Name":"(FYS_DGUK>1)" ,
+          "ShortLabel":"physical activity" ,
+          "Label":"days of weekly physical activity" ,
+          "Type":"factor" ,
+          "ValueLevels": [ 0 , 1  ] ,
+          "ValueLabels": [ "None or one" , "Two or more" ]
         } ,
         {
           "Name":"previous_acute_myocardial_infarction>0" ,
           "ShortLabel":"previous AMI" ,
           "Label":"previous acute myocardial infarction" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(treatment_baseline IN (0,1))" ,
           "ShortLabel":"none" ,
           "Label":"no treatment at baseline" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(treatment_baseline IN (2,4,7))" ,
           "ShortLabel":"PCI" ,
           "Label":"PCI at baseline" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(treatment_baseline IN (3,4,6))" ,
           "ShortLabel":"CABG" ,
           "Label":"CABG at baseline" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(MED_EASA>0)" ,
           "ShortLabel":"ASA" ,
           "Label":"ASA at discharge" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(MED_ESTA_2014>0)" ,
           "ShortLabel":"statins" ,
           "Label":"statins at discharge" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(MED_EBET>0)" ,
           "ShortLabel":"beta-blocker" ,
           "Label":"beta-blocker at discharge" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(MED_EACE>0)" ,
           "ShortLabel":"ACE" ,
           "Label":"ACE at discharge" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name":"(MED_ELOO>0)" ,
           "ShortLabel":"Loop" ,
           "Label":"Loop diuretics at discharge" ,
-          "Type":"factor"
+          "Type":"factor" ,
+          "ValueLevels": [] ,
+          "ValueLabels": []
         } ,
         {
           "Name": "left_ventricular_ejection_fraction" ,

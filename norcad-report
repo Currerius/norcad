@@ -37,6 +37,7 @@ Ts <- paste( "T" , 0:(length(Times) - 1) , sep = "" )
 
 Predictors <- sapply( JSON$Survival$Predictors , with , Name )
 Ps <- paste( "P" , 0:(length(Predictors) - 1) , sep = "" )
+PBreaks <- array(sapply( JSON$Survival$Predictors , with , Breaks ))
 
 Modifiers <- sapply( JSON$Survival$Modifiers , with , Name )
 Ms <- paste( "M" , 0:(length(Modifiers) - 1) , sep = "" )
@@ -137,12 +138,13 @@ for (i in 0:(length(Events)-1)) {
 
 for (i in 0:(length(Predictors)-1)) {
     if ( sapply( JSON$Survival$Predictors , with , Type )[i+1] == "numeric" ) {
-        NlevelsMainPredictorClass <- 4
+        if ( length(Breaks <- unlist( PBreaks[[i+1]])) == 1 ) { Breaks <- NULL ; Nclass <- Breaks }
+        if ( length(Breaks <- unlist( PBreaks[[i+1]])) == 0 ) { Breaks <- NULL ; Nclass <- 4 }
         D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
         D[ , paste("zlogP" , i , sep = "") ] <- zlog( D[ , paste("P" , i , sep = "") ] )
         D[ , paste("qP" , i , sep = "") ] <- q( D[ , paste("P" , i , sep = "") ] )
-        D[ , paste("cP" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , NlevelsMainPredictorClass )
-        D[ , paste("nP" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("P" , i , sep = "") ] , NlevelsMainPredictorClass ))
+        D[ , paste("cP" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , n = Nclass , breaks = Breaks)
+        D[ , paste("nP" , i , sep = "") ] <- as.numeric( D[ , paste("cP" , i , sep = "") ] )
     } else {
         D[ , paste("cP" , i , sep = "") ] <- D[ , paste("P" , i , sep = "") ]
         D[ , paste("nP" , i , sep = "") ] <- as.numeric( D[ , paste("P" , i , sep = "") ] )
