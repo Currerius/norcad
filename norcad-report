@@ -223,6 +223,7 @@ save( D , file = paste(
               "Rdata" ,
               sep = "." ))
 
+
    ### prepare knitr
 
 opts_chunk$set(
@@ -230,6 +231,8 @@ opts_chunk$set(
     echo=FALSE,
     dpi = 300 ,
     dev="svg")
+
+
 
 options( width="130")
 
@@ -242,15 +245,18 @@ options( width="130")
    #             options=c("use_xhtml","smartypants","base64_images","mathjax","highlight_code","fragment_only") ,
 
 
-for (n.P in 1:length(Ps)) {
+
+
+   ### create the patient characteristic tables
+
+for (n.CG in 1:length(CGs)) {
 
     PCFileName <- gsub(
         " " , "" ,
         paste(
             "PatientCharacteristics",
-            sapply( JSON$Characteristics$Groups , with , ShortLabel )[n.P] ,
+            sapply( JSON$Characteristics$Groups , with , ShortLabel )[n.CG] ,
             sep = "-" ))
-
 
     PCOutfile <- paste( PCFileName , "md" , sep = "." )
 
@@ -259,6 +265,14 @@ for (n.P in 1:length(Ps)) {
         options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
         output = PCOutfile )
     
+}
+
+
+
+   ### create the survival results
+
+for (n.P in 1:length(Ps)) {
+
     for (n.M in 1:length(Ms)) {
         for (n.Surv in 1:length(Es)) {
 
@@ -341,16 +355,19 @@ RCPT_TO <- gsub( "-m=" , "" , args[ grep( "-m=" , args ) ] )
 
  # is the server there?
 MailServerUp <- grep(
-    "succeeded" ,
-    system2(
+    pattern = "succeeded" ,
+    x = system2(
         command = "nc" ,
         args = c("-zv","localhost","8025") ,
-        stdout = TRUE , stderr = TRUE )) == 1
+        stdout = TRUE , stderr = TRUE )
+    ) == 1
 
 
  # if both the SMTP server is listening and
  # an email address is provided go ahead
-if (!is.null(RCPT_TO)&MailServerUp) {
+if (
+    ( length( grep( "@" , RCPT_TO) ) > 0 ) &
+    MailServerUp ) {
     system2(
         command = "swaks" ,
         args = c(
@@ -361,7 +378,9 @@ if (!is.null(RCPT_TO)&MailServerUp) {
             "--attach" , paste(ZipName,".zip",sep="") ,
             "--suppress-data" ,
             "--h-Subject" , "Analyses_from_NORCAD" ,
-            "--body","report.json"))}
+            "--body","report.json"))
+    } else paste("No email send")
+                                        
 
 
 #      # To turn on package default HTML options globally:

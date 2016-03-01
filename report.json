@@ -45,7 +45,7 @@
           "ShortLabel":"TNT" ,
           "Label":"Troponin-T" ,
           "Type":"numeric" ,
-          "Breaks":[4,11,20] ,
+          "Breaks":[0,3,10,20,30] ,
           "Unit":""
         } ,
 
