@@ -1,12 +1,12 @@
 
 
 # Patient baseline characteristics
-## over `r sapply( JSON$Characteristics$Groups , with , Label )[n.P]`
+## over `r sapply( JSON$Characteristics$Groups , with , Label )[n.CG]`
 
 
 ```{r,PCgetAllVars,include=FALSE}
 
-# n.P <- 1 ; n.M <- 1 ; n.Surv <- 1
+# n.CG <- 1 ; n.M <- 1 ; n.Surv <- 1
 opts_chunk$set(warnings=FALSE,echo=FALSE,errors=FALSE)
 
 Table1Vars   <- c(As,CMs)
@@ -15,16 +15,16 @@ Table1Labels <- sapply(c(JSON$Survival$Adjustments,JSON$Characteristics$Measures
 
  # set the description of the grouping variables according to the type of
  # the grouping variable: numeric -> quartiles , factor -> groups
-GroupChar <- if( sapply( JSON$Characteristics$Groups , with , Type )[n.P] == "numeric" ) {
-                 paste ( sapply( JSON$Characteristics$Groups , with , Label )[n.P] , "quartiles")
+GroupChar <- if( sapply( JSON$Characteristics$Groups , with , Type )[n.CG] == "numeric" ) {
+                 paste ( sapply( JSON$Characteristics$Groups , with , Label )[n.CG] , "quartiles")
                  } else {
-                 paste ( sapply( JSON$Characteristics$Groups , with , Label )[n.P] , "groups")
+                 paste ( sapply( JSON$Characteristics$Groups , with , Label )[n.CG] , "groups")
                  }
 
-CgroupLabels <- if( sapply( JSON$Characteristics$Groups , with , Type )[n.P] == "numeric" ) {
-                   c( levels( D[ , paste( "cP" , n.P-1 , sep = "" )]) , "" )
+CgroupLabels <- if( sapply( JSON$Characteristics$Groups , with , Type )[n.CG] == "numeric" ) {
+                   c( levels( D[ , paste( "cCG" , n.CG-1 , sep = "" )]) , "" )
                    } else {
-                   c( unlist(sapply( JSON$Characteristics$Groups , with , ValueLabels )) , "" )
+                   c( unlist(sapply( JSON$Characteristics$Groups , with , ValueLabels )[n.CG]) , "" )
                    }
 
 ``` 
@@ -40,18 +40,26 @@ Table1Proportions <- matrix(
         lapply(
             X = paste( Table1Vars[which(Table1Types == "factor")] ) ,
             FUN = ProportionsOverGroups ,
-            groups = paste("cCG" , n.P-1 , sep = "" ))
+            groups = paste("cCG" , n.CG-1 , sep = "" ))
         ) ,
-    ncol = 9 ,
+    ncol = 2 * length(CgroupLabels) - 1 ,
     byrow = TRUE
 )
 
 
 htmlTable(
           Table1Proportions,
-          header =  c("%","N","%","N","%","N","%","N","P"),
+          header =  c(
+              rep(
+                  x = c("%","N") ,
+                  times = length( CgroupLabels ) - 1 ) ,
+              "P" ) ,
           rnames = Table1Labels[which(Table1Types == "factor")] ,
-          n.cgroup = c(2,2,2,2,1), 
+          n.cgroup = c(
+              rep(
+                  x = 2 ,
+                  times = length( CgroupLabels ) - 1 ) ,
+              1 ), 
           cgroup = CgroupLabels ,
           caption = paste(
                   "Patient characteristics over" , GroupChar ,
@@ -72,19 +80,27 @@ Table1Means <- matrix(
         lapply(
             X = paste( Table1Vars[which(Table1Types == "numeric")] ) ,
             FUN = MeansOverGroups ,
-            groups = paste("cCG" , n.P-1 , sep = "" ))
+            groups = paste("cCG" , n.CG-1 , sep = "" ))
         ) ,
-    ncol = 9 ,
+    ncol = 2 * length(CgroupLabels) - 1 ,
     byrow = TRUE
 )
 
 
 htmlTable(
           Table1Means ,
-          header =  c( "Mean","SE","Mean","SE","Mean","SE","Mean","SE","P" ),
+          header =  c(
+              rep(
+                  x = c("Mean","SE") ,
+                  times = length( CgroupLabels ) - 1 ) ,
+              "P" ) ,
           rnames = Table1Labels[which(Table1Types == "numeric")] ,
           cgroup = CgroupLabels ,
-          n.cgroup = c(2,2,2,2,1) , 
+          n.cgroup = c(
+              rep(
+                  x = 2 ,
+                  times = length( CgroupLabels ) - 1 ) ,
+              1 ), 
           caption = paste(
                   "Patient characteristics over" ,
                   GroupChar ,
@@ -104,18 +120,26 @@ Table1Medians <- matrix(
         lapply(
             X = paste( Table1Vars[which(Table1Types == "numeric")] ) ,
             FUN = MediansOverGroups ,
-            groups = paste("cCG" , n.P-1 , sep = "" ))
+            groups = paste("cCG" , n.CG-1 , sep = "" ))
         ) ,
-    ncol = 9 ,
+    ncol = 2 * length(CgroupLabels) - 1 ,
     byrow = TRUE
 )
 
 htmlTable(
           Table1Medians ,
-          header =  c( "Median","SE","Median","SE","Median","SE","Median","SE","P" ),
+          header =  c(
+              rep(
+                  x = c("Median","SE") ,
+                  times = length( CgroupLabels ) - 1 ) ,
+              "P" ) ,
           rnames = Table1Labels[which(Table1Types == "numeric")] ,
           cgroup = CgroupLabels ,
-          n.cgroup = c(2,2,2,2,1) , 
+          n.cgroup = c(
+              rep(
+                  x = 2 ,
+                  times = length( CgroupLabels ) - 1 ) ,
+              1 ), 
           caption = paste(
                           "Patient characteristics over" ,
                           GroupChar ,

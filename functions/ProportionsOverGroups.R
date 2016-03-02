@@ -28,5 +28,8 @@ ProportionsOverGroups <- function( factor , groups ){
                 Count[,2]) ) ,
         PforTrend)
     attr( LINE , "names" ) <- c(
-    "%","N","%","N","%","N","%","N","P")
+        rep(
+            x = c("%","N") ,
+            times = length( Count[,2] ) ) ,
+        "P" )
     return(LINE)}

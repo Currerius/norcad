@@ -56,25 +56,6 @@ CMs <- paste( "CM" , 0:(length(Measures) - 1) , sep = "" )
 Groups <- sapply( JSON$Characteristics$Groups , with , Name )
 CGs <- paste( "CG" , 0:(length(Groups) - 1) , sep = "" )
 
-
-
- # the report.json contains a section for the survival predictor and the characteristics grouping
- # ususally the predictors are the grouping variables, but anyway they have to be specified in the
- # report.json and there should be one pat. char. table per predictor
-if ( length(Groups) != length(Predictors) ) {
-    warning(
-        paste(
-            "There should be one patient characteristic table per predictor, but:\n" ,
-            " - Predictors:\n" ,
-            Predictors ,
-            " - Patient characteristic groupings:\n",
-            Groups ,
-            ".\n Check the report.json..."
-        )
-    )
-}
-
-            
             
 
  # create DB statements
@@ -245,8 +226,6 @@ options( width="130")
    #             options=c("use_xhtml","smartypants","base64_images","mathjax","highlight_code","fragment_only") ,
 
 
-
-
    ### create the patient characteristic tables
 
 for (n.CG in 1:length(CGs)) {
@@ -266,6 +245,7 @@ for (n.CG in 1:length(CGs)) {
         output = PCOutfile )
     
 }
+
 
 
 

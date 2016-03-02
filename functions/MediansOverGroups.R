@@ -35,6 +35,11 @@ MediansOverGroups <- function( measure , groups ){
                 x = MarginalMedian[,2] ,
                 digits = 2) ) ,
         PforTrend)
+
     attr( LINE , "names" ) <- c(
-    "Median","SE","Median","SE","Median","SE","Median","SE","P")
+        rep(
+            x = c("Median","SE") ,
+            times = ( length( LINE ) - 1 )/2 ) ,
+        "P" )
+
     return(LINE) }
