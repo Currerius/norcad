@@ -11,7 +11,7 @@ opts_chunk$set(warnings=FALSE,echo=FALSE,errors=FALSE)
 
 Table1Vars   <- c(As,CMs)
 Table1Types  <- sapply(c(JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , Type )
-Table1Labels <- sapply(c(JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , Label )
+Table1Labels <- sapply(c(JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , ShortLabel )
 
  # set the description of the grouping variables according to the type of
  # the grouping variable: numeric -> quartiles , factor -> groups
@@ -45,16 +45,15 @@ Table1Proportions <- matrix(
     ncol = 2 * length(CgroupLabels) - 1 ,
     byrow = TRUE
 )
-
+rownames(Table1Proportions) <- Table1Labels[which(Table1Types == "factor")]
+colnames(Table1Proportions) <- c(
+    rep(
+        x = c("%","N") ,
+        times = length( CgroupLabels ) - 1 ) ,
+    "P" )
 
 htmlTable(
           Table1Proportions,
-          header =  c(
-              rep(
-                  x = c("%","N") ,
-                  times = length( CgroupLabels ) - 1 ) ,
-              "P" ) ,
-          rnames = Table1Labels[which(Table1Types == "factor")] ,
           n.cgroup = c(
               rep(
                   x = 2 ,
@@ -86,15 +85,15 @@ Table1Means <- matrix(
     byrow = TRUE
 )
 
+rownames(Table1Means) <- Table1Labels[which(Table1Types == "numeric")]
+colnames(Table1Means) <- c(
+    rep(
+        x = c("Mean","SE") ,
+        times = length( CgroupLabels ) - 1 ) ,
+    "P" )
 
 htmlTable(
           Table1Means ,
-          header =  c(
-              rep(
-                  x = c("Mean","SE") ,
-                  times = length( CgroupLabels ) - 1 ) ,
-              "P" ) ,
-          rnames = Table1Labels[which(Table1Types == "numeric")] ,
           cgroup = CgroupLabels ,
           n.cgroup = c(
               rep(
@@ -126,14 +125,15 @@ Table1Medians <- matrix(
     byrow = TRUE
 )
 
+rownames(Table1Medians) <- Table1Labels[which(Table1Types == "numeric")]
+colnames(Table1Medians) <- c(
+    rep(
+        x = c("Median","SE") ,
+        times = length( CgroupLabels ) - 1 ) ,
+    "P" )
+
 htmlTable(
           Table1Medians ,
-          header =  c(
-              rep(
-                  x = c("Median","SE") ,
-                  times = length( CgroupLabels ) - 1 ) ,
-              "P" ) ,
-          rnames = Table1Labels[which(Table1Types == "numeric")] ,
           cgroup = CgroupLabels ,
           n.cgroup = c(
               rep(
@@ -148,3 +148,19 @@ htmlTable(
           tfoot="")
 
 ``` 
+
+```{r,Export2Excel}
+
+write.csv2(
+    x = Table1Proportions ,
+    file = paste( PCFileName , "-proportions.csv" , sep = "" ))
+
+write.csv2(
+    x = Table1Means ,
+    file = paste( PCFileName , "-means.csv" , sep = "" ))
+
+write.csv2(
+    x = Table1Medians ,
+    file = paste( PCFileName , "-medians.csv" , sep = "" ))
+
+```
