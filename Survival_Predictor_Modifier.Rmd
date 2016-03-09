@@ -7,106 +7,10 @@ opts_chunk$set(warnings=FALSE,echo=FALSE)
 ``` 
 
 
-# Survival analysis
+# Interaction: `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` x `r sapply( JSON$Survival$Modifiers , with ,ShortLabel )[n.M]`
 ## Endpoint: `r sapply( JSON$Survival$Endpoints  , with , Label)[n.Surv]`
 ## Predictor: `r sapply( JSON$Survival$Predictors , with , Label)[n.P]`
 ## Modifier:  `r sapply( JSON$Survival$Modifiers  , with , Label)[n.M]`
-
-
-
-`r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` is observed in `r sum(D$E0 , na.rm = TRUE )` of `r dim(D)[n.Surv]` patients (`r round(100*sum(D$E0 , na.rm = TRUE )/dim(D)[n.Surv] , 1)`%) with a median follow-up time of `r median(D[ , paste("T",n.Surv-1,sep="")],na.rm=TRUE)` days.
-
-Endpoint data until end of 2009 are obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
-  
-## Acknowledgments:
-The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.
-
-
-
-## Kaplan-Meyer plot
-
-Kaplan-Meyer estimates of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` survival over quartiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]`.
-              
-```{r,KMplotcP,fig.width=6,fig.height=6,out.width="600pt"}
-
-pal <-  c("#1B9E7788","#D95F0288","#7570B388","#E7298A88")
-F <- as.formula( paste( "Surv" , n.Surv-1 , "~cP" , n.P-1 , sep = ""))
-ThisSurvFit <- survfit( F , data = D )
-
-atY <- seq(0,1,0.1)
-atY <- atY[ which( 10*atY >= trunc( 10*min(ThisSurvFit$surv))) ]
-
-plot(
-    ThisSurvFit ,
-    ylim = range(atY) ,
-    lwd = 3 ,
-    xlab = "Days" ,
-    ylab = paste( "Percent" , sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] , "survival" ) ,
-    col = pal ,
-    axes = FALSE ,
-    bty = "n" ,
-    mark.time = FALSE
-    )
-
-axis( 1 ) 
-axis( 2 , at = atY , label = 100*atY )
-
-legend(
-    "topright" ,
-    bty = "n" ,
-    lwd = 5 ,
-    col = pal ,
-    title = sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
-    legend = paste( "Q",1:4,sep="" ))
-
-``` 
-
-
-
-## Cox-Regression: `r sapply( JSON$Survival$Endpoints, with , ShortLabel)[n.Surv]` ~ `r sapply( JSON$Survival$Predictors, with , ShortLabel)[n.P]`
-  
-
-  
-```{r,TabCoxSimple,results='asis'}
-
-TabCoxSimple <- rbind(
-    cbind(
-        OutputHR( alevel = 0 , ptrans = "z" ) ,
-        OutputHR( alevel = 1 , ptrans = "z" ) ,
-        OutputHR( alevel = 2 , ptrans = "z" )) ,
-    cbind(
-        OutputHR( alevel = 0 , ptrans = "zlog" ) ,
-        OutputHR( alevel = 1 , ptrans = "zlog" ) ,
-        OutputHR( alevel = 2 , ptrans = "zlog" )) ,
-    cbind(
-        OutputHR( alevel = 0 , ptrans = "n" ) ,
-        OutputHR( alevel = 1 , ptrans = "n" ) ,
-        OutputHR( alevel = 2 , ptrans = "n" )))
-
-htmlTable(
-    TabCoxSimple ,
-    rnames = paste(
-        c("Normalized","Normalized logarithm of","Trend over Quartiles of") ,
-        sapply( JSON$Survival$Predictors , with , Label )[n.P]) ,
-    cgroup = c("Unadjusted" , "Adjustment 1" , "Adjustment 2") ,
-    n.cgroup = c(3,3,3) ,
-    caption = paste(
-        "Hazard ratios for association between" ,
-        sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
-        "and" , 
-        sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
-        "estimated with Cox proportional hazards models; adjustment 1 for" , 
-        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ') ,
-        "; adjustment 2 additionally for" , 
-        paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==2] , collapse = ', ') ,
-        "."))
-
-``` 
-
-
-
-
-## Interaction: `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` x `r sapply( JSON$Survival$Modifiers , with ,ShortLabel )[n.M]`
 
 
 ## `r sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv]` and `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` in subgroups of high/low `r sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M]`
