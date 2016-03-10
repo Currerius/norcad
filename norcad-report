@@ -361,7 +361,6 @@ system2(
     args = c("-r" , ZipName , "*.html" , "./figure" , "./excel" , "*.Rdata" ))
 
 
-
  ### email to Rforge
 
  # get an recipient from the commandline
@@ -392,7 +391,7 @@ if (
             "--attach" , paste(ZipName,".zip",sep="") ,
             "--suppress-data" ,
             "--h-Subject" , "Analyses_from_NORCAD" ,
-            "--body","report.json"))
+            "--body","../report.json"))
     } else paste("No email send")
                                         
 
