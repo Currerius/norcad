@@ -178,7 +178,8 @@ system2(
 
 system2(
     command = "mkdir" ,
-    args = c("export"))
+    args = c("-p" , "export/excel"))
+# mkdir -p myProject/{src,doc,tools,db}
 
 system2(
     command = "cp" ,
@@ -186,24 +187,7 @@ system2(
         paste( HOME_DIR , "*.Rmd" , sep = "/" ) ,
         "./export/"))
 
-   # move into the export/ directory
-setwd( "./export/" )
-
-
-   # export the dataset
-save( D , file = paste(
-              paste0(
-                  gsub(
-                      " " , "" , c(
-                                     sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
-                                     sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
-                                     sapply( JSON$Survival$Modifiers , with , ShortLabel )
-                                 )
-                  ) ,
-                  collapse = "-"
-              ) ,
-              "Rdata" ,
-              sep = "." ))
+setwd("export/")
 
 
    ### prepare knitr
@@ -247,6 +231,18 @@ for (n.CG in 1:length(CGs)) {
     
 }
 
+write.csv2(
+    x = Table1Proportions ,
+    file = paste( "./excel/" , PCFileName , "-proportions.csv" , sep = "" ))
+
+write.csv2(
+    x = Table1Means ,
+    file = paste( "./excel/" , PCFileName , "-means.csv" , sep = "" ))
+
+write.csv2(
+    x = Table1Medians ,
+    file = paste( "./excel/" , PCFileName , "-medians.csv" , sep = "" ))
+
 
 
 
@@ -260,7 +256,7 @@ for (n.Surv in 1:length(Es)) {
             # Build the name of the PDF outfile from the
             # endpoint, predictor, modifier combination:
 
-        FileName <- gsub(
+        SurvivalFileName <- gsub(
             " " , "" ,
             paste(
                 "SurvivalAnalysis" ,
@@ -269,24 +265,30 @@ for (n.Surv in 1:length(Es)) {
                 sep = "-" ))
 
         SurvivalOutfile <- paste(
-            FileName ,
+            SurvivalFileName ,
             ".md" ,
             sep = "" )
         
         opts_chunk$set(
-            fig.path = paste("./figure/" , FileName , "-" , sep = "" ))
+            fig.path = paste("./figure/" , SurvivalFileName , "-" , sep = "" ))
 
         knit2html(
             input = "Survival_Predictor.Rmd" ,
             options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
             output = SurvivalOutfile )
 
-    
+        
+        write.csv2(
+            x = TableSurvivalPredictor ,
+            file = paste( "./excel/" , SurvivalFileName , ".csv" , sep = "" ))
+        
+
+        
         for (n.M in 1:length(Ms)) {
 
             # Build the name of the PDF outfile from the
             # endpoint, predictor, modifier combination:
-            FileNameMod <- gsub(
+            InteractionFileName <- gsub(
                 " " , "" ,
                 paste(
                     "SurvivalAnalysis" ,
@@ -296,19 +298,23 @@ for (n.Surv in 1:length(Es)) {
                     sep = "-" ))
 
             opts_chunk$set(
-                fig.path = paste("./figure/" , FileNameMod , "-" , sep = "" ))
+                fig.path = paste("./figure/" , InteractionFileName , "-" , sep = "" ))
             
-            SurvivalModOutfile <- paste(
-                FileNameMod ,
+            InteractionOutfile <- paste(
+                InteractionFileName ,
                 ".md" ,
                 sep = "" )
 
             knit2html(
                 input = "Survival_Predictor_Modifier.Rmd" ,
                 options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
-                output = SurvivalModOutfile )
+                output = InteractionOutfile )
 
+            write.csv2(
+                x = TableSurvivalSubgroups ,
+                file = paste( "./excel/" , InteractionFileName , ".csv" , sep = "" ))
 
+            
             if (
                 ( sapply( JSON$Survival$Predictors , with , Type )[n.P] == "numeric" ) &
                 ( sapply( JSON$Survival$Modifiers , with , Type )[n.M] == "numeric" )
@@ -316,7 +322,7 @@ for (n.Surv in 1:length(Es)) {
 
                 GAM3dOutfile <- paste(
                     "GAM3d-" ,
-                    FileNameMod ,
+                    InteractionFileName ,
                     ".md" ,
                     sep = "" )
 
@@ -352,7 +358,7 @@ ZipName <- paste0(
 
 system2(
     command = "zip" ,
-    args = c("-r" , ZipName , "*.html" , "./figure" , "*.Rdata" ))
+    args = c("-r" , ZipName , "*.html" , "./figure" , "./excel" , "*.Rdata" ))
 
 
 

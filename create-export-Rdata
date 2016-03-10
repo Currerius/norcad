@@ -111,3 +111,23 @@ for (i in 0:(length(Groups)-1)) {
     }
 }
 
+
+   # move into the export/ directory
+setwd( "./export/" )
+
+
+   # export the dataset
+save( D , file = paste(
+              paste0(
+                  gsub(
+                      " " , "" , c(
+                                     sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
+                                     sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
+                                     sapply( JSON$Survival$Modifiers , with , ShortLabel )
+                                 )
+                  ) ,
+                  collapse = "-"
+              ) ,
+              "Rdata" ,
+              sep = "." ))
+

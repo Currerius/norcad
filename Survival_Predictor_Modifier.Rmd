@@ -3,7 +3,7 @@
 
 ```{r,setOpts,include=FALSE}
 opts_chunk$set(warnings=FALSE,echo=FALSE)
-# n.P <- 2; n.M <- 1; n.Surv <- 1
+# n.P <- 1; n.M <- 1; n.Surv <- 1
 ``` 
 
 
@@ -16,9 +16,9 @@ opts_chunk$set(warnings=FALSE,echo=FALSE)
 ## `r sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv]` and `r sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P]` in subgroups of high/low `r sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M]`
 
       
-```{r,TabCoxSubgroup,results='asis'}
+```{r,TableSurvivalSubgroups,results='asis'}
 
-TabCoxSubgroup <- rbind(
+TableSurvivalSubgroups <- rbind(
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "z" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "z" ) ,
@@ -28,9 +28,18 @@ TabCoxSubgroup <- rbind(
         PrintCoxSubgroupTable( alevel = 0 , ptrans = "n" ) ,
         PrintCoxSubgroupTable( alevel = 1 , ptrans = "n" ) ,
         PrintCoxSubgroupTable( alevel = 2 , ptrans = "n" ))
-        
+
+rownames( TableSurvivalSubgroups ) <- paste(
+    c(
+        rep( "Per SD increase" , 3 ) ,
+        rep( "Per SD increase log" , 3 ) ,
+        rep( "Trend over quartiles" , 3 )
+       ) ,
+    c("unadj.","adj. 1","adj. 2")
+    )
+
 htmlTable(
-    TabCoxSubgroup ,
+    TableSurvivalSubgroups ,
     rnames = rep( c("Unadjusted","Adjustment 1","Adjustment 2") , 3 ) ,
     rgroup = paste(
         c("Per SD increase of","Per SD increase of log-transformed","Trend over quartiles of") ,
@@ -56,10 +65,9 @@ htmlTable(
         sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
         "divided into high/low levels according to the population median of" ,
         signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
-        sapply( JSON$Survival$Modifiers , with , unit )[n.M]
+        sapply( JSON$Survival$Modifiers , with , Unit )[n.M]
         )
     )
-        
         
 ``` 
 

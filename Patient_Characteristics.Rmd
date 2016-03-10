@@ -148,19 +148,3 @@ htmlTable(
           tfoot="")
 
 ``` 
-
-```{r,Export2Excel}
-
-write.csv2(
-    x = Table1Proportions ,
-    file = paste( PCFileName , "-proportions.csv" , sep = "" ))
-
-write.csv2(
-    x = Table1Means ,
-    file = paste( PCFileName , "-means.csv" , sep = "" ))
-
-write.csv2(
-    x = Table1Medians ,
-    file = paste( PCFileName , "-medians.csv" , sep = "" ))
-
-```
