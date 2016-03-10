@@ -47,38 +47,12 @@
           "Type":"numeric" ,
           "Breaks":[0,3,10,20,30] ,
           "Unit":""
-        } ,
-
-        {
-          "Name":"ApA1" ,
-          "ShortLabel":"apo A1" ,
-          "Label":"plasma apolipoproteine A1" ,
-          "Type":"numeric" ,
-          "Breaks":[4] ,
-          "Unit":""
-        } ,
-
-        {
-          "Name":"HDL" ,
-          "ShortLabel":"HDL" ,
-          "Label":"plasma high density lipoproteine" ,
-          "Type":"numeric" ,
-          "Breaks":[] ,
-          "Unit":""
         }
 
       ] ,
 
 
       "Modifiers": [
-
-        {
-          "Name":"choline" ,
-          "ShortLabel":"choline" ,
-          "Label":"plasma choline" ,
-          "Type":"numeric" ,
-          "Unit":""
-        } ,
 
         {
           "Name":"CRP" ,
@@ -171,19 +145,13 @@
       "Groups": [
 
         {
-          "Name":"ApA1" ,
-          "ShortLabel":"apo A1" ,
-          "Label":"plasma apolipoproteine A1" ,
-          "Type":"numeric" ,
-          "Unit":""
-        } ,
-        {
-          "Name":"HDL" ,
-          "ShortLabel":"HDL" ,
-          "Label":"plasma high density lipoproteine" ,
+          "Name":"CRP" ,
+          "ShortLabel":"CRP" ,
+          "Label":"plasma C-reactive proteine" ,
           "Type":"numeric" ,
           "Unit":""
         }
+
       ] ,
 
 

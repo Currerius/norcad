@@ -16,7 +16,7 @@ require(purrr)
 require(survival)
 require(quantreg)
 require(mgcv)
-
+require(xlsx)
 
  # load all R functions from the directory
 
@@ -24,6 +24,9 @@ lapply(
     X = dir( paste( HOME_DIR , "functions" , sep = "/") ) ,
     FUN = function(X) source( paste( HOME_DIR , "functions" , X , sep = "/"))) -> DoNotPrint
 
+
+## for testing:
+## tmp <- tempdir();system2( "cp" , c("report.json",tmp)); setwd(tmp)
 
  # open the JSON with the study design
 
@@ -230,6 +233,7 @@ for (n.CG in 1:length(CGs)) {
         output = PCOutfile )
     
 }
+
 
 write.csv2(
     x = Table1Proportions ,
