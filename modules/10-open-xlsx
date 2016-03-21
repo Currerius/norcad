@@ -1,0 +1,73 @@
+#!/usr/bin/Rscript
+
+wb <- createWorkbook()
+
+sheet  <- createSheet(
+    wb = wb ,
+    sheetName="Overview")
+
+csHead <- CellStyle(wb) + Font(wb, isBold=TRUE) + Border()  # header
+csGroup <- CellStyle(wb) + Font(wb, isBold = TRUE , isItalic = TRUE ) + Border()  # header
+
+
+nRow <- 3
+
+
+addDataFrame(
+    x = data.frame(
+        Study = JSON$Population$Label
+    ) ,
+    sheet = sheet ,
+    startRow = nRow ,
+    startColumn = 2 ,
+    colnamesStyle = csHead)
+nRow <- nRow + 3
+
+
+addDataFrame(
+    x = data.frame(
+        Patients = sapply( JSON$Population$Subset , with , Comment )
+    ) ,
+    sheet = sheet ,
+    startRow = nRow ,
+    startColumn = 2 ,
+    colnamesStyle = csHead)
+nRow <- nRow + length( sapply( JSON$Population$Subset , with , Comment )) + 2
+
+
+addDataFrame(
+    x = data.frame(
+        Endpoints
+    ) ,
+    sheet = sheet ,
+    startRow = nRow ,
+    startColumn = 2 ,
+    colnamesStyle = csHead)
+nRow <- nRow + length( Endpoints ) + 2
+
+
+addDataFrame(
+    x = data.frame(
+        Predictors
+    ) ,
+    sheet = sheet ,
+    startRow = nRow ,
+    startColumn = 2 ,
+    colnamesStyle = csHead)
+nRow <- nRow + length( Predictors ) + 2
+
+
+addDataFrame(
+    x = data.frame(
+        Modifiers
+    ) ,
+    sheet = sheet ,
+    startRow = nRow ,
+    startColumn = 2 ,
+    colnamesStyle = csHead)
+nRow <- nRow + length( Modifiers ) + 2
+
+   # close the Excel file
+saveWorkbook(
+    wb = wb ,
+    file = "Result-Tables.xlsx" ) 

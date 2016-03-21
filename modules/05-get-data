@@ -1,29 +1,27 @@
 #!/usr/bin/Rscript
 
- # create DB statements
-
-dbExVars <- paste0(
+dbVars <- paste0(
     c(
-        paste( Events ) ,
-        paste( Times ) ,
-        paste( Predictors ) ,
-        paste( Modifiers ) ,
-        paste( Adjustments , "AS" , As ) ,
-        paste( Groups ) ,
-        paste( Measures ) ,
-        paste( Forestplot )) ,
+        paste( Events , "AS" , Es ) ,
+        paste( Times , "AS" , Ts ) ,
+        paste( Predictors , "AS" , Ps ) ,
+        paste( Modifiers , "AS" , Ms ) ,
+        paste( Adjustments , "AS" , As) ,
+        paste( Groups , "AS" , CGs ) ,
+        paste( Measures , "AS" , CMs ) ,
+        paste( Forestplot , "AS" , Fs )) ,
         collapse = ", ")
 
-dbExWhere <- paste0(
+dbWhere <- paste0(
     sapply(
         JSON$Population$Subset ,
         with ,
         Where ) ,
     collapse = " AND " )
         
-dbExStatement <- paste(
+dbStatement <- paste(
     "SELECT" ,
-    dbExVars ,
+    dbVars ,
     "FROM PATIENT_INFO P
        LEFT JOIN LAB_BLOOD_TOTAL B ON P.FORUS_ID=B.FORUS_ID
        LEFT JOIN hs_medikament_skjema M ON P.FORUS_ID=M.FORUS_ID
@@ -40,20 +38,19 @@ if ( !exists("con") )
         drv = RMySQL::MySQL() ,
         dbname = JSON$Population$Database )
 
-DEx <- DBI::dbGetQuery(
+D <- DBI::dbGetQuery(
     conn = con , 
-    statement = dbExStatement)
+    statement = dbStatement)
 
 
 
  # create survival objects for Cox regression
 
 for (i in 0:(length(Events)-1)) {
-    DEx[ , paste("Surv" , i , sep = "") ] <- Surv(
-        time = DEx[,paste("T" , i , sep = "") ] ,
-        event = DEx[,paste("E" , i , sep = "") ] )
+    D[ , paste("Surv" , i , sep = "") ] <- Surv(
+        time = D[,paste("T" , i , sep = "") ] ,
+        event = D[,paste("E" , i , sep = "") ] )
 }
-
 
 
  # create transformations of the predictor variables
@@ -62,20 +59,24 @@ for (i in 0:(length(Events)-1)) {
 
 for (i in 0:(length(Predictors)-1)) {
     if ( sapply( JSON$Survival$Predictors , with , Type )[i+1] == "numeric" ) {
-        Breaks <- unlist( PBreaks[[i+1]] )
-        if ( length(Breaks) == 1 ) { Nclass <- Breaks ; Breaks <- NULL }
-        if ( length(Breaks) == 0 ) { Nclass <- 4 ; Breaks <- NULL }
+
+        if ( length(PBreaks) == 0 ) { Nclass <- 4 ; PBreaks <- NULL }
+        if ( length(PBreaks) == 1 ) { Nclass <- PBreaks ; PBreaks <- NULL }
+        if ( length(PBreaks) > 1 ) { Nclass <- NULL }
+
         D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
         D[ , paste("zlogP" , i , sep = "") ] <- zlog( D[ , paste("P" , i , sep = "") ] )
         D[ , paste("qP" , i , sep = "") ] <- q( D[ , paste("P" , i , sep = "") ] )
-        D[ , paste("cP" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , n = Nclass , breaks = Breaks)
+        D[ , paste("cP" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , n = Nclass , breaks = PBreaks)
         D[ , paste("nP" , i , sep = "") ] <- as.numeric( D[ , paste("cP" , i , sep = "") ] )
+
     } else {
+
         D[ , paste("cP" , i , sep = "") ] <- D[ , paste("P" , i , sep = "") ]
         D[ , paste("nP" , i , sep = "") ] <- as.numeric( D[ , paste("P" , i , sep = "") ] )
+
     }
 }
-
 
 
  # create transformations of the modifier variables
@@ -110,24 +111,4 @@ for (i in 0:(length(Groups)-1)) {
         D[ , paste("nCG" , i , sep = "") ] <- as.numeric( factor(D[ , paste("CG" , i , sep = "") ] ))
     }
 }
-
-
-   # move into the export/ directory
-setwd( "./export/" )
-
-
-   # export the dataset
-save( D , file = paste(
-              paste0(
-                  gsub(
-                      " " , "" , c(
-                                     sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
-                                     sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
-                                     sapply( JSON$Survival$Modifiers , with , ShortLabel )
-                                 )
-                  ) ,
-                  collapse = "-"
-              ) ,
-              "Rdata" ,
-              sep = "." ))
 

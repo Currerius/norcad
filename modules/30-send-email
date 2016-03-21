@@ -1,0 +1,35 @@
+#!/usr/bin/Rscript
+
+
+   # get an recipient from the commandline
+RCPT_TO <- gsub( "-m=" , "" , args[ grep( "-m=" , args ) ] )
+
+
+   # check the SMTP server status
+MailServerUp <- grep(
+    pattern = "succeeded" ,
+    x = system2(
+        command = "nc" ,
+        args = c("-zv","localhost","8025") ,
+        stdout = TRUE , stderr = TRUE )
+    ) == 1
+
+
+   # if both the SMTP server is listening and
+   # an email address is provided go ahead
+if (
+    ( length( grep( "@" , RCPT_TO) ) > 0 ) &
+    MailServerUp ) {
+    system2(
+        command = "swaks" ,
+        args = c(
+            "--server","localhost" ,
+            "--port","8025" ,
+            "--from","do-not-reply@currerius.com" ,
+            "--to", paste(RCPT_TO),
+            "--attach" , paste(ZipName,".zip",sep="") ,
+            "--suppress-data" ,
+            "--h-Subject" , "Analyses_from_NORCAD" ,
+            "--body","../report.json"))
+    } else paste("No email send")
+                                        

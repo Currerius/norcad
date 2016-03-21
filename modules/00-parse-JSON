@@ -1,0 +1,40 @@
+#!/usr/bin/Rscript
+
+JSON <- jsonlite::fromJSON(
+    txt = "report.json" ,
+    simplifyVector = FALSE )
+
+
+Events <- sapply( JSON$Survival$Endpoints , with , Event )
+Es <- paste( "E" , 0:(length(Events) - 1) , sep = "" )
+
+Times <- sapply( JSON$Survival$Endpoints , with , Time )
+Ts <- paste( "T" , 0:(length(Times) - 1) , sep = "" )
+
+
+Predictors <- sapply( JSON$Survival$Predictors , with , Name )
+if ( length(Predictors) > 1 ) warning( "Only one predictor..." )
+Ps <- paste( "P" , 0:(length(Predictors) - 1) , sep = "" )
+PBreaks <- unlist(sapply( JSON$Survival$Predictors , with , Breaks ))
+
+
+Modifiers <- sapply( JSON$Survival$Modifiers , with , Name )
+Ms <- paste( "M" , 0:(length(Modifiers) - 1) , sep = "" )
+
+Adjustments <- sapply( JSON$Survival$Adjustments , with , Name )
+As <- paste( "A" , 0:(length(Adjustments) - 1) , sep = "" )
+nLevels <- sapply( JSON$Survival$Adjustments , with , Level )
+
+
+
+Forestplot <- sapply( JSON$Survival$Forestplot , with , Name )
+Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
+
+
+
+Measures <- sapply( JSON$Characteristics$Measures , with , Name )
+CMs <- paste( "CM" , 0:(length(Measures) - 1) , sep = "" )
+
+Groups <- sapply( JSON$Characteristics$Groups , with , Name )
+CGs <- paste( "CG" , 0:(length(Groups) - 1) , sep = "" )
+

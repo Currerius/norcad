@@ -1,10 +1,16 @@
 #!/usr/bin/Rscript
 
+   # for testing:
+   # tmp <- tempdir();system2( "cp" , c("report.json",tmp)); setwd(tmp)
+
+
 args<-commandArgs(TRUE)
+options( width="130")
+
 
 HOME_DIR <- "/home/rforge/Documents/github/norcad"
 
- # load packages
+   # load packages
 
 require(knitr)
 require(htmlTable)
@@ -18,182 +24,8 @@ require(quantreg)
 require(mgcv)
 require(xlsx)
 
- # load all R functions from the directory
 
-lapply(
-    X = dir( paste( HOME_DIR , "functions" , sep = "/") ) ,
-    FUN = function(X) source( paste( HOME_DIR , "functions" , X , sep = "/"))) -> DoNotPrint
-
-
-## for testing:
-## tmp <- tempdir();system2( "cp" , c("report.json",tmp)); setwd(tmp)
-
- # open the JSON with the study design
-
-JSON <- jsonlite::fromJSON( txt = "report.json" , simplifyVector = FALSE)
-
-Events <- sapply( JSON$Survival$Endpoints , with , Event )
-Es <- paste( "E" , 0:(length(Events) - 1) , sep = "" )
-
-Times <- sapply( JSON$Survival$Endpoints , with , Time )
-Ts <- paste( "T" , 0:(length(Times) - 1) , sep = "" )
-
-Predictors <- sapply( JSON$Survival$Predictors , with , Name )
-Ps <- paste( "P" , 0:(length(Predictors) - 1) , sep = "" )
-PBreaks <- array(sapply( JSON$Survival$Predictors , with , Breaks ))
-
-Modifiers <- sapply( JSON$Survival$Modifiers , with , Name )
-Ms <- paste( "M" , 0:(length(Modifiers) - 1) , sep = "" )
-
-Adjustments <- sapply( JSON$Survival$Adjustments , with , Name )
-As <- paste( "A" , 0:(length(Adjustments) - 1) , sep = "" )
-nLevels <- sapply( JSON$Survival$Adjustments , with , Level )
-
-Forestplot <- sapply( JSON$Survival$Forestplot , with , Name )
-Fs <- paste( "F" , 0:(length(Forestplot) - 1) , sep = "" )
-
-
-Measures <- sapply( JSON$Characteristics$Measures , with , Name )
-CMs <- paste( "CM" , 0:(length(Measures) - 1) , sep = "" )
-
-Groups <- sapply( JSON$Characteristics$Groups , with , Name )
-CGs <- paste( "CG" , 0:(length(Groups) - 1) , sep = "" )
-
-            
-
- # create DB statements
-
-dbVars <- paste0(
-    c(
-        paste( Events , "AS" , Es ) ,
-        paste( Times , "AS" , Ts ) ,
-        paste( Predictors , "AS" , Ps ) ,
-        paste( Modifiers , "AS" , Ms ) ,
-        paste( Adjustments , "AS" , As) ,
-        paste( Groups , "AS" , CGs ) ,
-        paste( Measures , "AS" , CMs ) ,
-        paste( Forestplot , "AS" , Fs )) ,
-        collapse = ", ")
-
-dbWhere <- paste0(
-    sapply(
-        JSON$Population$Subset ,
-        with ,
-        Where ) ,
-    collapse = " AND " )
-        
-dbStatement <- paste(
-    "SELECT" ,
-    dbVars ,
-    "FROM PATIENT_INFO P
-       LEFT JOIN LAB_BLOOD_TOTAL B ON P.FORUS_ID=B.FORUS_ID
-       LEFT JOIN hs_medikament_skjema M ON P.FORUS_ID=M.FORUS_ID
-       LEFT JOIN hs_hendelser_CVDNOR_mars14 C ON P.NORCAD_ID=C.NORCAD_ID
-       LEFT JOIN hs_pasientrapport_skjema R ON P.FORUS_ID=R.FORUS_ID
-         WHERE" ,
-    dbWhere )
-
-
- # connect to DB and get data
-
-if ( !exists("con") )
-    con <- DBI::dbConnect(
-        drv = RMySQL::MySQL() ,
-        dbname = JSON$Population$Database )
-
-D <- DBI::dbGetQuery(
-    conn = con , 
-    statement = dbStatement)
-
-
-
- # create survival objects for Cox regression
-
-for (i in 0:(length(Events)-1)) {
-    D[ , paste("Surv" , i , sep = "") ] <- Surv(
-        time = D[,paste("T" , i , sep = "") ] ,
-        event = D[,paste("E" , i , sep = "") ] )
-}
-
-
- # create transformations of the predictor variables
- # the standard classification for numeric variables is quartiles
- # for categorical variables the levels from the DB query are taken
-
-for (i in 0:(length(Predictors)-1)) {
-    if ( sapply( JSON$Survival$Predictors , with , Type )[i+1] == "numeric" ) {
-        Breaks <- unlist( PBreaks[[i+1]] )
-        if ( length(Breaks) == 1 ) { Nclass <- Breaks ; Breaks <- NULL }
-        if ( length(Breaks) == 0 ) { Nclass <- 4 ; Breaks <- NULL }
-        D[ , paste("zP" , i , sep = "") ] <- z( D[ , paste("P" , i , sep = "") ] )
-        D[ , paste("zlogP" , i , sep = "") ] <- zlog( D[ , paste("P" , i , sep = "") ] )
-        D[ , paste("qP" , i , sep = "") ] <- q( D[ , paste("P" , i , sep = "") ] )
-        D[ , paste("cP" , i , sep = "") ] <- cutN( D[ , paste("P" , i , sep = "") ] , n = Nclass , breaks = Breaks)
-        D[ , paste("nP" , i , sep = "") ] <- as.numeric( D[ , paste("cP" , i , sep = "") ] )
-    } else {
-        D[ , paste("cP" , i , sep = "") ] <- D[ , paste("P" , i , sep = "") ]
-        D[ , paste("nP" , i , sep = "") ] <- as.numeric( D[ , paste("P" , i , sep = "") ] )
-    }
-}
-
-
- # create transformations of the modifier variables
- # the standard classification for numeric variables is dichotomous at median
- # for categorical variables the levels from the DB query are taken
-
-for (i in 0:(length(Modifiers)-1)) {
-    if ( sapply( JSON$Survival$Modifiers , with , Type )[i+1] == "numeric" ) {
-        NlevelsMainModifierClass <- 2
-        D[ , paste("zM" , i , sep = "") ] <- z( D[ , paste("M" , i , sep = "") ] )
-        D[ , paste("zlogM" , i , sep = "") ] <- zlog( D[ , paste("M" , i , sep = "") ])
-        D[ , paste("qM" , i , sep = "") ] <- q( D[ , paste("M" , i , sep = "") ] )
-        D[ , paste("cM" , i , sep = "") ] <- cutN( D[ , paste("M" , i , sep = "") ] , NlevelsMainModifierClass )
-        D[ , paste("nM" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("M" , i , sep = "") ] , NlevelsMainModifierClass ))
-    } else {
-        D[ , paste("cM" , i , sep = "") ] <- D[ , paste("M" , i , sep = "") ]
-        D[ , paste("nM" , i , sep = "") ] <- as.numeric( factor(D[ , paste("M" , i , sep = "") ] ))
-    }
-}
-
-
- # check if the grouping variables for the
- # patient characteristics tables are categorical or
- # numeric and transform to quartiles in the latter case
-
-for (i in 0:(length(Groups)-1)) {
-    if ( sapply( JSON$Characteristics$Groups , with , Type )[i+1] == "numeric" ) {
-        D[ , paste("cCG" , i , sep = "") ] <- cutN( D[ , paste("CG" , i , sep = "") ] , n = 4 )
-        D[ , paste("nCG" , i , sep = "") ] <- as.numeric( cutN( D[ , paste("CG" , i , sep = "") ] , n = 4 ))
-    } else {
-        D[ , paste("cCG" , i , sep = "") ] <- factor( D[ , paste("CG" , i , sep = "") ] )
-        D[ , paste("nCG" , i , sep = "") ] <- as.numeric( factor(D[ , paste("CG" , i , sep = "") ] ))
-    }
-}
-
-
-
-   ### prepare the export directory and
-   ### switch to it for reporting
-
-system2(
-    command = "rm" ,
-    args = c("-r","export"))
-
-system2(
-    command = "mkdir" ,
-    args = c("-p" , "export/excel"))
-# mkdir -p myProject/{src,doc,tools,db}
-
-system2(
-    command = "cp" ,
-    args = c(
-        paste( HOME_DIR , "*.Rmd" , sep = "/" ) ,
-        "./export/"))
-
-setwd("export/")
-
-
-   ### prepare knitr
+   # prepare knitr
 
 opts_chunk$set(
     warnings=FALSE,
@@ -202,218 +34,32 @@ opts_chunk$set(
     dev="svg")
 
 
-
-options( width="130")
-
-   ### Rscript iterates through all enpoint, predictor, modifier combinations and
-   ### compiles the knitr files to tex
-
-   ### Either one of them in knit2html():
-   #             stylesheet = "/home/rforge/Documents/github/tufte-css/tufte.css",
-   #             options=c( ... ,"fragment_only") ,
-   #             options=c("use_xhtml","smartypants","base64_images","mathjax","highlight_code","fragment_only") ,
-
-
-   ### create the patient characteristic tables
-
-for (n.CG in 1:length(CGs)) {
-
-    PCFileName <- gsub(
-        " " , "" ,
+   # load all R functions from the directory
+lapply(
+    X = dir(
         paste(
-            "PatientCharacteristics",
-            sapply( JSON$Characteristics$Groups , with , ShortLabel )[n.CG] ,
-            sep = "-" ))
-
-    PCOutfile <- paste( PCFileName , "md" , sep = "." )
-
-    knit2html(
-        input = "Patient_Characteristics.Rmd" ,
-        options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
-        output = PCOutfile )
-    
-}
+            HOME_DIR ,
+            "functions" ,
+            sep = "/")) ,
+    FUN = function(X) source(
+                          paste(
+                              HOME_DIR ,
+                              "functions" ,
+                              X ,
+                              sep = "/"))) -> DoNotPrint
 
 
-write.csv2(
-    x = Table1Proportions ,
-    file = paste( "./excel/" , PCFileName , "-proportions.csv" , sep = "" ))
+   # run all R scripts in HOME_DIR/modules/
+lapply(
+    X = dir(
+        paste(
+            HOME_DIR ,
+            "modules" ,
+            sep = "/")) ,
+    FUN = function(X) source(
+                          paste(
+                              HOME_DIR ,
+                              "modules" ,
+                              X ,
+                              sep = "/"))) -> DoNotPrint
 
-write.csv2(
-    x = Table1Means ,
-    file = paste( "./excel/" , PCFileName , "-means.csv" , sep = "" ))
-
-write.csv2(
-    x = Table1Medians ,
-    file = paste( "./excel/" , PCFileName , "-medians.csv" , sep = "" ))
-
-
-
-
-   ### create the survival results
-
-
-for (n.Surv in 1:length(Es)) {
-
-    for (n.P in 1:length(Ps)) {
-
-            # Build the name of the PDF outfile from the
-            # endpoint, predictor, modifier combination:
-
-        SurvivalFileName <- gsub(
-            " " , "" ,
-            paste(
-                "SurvivalAnalysis" ,
-                sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] ,
-                sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
-                sep = "-" ))
-
-        SurvivalOutfile <- paste(
-            SurvivalFileName ,
-            ".md" ,
-            sep = "" )
-        
-        opts_chunk$set(
-            fig.path = paste("./figure/" , SurvivalFileName , "-" , sep = "" ))
-
-        knit2html(
-            input = "Survival_Predictor.Rmd" ,
-            options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
-            output = SurvivalOutfile )
-
-        
-        write.csv2(
-            x = TableSurvivalPredictor ,
-            file = paste( "./excel/" , SurvivalFileName , ".csv" , sep = "" ))
-        
-
-        
-        for (n.M in 1:length(Ms)) {
-
-            # Build the name of the PDF outfile from the
-            # endpoint, predictor, modifier combination:
-            InteractionFileName <- gsub(
-                " " , "" ,
-                paste(
-                    "SurvivalAnalysis" ,
-                    sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] ,
-                    sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
-                    sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ,
-                    sep = "-" ))
-
-            opts_chunk$set(
-                fig.path = paste("./figure/" , InteractionFileName , "-" , sep = "" ))
-            
-            InteractionOutfile <- paste(
-                InteractionFileName ,
-                ".md" ,
-                sep = "" )
-
-            knit2html(
-                input = "Survival_Predictor_Modifier.Rmd" ,
-                options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
-                output = InteractionOutfile )
-
-            write.csv2(
-                x = TableSurvivalSubgroups ,
-                file = paste( "./excel/" , InteractionFileName , ".csv" , sep = "" ))
-
-            
-            if (
-                ( sapply( JSON$Survival$Predictors , with , Type )[n.P] == "numeric" ) &
-                ( sapply( JSON$Survival$Modifiers , with , Type )[n.M] == "numeric" )
-            ) {
-
-                GAM3dOutfile <- paste(
-                    "GAM3d-" ,
-                    InteractionFileName ,
-                    ".md" ,
-                    sep = "" )
-
-                knit2html(
-                    input = "GAM3d_OR_Predictor_Modifier.Rmd" ,
-                    options=c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only") ,
-                    output = GAM3dOutfile )}
-            
-        }
-    }
-}
-
-
-
-# zip the resulting pdf's, dataset, exported figures and tables
-
-system2(
-    command = "rm" ,
-    args = c("*.Rmd","*.md"))
-
-ZipName <- paste0(
-    gsub(
-        " " , "" , c(
-                       "../Results" ,
-                       sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
-                       sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
-                       sapply( JSON$Survival$Modifiers , with , ShortLabel )
-                   )
-        ) ,
-    collapse = "-"
-)
-
-
-system2(
-    command = "zip" ,
-    args = c("-r" , ZipName , "*.html" , "./figure" , "./excel" , "*.Rdata" ))
-
-
- ### email to Rforge
-
- # get an recipient from the commandline
-RCPT_TO <- gsub( "-m=" , "" , args[ grep( "-m=" , args ) ] )
-
- # is the server there?
-MailServerUp <- grep(
-    pattern = "succeeded" ,
-    x = system2(
-        command = "nc" ,
-        args = c("-zv","localhost","8025") ,
-        stdout = TRUE , stderr = TRUE )
-    ) == 1
-
-
- # if both the SMTP server is listening and
- # an email address is provided go ahead
-if (
-    ( length( grep( "@" , RCPT_TO) ) > 0 ) &
-    MailServerUp ) {
-    system2(
-        command = "swaks" ,
-        args = c(
-            "--server","localhost" ,
-            "--port","8025" ,
-            "--from","do-not-reply@currerius.com" ,
-            "--to", paste(RCPT_TO),
-            "--attach" , paste(ZipName,".zip",sep="") ,
-            "--suppress-data" ,
-            "--h-Subject" , "Analyses_from_NORCAD" ,
-            "--body","../report.json"))
-    } else paste("No email send")
-                                        
-
-
-#      # To turn on package default HTML options globally:
-#      options(markdown.HTML.options = markdownHTMLOptions(default = TRUE))
-#      # HTML OPTIONS
-#      
-#      # The following examples are short, so we allways add the HTML option 'fragment_only'
-#      tOpt <- "fragment_only"
-#      
-#      # skip_html example
-#      mkd = '<style></style><img src="http://cran.rstudio.com/Rlogo.jpg"><a href="#">Hello</a>'
-#      cat(markdownToHTML(text = mkd, options = c(tOpt)))
-#      cat(markdownToHTML(text = mkd, options = c(tOpt, "skip_html")))
-
-#     ‘'fragment_only'’ eliminates the inclusion of any HTML header or body tags, CSS, or Javascript components.
-
-# pandoc -c /home/rforge/Documents/github/tufte-css/tufte.css -s -S -i -t html --mathjax Patient_Characteristics.md -o PCtmp.html
-# pandoc -c https://raw.githubusercontent.com/edwardtufte/tufte-css/master/tufte.css -s -S -i -t html --mathjax Patient_Characteristics.md -o PCtmp.html
-# pandoc  -s -S -i -t dzslides --mathjax Check_SDMA.md -o Check_SDMA_dzslides.html
