@@ -1,14 +1,6 @@
 #!/usr/bin/Rscript
 
 
-    # close the Excel file
-wb <- loadWorkbook(
-    file = "Result-Tables.xlsx" ) 
-
-csHead <- CellStyle(wb) + Font(wb, isBold=TRUE) + Border()  # header
-csGroup <- CellStyle(wb) + Font(wb, isBold = TRUE , isItalic = TRUE ) + Border()  # header
-
-
 for (n.CG in 1:length(CGs)) {
 
     
@@ -51,7 +43,7 @@ for (n.CG in 1:length(CGs)) {
         sheet = sheet ,
         row.names = FALSE ,
         col.names = FALSE ,
-        startRow = 3 ,
+        startRow = 2 ,
         startCol = 1 ,
         colStyle = list('1'=csGroup))
 
@@ -101,7 +93,3 @@ for (n.CG in 1:length(CGs)) {
 }
 
 
-    # close the Excel file
-saveWorkbook(
-    wb = wb ,
-    file = "Result-Tables.xlsx" ) 

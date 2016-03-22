@@ -1,13 +1,15 @@
 #!/usr/bin/Rscript
 
+
 wb <- createWorkbook()
+
+csHead <- CellStyle(wb) + Font(wb, isBold=TRUE) + Border()  # header
+csGroup <- CellStyle(wb) + Font(wb, isBold = TRUE , isItalic = TRUE ) + Border()  # header
+
 
 sheet  <- createSheet(
     wb = wb ,
     sheetName="Overview")
-
-csHead <- CellStyle(wb) + Font(wb, isBold=TRUE) + Border()  # header
-csGroup <- CellStyle(wb) + Font(wb, isBold = TRUE , isItalic = TRUE ) + Border()  # header
 
 
 nRow <- 3
@@ -37,18 +39,18 @@ nRow <- nRow + length( sapply( JSON$Population$Subset , with , Comment )) + 2
 
 addDataFrame(
     x = data.frame(
-        Endpoints
+        Endpoints = sapply( JSON$Survival$Endpoints , with , Label )
     ) ,
     sheet = sheet ,
     startRow = nRow ,
     startColumn = 2 ,
     colnamesStyle = csHead)
-nRow <- nRow + length( Endpoints ) + 2
+nRow <- nRow + length( Events ) + 2
 
 
 addDataFrame(
     x = data.frame(
-        Predictors
+        Predictors = sapply( JSON$Survival$Predictors , with , Label )
     ) ,
     sheet = sheet ,
     startRow = nRow ,
@@ -59,7 +61,7 @@ nRow <- nRow + length( Predictors ) + 2
 
 addDataFrame(
     x = data.frame(
-        Modifiers
+        Modifiers = sapply( JSON$Survival$Modifiers , with , Label )
     ) ,
     sheet = sheet ,
     startRow = nRow ,
@@ -67,7 +69,3 @@ addDataFrame(
     colnamesStyle = csHead)
 nRow <- nRow + length( Modifiers ) + 2
 
-   # close the Excel file
-saveWorkbook(
-    wb = wb ,
-    file = "Result-Tables.xlsx" ) 

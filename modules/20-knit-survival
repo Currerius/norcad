@@ -20,6 +20,7 @@ for (n.Surv in 1:length(Es)) {
             SurvivalFileName ,
             ".md" ,
             sep = "" )
+
         
         opts_chunk$set(
             fig.path = paste("./figure/" , SurvivalFileName , "-" , sep = "" ))
@@ -32,7 +33,29 @@ for (n.Surv in 1:length(Es)) {
             output = SurvivalOutfile ,
             options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only"))
         
+
         
+        sheet  <- createSheet(
+            wb = wb ,
+            sheetName = SurvivalFileName
+        )
+    
+        addDataFrame(
+            x = cbind("","Unadjusted","","","Adjustment 1","","","Adjustment 2","","") ,
+            sheet = sheet ,
+            row.names = FALSE ,
+            col.names = FALSE ,
+            startRow = 2 ,
+            startCol = 1 )
+
+        addDataFrame(
+            x = TableSurvivalPredictor ,
+            sheet = sheet ,
+            col.names = TRUE ,
+            startRow = 3 ,
+            colnamesStyle = csHead)
+
+
         
         for (n.M in 1:length(Ms)) {
 
@@ -42,7 +65,7 @@ for (n.Surv in 1:length(Es)) {
             InteractionFileName <- gsub(
                 " " , "" ,
                 paste(
-                    "SurvivalAnalysis" ,
+                    "SurvivalInteraction" ,
                     sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] ,
                     sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
                     sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ,
@@ -63,6 +86,33 @@ for (n.Surv in 1:length(Es)) {
                     sep = "/" ) ,
                 output = InteractionOutfile ,
                 options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only"))
+
+
+            sheet  <- createSheet(
+                wb = wb ,
+                sheetName = InteractionFileName
+            )
+        
+            addDataFrame(
+                x = cbind(
+                    "" ,
+                    paste( "Low" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
+                    "" ,
+                    paste( "High" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
+                    "" ,
+                    "Between group" ) ,
+                sheet = sheet ,
+                row.names = FALSE ,
+                col.names = FALSE ,
+                startRow = 2 ,
+                startCol = 1 )
+
+            addDataFrame(
+                x = TableSurvivalSubgroups ,
+                sheet = sheet ,
+                col.names = TRUE ,
+                startRow = 3 ,
+                colnamesStyle = csHead)
 
             
             if (
