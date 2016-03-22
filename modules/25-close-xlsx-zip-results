@@ -1,0 +1,29 @@
+#!/usr/bin/Rscript
+
+
+   # save the Excel file
+saveWorkbook(
+    wb = wb ,
+    file = "Result-Tables.xlsx" ) 
+
+
+ZipName <- paste0(
+    gsub(
+        " " , "" , c(
+                       "./Results" ,
+                       sapply( JSON$Survival$Endpoints , with , ShortLabel ) ,
+                       sapply( JSON$Survival$Predictors , with , ShortLabel ) ,
+                       sapply( JSON$Survival$Modifiers , with , ShortLabel )
+                   )
+        ) ,
+    collapse = "-"
+)
+
+
+system2(
+    command = "zip" ,
+    args = c(
+        "-r" ,
+        ZipName ,
+        "*.html" , "*.Rdata" , "*.xlsx" , "./figure" ))
+
