@@ -276,6 +276,18 @@
           "Type":"numeric"
         } ,
         {
+          "Name": "Kyn" ,
+          "ShortLabel": "kynurenine" ,
+          "Label": "kynurenine" ,
+          "Type":"numeric"
+        } ,
+        {
+          "Name": "Trp" ,
+          "ShortLabel": "tryptophan" ,
+          "Label": "tryptophan" ,
+          "Type":"numeric"
+        } ,
+        {
           "Name": "LDL" ,
           "ShortLabel": "LDL" ,
           "Label": "low density lipoprotein" ,

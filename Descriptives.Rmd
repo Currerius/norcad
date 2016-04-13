@@ -1,0 +1,59 @@
+
+
+# Descriptives
+
+
+```{r,DescgetAllVars,include=FALSE}
+
+Vars   <- c( Ps, Ms, As, CMs)
+Types  <- sapply(c(JSON$Survival$Predictors , JSON$Survival$Modifiers, JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , Type )
+Labels <- sapply(c(JSON$Survival$Predictors , JSON$Survival$Modifiers, JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , ShortLabel )
+
+
+``` 
+
+
+## Numericals
+
+```{r,DescNum,results='as.is'}
+
+TableDescriptives <- matrix(
+    unlist(
+        lapply(
+            X = paste( Vars[which(Types == "numeric")] ) ,
+            FUN = DescribeNum )) ,
+    ncol = 15 ,
+    byrow = TRUE )
+
+rownames( TableDescriptives ) <- Labels[which(Types == "numeric")]
+colnames( TableDescriptives ) <- c("n","missing","unique","mean","sd","min","5%","10%","25%","median","75%","90%","95%","max","mad")
+
+htmlTable(
+          TableDescriptives,
+          caption = paste( "Descriptives of numeric variables: Number of non-missing values (n), number of missing values (missing), number of unique values (unique), mean, standard deviation (sd), minimum (min), percentiles (5%,...), median, maximum (max) and median absolute deviation (mad)" ) ,
+          tfoot="")
+
+``` 
+
+
+## Follow-up
+
+```{r,DescFollowUp,results='as.is'}
+
+TableFollowUp <- matrix(
+    unlist(
+        lapply(
+            X = Ts ,
+            FUN = DescribeNum )) ,
+    ncol = 15 ,
+    byrow = TRUE )
+
+rownames( TableFollowUp ) <- sapply(JSON$Survival$Endpoints , with , ShortLabel )
+colnames( TableFollowUp ) <- c("n","missing","unique","mean","sd","min","5%","10%","25%","median","75%","90%","95%","max","mad")
+
+htmlTable(
+          TableFollowUp,
+          caption = paste( "Follow-up time in days for survival endpoints: Number of non-missing values (n), number of missing values (missing), number of unique values (unique), mean, standard deviation (sd), minimum (min), percentiles (5%,...), median, maximum (max) and median absolute deviation (mad)" ) ,
+          tfoot="")
+
+``` 
