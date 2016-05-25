@@ -35,28 +35,6 @@ for (n.Surv in 1:length(Es)) {
         
 
         
-        sheet  <- createSheet(
-            wb = wb ,
-            sheetName = SurvivalFileName
-        )
-    
-        addDataFrame(
-            x = cbind("","Unadjusted","","","Adjustment 1","","","Adjustment 2","","") ,
-            sheet = sheet ,
-            row.names = FALSE ,
-            col.names = FALSE ,
-            startRow = 2 ,
-            startCol = 1 )
-
-        addDataFrame(
-            x = TableSurvivalPredictor ,
-            sheet = sheet ,
-            col.names = TRUE ,
-            startRow = 3 ,
-            colnamesStyle = csHead)
-
-
-        
         for (n.M in 1:length(Ms)) {
 
             # Build the name of the outfile from the
@@ -86,33 +64,6 @@ for (n.Surv in 1:length(Es)) {
                     sep = "/" ) ,
                 output = InteractionOutfile ,
                 options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only"))
-
-
-            sheet  <- createSheet(
-                wb = wb ,
-                sheetName = InteractionFileName
-            )
-        
-            addDataFrame(
-                x = cbind(
-                    "" ,
-                    paste( "Low" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
-                    "" ,
-                    paste( "High" , sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ) ,
-                    "" ,
-                    "Between group" ) ,
-                sheet = sheet ,
-                row.names = FALSE ,
-                col.names = FALSE ,
-                startRow = 2 ,
-                startCol = 1 )
-
-            addDataFrame(
-                x = TableSurvivalSubgroups ,
-                sheet = sheet ,
-                col.names = TRUE ,
-                startRow = 3 ,
-                colnamesStyle = csHead)
 
             
             if (
