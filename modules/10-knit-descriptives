@@ -1,0 +1,14 @@
+#!/usr/bin/Rscript
+
+
+knit2html(
+
+    input = paste(
+        HOME_DIR ,
+        "Descriptives.Rmd" ,
+        sep = "/" ) ,
+        
+    options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only")
+)
+
+
