@@ -1,0 +1,6 @@
+#!/usr/bin/Rscript
+
+system("
+pandoc -f markdown -t html -c $HOME/Documents/github/tufte-css/tufte.css -o norcad-`date +%Y-%m-%d-%H%M`.html *.md
+rm *.md
+")

@@ -7,19 +7,9 @@ opts_chunk$set(warnings=FALSE,echo=FALSE)
 ``` 
 
 
-# Survival analysis
-## Endpoint: `r sapply( JSON$Survival$Endpoints  , with , Label)[n.Surv]`
-## Predictor: `r sapply( JSON$Survival$Predictors , with , Label)[n.P]`
-
-
+# `r sapply( JSON$Survival$Endpoints  , with , Label)[n.Surv]` survival and `r sapply( JSON$Survival$Predictors , with , Label)[n.P]`
 
 `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` is observed in `r sum(D$E0 , na.rm = TRUE )` of `r dim(D)[n.Surv]` patients (`r round(100*sum(D$E0 , na.rm = TRUE )/dim(D)[n.Surv] , 1)`%) with a median follow-up time of `r median(D[ , paste("T",n.Surv-1,sep="")],na.rm=TRUE)` days.
-
-Endpoint data until end of 2009 are obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
-  
-## Acknowledgments:
-The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.
-
 
 
 ## Kaplan-Meyer plot

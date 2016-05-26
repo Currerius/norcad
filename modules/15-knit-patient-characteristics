@@ -3,7 +3,6 @@
 
 for (n.CG in 1:length(CGs)) {
 
-    
     PCFileName <- gsub(
 
         pattern = " " ,
@@ -11,25 +10,23 @@ for (n.CG in 1:length(CGs)) {
         replacement = "" ,
 
         x = paste(
-            "PatientCharacteristics",
+            "15-PatientCharacteristics",
             sapply( JSON$Characteristics$Groups , with , ShortLabel )[n.CG] ,
             sep = "-" )
     )
 
-    
-    knit2html(
+    knit(
 
         input = paste(
             HOME_DIR ,
-            "Patient_Characteristics.Rmd" ,
+            "15_Patient_Characteristics.Rmd" ,
             sep = "/" ) ,
         
         output = paste(
             PCFileName ,
             "md" ,
-            sep = "." ) ,
+            sep = "." )
         
-        options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only")
     )
     
 }

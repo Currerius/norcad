@@ -3,7 +3,7 @@
 knit(
     input = paste(
         HOME_DIR ,
-        "10_Descriptives.Rmd" ,
+        "30_Footer.Rmd" ,
         sep = "/" ) ,
 )
 

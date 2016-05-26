@@ -1,0 +1,19 @@
+
+
+## Statistical methods
+Patient baseline characteristics for continuous variables were presented as mean/median (standard error) as appropriate; test for trend with general linear regression/ median regression respectively. Categorical variables were presented as percent (count) and tested for trend with logistic regression.
+
+Associations between endpoints and `r JSON$Survival$Predictor[[1]]$Name` were estimated with non-parametric Kaplan-Meyer survival curves and Cox proportional hazards regression. The validity of the proprotional hazards assumption was assessed with inspecting the Schoenfeld residuals against survival time and visually validating the parallelity of cloglog-transformed survival curves of the categorized predictor variable.
+
+Group differences according to the effect modifier were assessed by including a predictor-modifier interaction term into the Cox model.
+
+Possible non-linear interactions between the predictor and continuous effect modifiers were visualized with 3-dimensional surface splines.
+
+All analyses were performed with R version `r packageVersion("base")`; survival models with package survival version `r packageVersion("survival")`; surface splines with package mgcv version `r packageVersion("mgcv")`; median regression estimates with package quantreg `r packageVersion("quantreg")`.
+
+## CVDNOR
+
+Endpoint data until end of 2009 are obtained through the Cardiovascular Disease in Norway (CVDNOR) project. CVDNOR is a collaborative project between the University of Bergen and the Norwegian Knowledge Centre for the Health Services. All CVD hospitalisations between 1994 and 2009 were collected retrospectively from the patient administrative systems (PAS) at all somatic hospitals in Norway.
+  
+## Acknowledgments
+The authors thank Tomislav Dimoski at The Norwegian Knowledge Centre for the Health Services, Oslo, Norway for his contribution by developing the software necessary for obtaining data from Norwegian hospitals, conducting the data collection and quality assurance of data in this project.

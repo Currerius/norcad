@@ -5,7 +5,9 @@
 
 Surface spline of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` incidence by empirical percentiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]` and `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` estimated with a Generalized Additve Model.
 
-```{r,VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
+
+
+```{r SurfaceSpline,include=FALSE}
 
 F <- as.formula( paste( "E" , n.Surv-1 , "~s(qP" , n.P-1 , ",qM" , n.M-1 , ")" , sep = "" ))
 
@@ -13,6 +15,39 @@ GAM <- gam(
     formula = F ,
     data = D ,
     family = "binomial")
+
+
+M <- data.frame(
+    x = GAM$model[ , paste( "qP" , n.P-1 , sep = "" )] ,
+    y = GAM$model[ , paste( "qM" , n.M-1 , sep = "" )] ,
+    z = 100 * as.numeric( predict( GAM , type = "response" )) ,
+    event = GAM$model[ , paste( "E" , n.Surv-1 , sep = "" )]
+)
+
+M$pal[M$event==1] <- "#FC8D5988"
+
+
+``` 
+
+```{r WebGL,results='as.is'}
+
+plot3d(
+    M ,
+    type = "s" ,
+    radius = 0.5 ,
+    xlab = sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
+    ylab = sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
+    zlab = sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
+    col = abs( M$event - 3 ))
+    
+subid <- currentSubscene3d()
+rglwidget(elementId="plot3drgl")
+
+``` 
+
+
+
+```{r,VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
 
 vis.gam(
     x = GAM ,
@@ -26,14 +61,12 @@ vis.gam(
     theta = -20 ,
     ticktype = "detailed"
 )
-    
+
 ``` 
+
     
 
 
-## 3d-GAM with SE
-
-Surface spline of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` incidence by empirical percentiles of `r sapply( JSON$Survival$Predictors , with , Label )[n.P]` and `r sapply( JSON$Survival$Modifiers , with , Label )[n.M]` estimated with a Generalized Additve Model; coloured grids depict 95\% confidence levels.
       
 ```{r,VisGAMqSE,fig.width=6,fig.height=6,out.width="600pt"}
 

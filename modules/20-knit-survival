@@ -11,7 +11,8 @@ for (n.Surv in 1:length(Es)) {
         SurvivalFileName <- gsub(
             " " , "" ,
             paste(
-                "SurvivalAnalysis" ,
+                "20" ,
+                "Survival" ,
                 sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] ,
                 sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
                 sep = "-" ))
@@ -20,18 +21,19 @@ for (n.Surv in 1:length(Es)) {
             SurvivalFileName ,
             ".md" ,
             sep = "" )
-
         
         opts_chunk$set(
             fig.path = paste("./figure/" , SurvivalFileName , "-" , sep = "" ))
 
-        knit2html(
+        knit(
+
             input = paste(
                 HOME_DIR ,
-                "Survival_Predictor.Rmd" ,
+                "20_Survival_Predictor.Rmd" ,
                 sep = "/" ) ,
-            output = SurvivalOutfile ,
-            options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only"))
+
+            output = SurvivalOutfile
+        )
         
 
         
@@ -43,7 +45,8 @@ for (n.Surv in 1:length(Es)) {
             InteractionFileName <- gsub(
                 " " , "" ,
                 paste(
-                    "SurvivalInteraction" ,
+                    "20" ,
+                    "Survival" ,
                     sapply( JSON$Survival$Endpoints , with , ShortLabel )[n.Surv] ,
                     sapply( JSON$Survival$Predictors , with , ShortLabel )[n.P] ,
                     sapply( JSON$Survival$Modifiers , with , ShortLabel )[n.M] ,
@@ -57,13 +60,13 @@ for (n.Surv in 1:length(Es)) {
                 ".md" ,
                 sep = "" )
 
-            knit2html(
+            knit(
                 input = paste(
                     HOME_DIR ,
-                    "Survival_Predictor_Modifier.Rmd" ,
+                    "20_Survival_Predictor_Modifier.Rmd" ,
                     sep = "/" ) ,
-                output = InteractionOutfile ,
-                options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only"))
+                output = InteractionOutfile
+                )
 
             
             if (
@@ -72,18 +75,17 @@ for (n.Surv in 1:length(Es)) {
             ) {
 
                 GAM3dOutfile <- paste(
-                    "GAM3d-" ,
                     InteractionFileName ,
-                    ".md" ,
+                    "-3d.md" ,
                     sep = "" )
 
-                knit2html(
+                knit(
                     input = paste(
                         HOME_DIR ,
-                        "GAM3d_OR_Predictor_Modifier.Rmd" ,
+                        "20_Survival_Predictor_Modifier_WebGL.Rmd" ,
                         sep = "/" ) ,
-                    output = GAM3dOutfile ,
-                    options = c("use_xhtml","smartypants","mathjax","highlight_code","fragment_only"))
+                    output = GAM3dOutfile
+                    )
                 
                 }
             }
