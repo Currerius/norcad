@@ -24,8 +24,6 @@ M <- data.frame(
     event = GAM$model[ , paste( "E" , n.Surv-1 , sep = "" )]
 )
 
-M$pal[M$event==1] <- "#FC8D5988"
-
 
 ``` 
 
@@ -47,7 +45,12 @@ rglwidget(elementId="plot3drgl")
 
 
 
-```{r,VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
+
+
+
+
+
+```{r VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
 
 vis.gam(
     x = GAM ,
@@ -64,11 +67,9 @@ vis.gam(
 
 ``` 
 
-    
-
 
       
-```{r,VisGAMqSE,fig.width=6,fig.height=6,out.width="600pt"}
+```{r VisGAMqSE,fig.width=6,fig.height=6,out.width="600pt"}
 
 vis.gam(
     x = GAM ,

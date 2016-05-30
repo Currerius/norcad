@@ -9,7 +9,7 @@ Group differences according to the effect modifier were assessed by including a 
 
 Possible non-linear interactions between the predictor and continuous effect modifiers were visualized with 3-dimensional surface splines.
 
-All analyses were performed with R version `r packageVersion("base")`; survival models with package survival version `r packageVersion("survival")`; surface splines with package mgcv version `r packageVersion("mgcv")`; median regression estimates with package quantreg `r packageVersion("quantreg")`.
+All analyses were performed with R version `r packageVersion("base")` (The R Foundation for Statistical Computing, Vienna, Austria); survival models with package survival version `r packageVersion("survival")`; surface splines with package mgcv version `r packageVersion("mgcv")`; median regression estimates with package quantreg `r packageVersion("quantreg")`.
 
 ## CVDNOR
 
