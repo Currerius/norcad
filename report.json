@@ -23,29 +23,22 @@
     {
 
       "Endpoints": [
-
         {
-          "Event": "C_AMI" ,
-          "Time": "Dager_ami" ,
+          "Event": "C_AMI2" ,
+          "Time": "Dager_ami2" ,
           "Label": "myocardial infarction" ,
           "ShortLabel": "AMI"
-        } ,
-        {
-          "Event": "C_CVDOD" ,
-          "Time": "Dager_cvdod" ,
-          "Label": "CVD mortality" ,
-          "ShortLabel": "CVD mortality"
         }
       ] ,
 
       "Predictors": [
 
         {
-          "Name":"TNT" ,
-          "ShortLabel":"TNT" ,
-          "Label":"Troponin-T" ,
+          "Name":"tHcy" ,
+          "ShortLabel":"Hcy" ,
+          "Label":"plasma total homocysteine" ,
           "Type":"numeric" ,
-          "Breaks":[0,3,10,20,30] ,
+          "Breaks":[4] ,
           "Unit":""
         }
 
@@ -55,15 +48,14 @@
       "Modifiers": [
 
         {
-          "Name":"CRP" ,
-          "ShortLabel":"CRP" ,
-          "Label":"plasma C-reactive proteine" ,
+          "Name":"Neopt" ,
+          "ShortLabel":"neopterin" ,
+          "Label":"neopterin" ,
           "Type":"numeric" ,
           "Unit":""
         }
 
       ] ,
-
 
       "Adjustments": [
 
@@ -101,7 +93,21 @@
           "ShortLabel":"hypertension" ,
           "Label":"hypertension" ,
           "Type":"factor"
-        }
+        } ,
+        {
+          "Level": 2 ,
+          "Name":"ApA1" ,
+          "ShortLabel":"apo A1" ,
+          "Label":"apolipoproteine A1" ,
+          "Type":"numeric"
+        } ,
+        {
+          "Level": 2 ,
+          "Name":"ApoB" ,
+          "ShortLabel":"apo B" ,
+          "Label":"apolipoproteine B" ,
+          "Type":"numeric"
+        } 
       ] ,
 
 
@@ -145,9 +151,9 @@
       "Groups": [
 
         {
-          "Name":"CRP" ,
-          "ShortLabel":"CRP" ,
-          "Label":"plasma C-reactive proteine" ,
+          "Name":"tHcy" ,
+          "ShortLabel":"Hcy" ,
+          "Label":"plasma total" ,
           "Type":"numeric" ,
           "Unit":""
         }
@@ -273,18 +279,6 @@
           "Name": "KTR" ,
           "ShortLabel": "KTR" ,
           "Label": "kynurenine tryptophan ratio" ,
-          "Type":"numeric"
-        } ,
-        {
-          "Name": "Kyn" ,
-          "ShortLabel": "kynurenine" ,
-          "Label": "kynurenine" ,
-          "Type":"numeric"
-        } ,
-        {
-          "Name": "Trp" ,
-          "ShortLabel": "tryptophan" ,
-          "Label": "tryptophan" ,
           "Type":"numeric"
         } ,
         {

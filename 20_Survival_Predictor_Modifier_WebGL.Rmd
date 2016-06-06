@@ -9,45 +9,70 @@ Surface spline of `r sapply( JSON$Survival$Endpoints , with , Label )[n.Surv]` i
 
 ```{r SurfaceSpline,include=FALSE}
 
-F <- as.formula( paste( "E" , n.Surv-1 , "~s(qP" , n.P-1 , ",qM" , n.M-1 , ")" , sep = "" ))
+Fq <- as.formula( paste( "E" , n.Surv-1 , "~s(qP" , n.P-1 , ",qM" , n.M-1 , ")" , sep = "" ))
 
-GAM <- gam(
-    formula = F ,
+GAMq <- gam(
+    formula = Fq ,
     data = D ,
     family = "binomial")
 
 
-M <- data.frame(
-    x = GAM$model[ , paste( "qP" , n.P-1 , sep = "" )] ,
-    y = GAM$model[ , paste( "qM" , n.M-1 , sep = "" )] ,
-    z = 100 * as.numeric( predict( GAM , type = "response" )) ,
-    event = GAM$model[ , paste( "E" , n.Surv-1 , sep = "" )]
+Mq <- data.frame(
+    x = GAMq$model[ , paste( "qP" , n.P-1 , sep = "" )] ,
+    y = GAMq$model[ , paste( "qM" , n.M-1 , sep = "" )] ,
+    z = 100 * as.numeric( predict( GAMq , type = "response" )) ,
+    event = GAMq$model[ , paste( "E" , n.Surv-1 , sep = "" )]
 )
 
 
+Fz <- as.formula( paste( "E" , n.Surv-1 , "~s(zlogP" , n.P-1 , ",zlogM" , n.M-1 , ")" , sep = "" ))
+
+GAMz <- gam(
+    formula = Fz ,
+    data = D ,
+    family = "binomial")
+
+Mz <- data.frame(
+    x = GAMz$model[ , paste( "zlogP" , n.P-1 , sep = "" )] ,
+    y = GAMz$model[ , paste( "zlogM" , n.M-1 , sep = "" )] ,
+    z = 100 * as.numeric( predict( GAMz , type = "response" )) ,
+    event = GAMz$model[ , paste( "E" , n.Surv-1 , sep = "" )]
+)
+
 ``` 
 
-```{r WebGL,results='as.is'}
+
+```{r WebGLq,results='as.is'}
 
 plot3d(
-    M ,
+    Mq ,
     type = "s" ,
     radius = 0.5 ,
     xlab = sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
     ylab = sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
     zlab = sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
     col = abs( M$event - 3 ))
-    
-subid <- currentSubscene3d()
-rglwidget(elementId="plot3drgl")
+
+rglwidget(elementId="GAM-3d-qPxqM-rgl")
 
 ``` 
 
+```{r WebGLz,results='as.is'}
 
+plot3d(
+    Mz ,
+    xlim = c(-2,2) ,
+    ylim = c(-2,2) ,
+    type = "s" ,
+    radius = 0.2 ,
+    xlab = sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
+    ylab = sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
+    zlab = sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
+    col = abs( M$event - 3 ))
 
+rglwidget(elementId="GAM-3d-zlogPxzlogM-rgl")
 
-
-
+``` 
 
 
 ```{r VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
