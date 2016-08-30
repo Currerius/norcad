@@ -22,21 +22,20 @@ dbWhere <- paste0(
 dbStatement <- paste(
     "SELECT" ,
     dbVars ,
-    "FROM PATIENT_INFO P
-       LEFT JOIN LAB_BLOOD_TOTAL B ON P.FORUS_ID=B.FORUS_ID
-       LEFT JOIN hs_medikament_skjema M ON P.FORUS_ID=M.FORUS_ID
-       LEFT JOIN hs_hendelser_CVDNOR_mars14 C ON P.NORCAD_ID=C.NORCAD_ID
-       LEFT JOIN hs_pasientrapport_skjema R ON P.FORUS_ID=R.FORUS_ID
+    "FROM patient P
+       LEFT JOIN blood B ON P.FORUS_ID=B.FORUS_ID
+       LEFT JOIN medication M ON P.FORUS_ID=M.FORUS_ID
+       LEFT JOIN events C ON P.NORCAD_ID=C.NORCAD_ID
+       LEFT JOIN sq R ON P.FORUS_ID=R.FORUS_ID
          WHERE" ,
     dbWhere )
-
 
  # connect to DB and get data
 
 if ( !exists("con") )
     con <- DBI::dbConnect(
-        drv = RMySQL::MySQL() ,
-        dbname = JSON$Population$Database )
+        drv = RSQLite::SQLite() ,
+        dbname = "/home/rforge/Documents/onyg/db/norcad.sqlite" )
 
 D <- DBI::dbGetQuery(
     conn = con , 
