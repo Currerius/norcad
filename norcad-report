@@ -8,7 +8,7 @@ args<-commandArgs(TRUE)
 options( width="130")
 
 
-HOME_DIR <- "/home/rforge/Documents/github/norcad"
+HOME_DIR <- "/home/xubuntu/Documents/github/norcad-engine"
 
    # load packages
 
