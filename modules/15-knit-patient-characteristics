@@ -15,7 +15,7 @@ for (n.CG in 1:length(CGs)) {
             sep = "-" )
     )
 
-    knit(
+    knit2html(
 
         input = paste(
             HOME_DIR ,

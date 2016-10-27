@@ -24,8 +24,15 @@ GroupChar <- if( sapply( JSON$Characteristics$Groups , with , Type )[n.CG] == "n
 CgroupLabels <- if( sapply( JSON$Characteristics$Groups , with , Type )[n.CG] == "numeric" ) {
                    c( levels( D[ , paste( "cCG" , n.CG-1 , sep = "" )]) , "" )
                    } else {
-                   c( unlist(sapply( JSON$Characteristics$Groups , with , ValueLabels )[n.CG]) , "" )
+                   c( unlist(sapply( JSON$Characteristics$Groups , with , ValueLabels )) , "" )
                    }
+
+## note that the CgroupLabels are buggy:
+## When there are >1 grouping variables the structure of the list object has higher dimensions and
+## only *then* it makes sense to index over n.CG
+## The index is removed, that means the tables crash when using more CG's
+## when using >1 CG's the last line has to be:
+##                    c( unlist(sapply( JSON$Characteristics$Groups , with , ValueLabels )[n.CG]) , "" )
 
 ``` 
 

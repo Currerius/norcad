@@ -25,7 +25,7 @@ for (n.Surv in 1:length(Es)) {
         opts_chunk$set(
             fig.path = paste("./figure/" , SurvivalFileName , "-" , sep = "" ))
 
-        knit(
+        knit2html(
 
             input = paste(
                 HOME_DIR ,
@@ -60,7 +60,7 @@ for (n.Surv in 1:length(Es)) {
                 ".md" ,
                 sep = "" )
 
-            knit(
+            knit2html(
                 input = paste(
                     HOME_DIR ,
                     "20_Survival_Predictor_Modifier.Rmd" ,
@@ -79,7 +79,7 @@ for (n.Surv in 1:length(Es)) {
                     "-3d.md" ,
                     sep = "" )
 
-                knit(
+                knit2html(
                     input = paste(
                         HOME_DIR ,
                         "20_Survival_Predictor_Modifier_WebGL.Rmd" ,

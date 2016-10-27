@@ -16,7 +16,6 @@ GAMq <- gam(
     data = D ,
     family = "binomial")
 
-
 Mq <- data.frame(
     x = GAMq$model[ , paste( "qP" , n.P-1 , sep = "" )] ,
     y = GAMq$model[ , paste( "qM" , n.M-1 , sep = "" )] ,
@@ -44,6 +43,8 @@ Mz <- data.frame(
 
 ```{r WebGLq,results='as.is'}
 
+options( rgl.useNULL = TRUE )
+
 plot3d(
     Mq ,
     type = "s" ,
@@ -51,11 +52,17 @@ plot3d(
     xlab = sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
     ylab = sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
     zlab = sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
-    col = abs( M$event - 3 ))
+    col = abs( Mq$event - 3 ))
 
-rglwidget(elementId="GAM-3d-qPxqM-rgl")
+rglwidget(
+    elementId = "GAM-3d-qPxqM-rgl"
+)
 
 ``` 
+
+
+
+
 
 ```{r WebGLz,results='as.is'}
 
@@ -68,17 +75,17 @@ plot3d(
     xlab = sapply( JSON$Survival$Predictors , with , Label )[n.P] ,
     ylab = sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
     zlab = sapply( JSON$Survival$Endpoints , with , Label )[n.Surv] ,
-    col = abs( M$event - 3 ))
+    col = abs( Mz$event - 3 ))
 
-rglwidget(elementId="GAM-3d-zlogPxzlogM-rgl")
+rglwidget(elementId="GAM-3d-zlogPxzlogM-rgl",reuse = TRUE)
 
 ``` 
 
 
-```{r VisGAMq,fig.width=6,fig.height=6,out.width="600pt"}
+```{r VisGAMz,fig.width=6,fig.height=6,out.width="600pt"}
 
 vis.gam(
-    x = GAM ,
+    x = GAMz ,
     n.grid = 50 ,
     color = "terrain" ,
     type = "response" ,
@@ -94,10 +101,10 @@ vis.gam(
 
 
       
-```{r VisGAMqSE,fig.width=6,fig.height=6,out.width="600pt"}
+```{r VisGAMzSE,fig.width=6,fig.height=6,out.width="600pt"}
 
 vis.gam(
-    x = GAM ,
+    x = GAMz ,
     n.grid = 50 ,
     se = TRUE ,
     type = "response" ,

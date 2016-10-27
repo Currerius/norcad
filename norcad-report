@@ -3,12 +3,11 @@
    # for testing:
    # tmp <- tempdir();system2( "cp" , c("report.json",tmp)); setwd(tmp)
 
-
 args<-commandArgs(TRUE)
 options( width="130")
 
 
-HOME_DIR <- "/home/xubuntu/Documents/github/norcad-engine"
+HOME_DIR <- "~/Documents/github/norcad-engine"
 
    # load packages
 
@@ -24,8 +23,7 @@ require(purrr)
 require(survival)
 require(quantreg)
 require(mgcv)
-require(xlsx)
-
+require(ppcor)
 
    # prepare knitr
 
@@ -58,11 +56,17 @@ lapply(
             HOME_DIR ,
             "modules" ,
             sep = "/")) ,
-    FUN = function(X) source(
-                          paste(
-                              HOME_DIR ,
-                              "modules" ,
-                              X ,
-                              sep = "/"))) -> DoNotPrint
+    FUN = function(X) {
+        paste(X)
+        source(
+            paste(
+                HOME_DIR ,
+                "modules" ,
+                X ,
+                sep = "/"
+            )
+        )
+    }
+) -> DoNotPrint
 
 # source( "/home/rforge/Documents/github/norcad/modules/" )

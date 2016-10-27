@@ -8,8 +8,7 @@ dbVars <- paste0(
         paste( Modifiers , "AS" , Ms ) ,
         paste( Adjustments , "AS" , As) ,
         paste( Groups , "AS" , CGs ) ,
-        paste( Measures , "AS" , CMs ) ,
-        paste( Forestplot , "AS" , Fs )) ,
+        paste( Measures , "AS" , CMs )) ,
         collapse = ", ")
 
 dbWhere <- paste0(
@@ -35,7 +34,7 @@ dbStatement <- paste(
 if ( !exists("con") )
     con <- DBI::dbConnect(
         drv = RSQLite::SQLite() ,
-        dbname = "/home/rforge/Documents/onyg/db/norcad.sqlite" )
+        dbname = "~/Documents/onyg/db/norcad.sqlite" )
 
 D <- DBI::dbGetQuery(
     conn = con , 

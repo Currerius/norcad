@@ -1,6 +1,5 @@
 
 
-
 ```{r,setOpts,include=FALSE}
 opts_chunk$set(warnings=FALSE,echo=FALSE)
 # n.P <- 1; n.M <- 1; n.Surv <- 1
@@ -63,9 +62,13 @@ htmlTable(
         paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==2] , collapse = ', ') ,
         ". The between group p-value is estimated from the interaction term with the effect modifier" ,
         sapply( JSON$Survival$Modifiers , with , Label )[n.M] ,
-        "divided into high/low levels according to the population median of" ,
-        signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
-        sapply( JSON$Survival$Modifiers , with , Unit )[n.M]
+        if(
+            sapply( JSON$Survival$Modifiers , with , Type )[n.M] == "numeric"
+        ) paste(
+              "divided into high/low levels according to the population median of" ,
+              signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
+              sapply( JSON$Survival$Modifiers , with , Unit )[n.M]
+          ) else paste("")
         )
     )
         
@@ -116,11 +119,17 @@ htmlTable(
         sapply( JSON$Survival$Endpoints , with , Label )[1] ,
         "and" ,
         sapply( JSON$Survival$Predictors , with , Label )[1] ,
-        "and effect modification by high vs low levels of" ,
+        "and effect modification by levels of" ,
         sapply( JSON$Survival$Modifiers , with , Label )[1] ,
-        "( divided into high/low levels according to the population median of" ,
-        signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
-        ")  estimated with Cox proportional hazards models; adjustment 1 for" ,
+        if(
+            sapply( JSON$Survival$Modifiers , with , Type )[n.M] == "numeric"
+        ) paste(
+              "(divided into high/low levels according to the population median of" ,
+              signif( median( D[ , paste( "M" , n.M-1 , sep = "" ) ] , na.rm = TRUE ),3) ,
+              sapply( JSON$Survival$Modifiers , with , Unit )[n.M] ,
+              ")"
+          ) else paste("") ,
+        "estimated with Cox proportional hazards models; adjustment 1 for" ,
         paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==1] , collapse = ', ') ,
         "; adjustment 2 additionally  for" ,
         paste0( sapply( JSON$Survival$Adjustments , with , Label )[sapply( JSON$Survival$Adjustments , with , Level )==2] , collapse = ', ') ,

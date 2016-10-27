@@ -1,0 +1,93 @@
+
+
+# Correlations
+
+
+```{r,PrepareCor,include=FALSE}
+
+Vars   <- c( Ps, Ms, As, CMs)
+Types  <- sapply(c(JSON$Survival$Predictors , JSON$Survival$Modifiers, JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , Type )
+Labels <- sapply(c(JSON$Survival$Predictors , JSON$Survival$Modifiers, JSON$Survival$Adjustments,JSON$Characteristics$Measures) , with , ShortLabel )
+
+# create a named data.frame containing all numeric variables except age
+
+M <- D[ , Vars[which((Types == "numeric")&(Labels!="age"))] ]
+names(M) <- Labels[which((Types == "numeric")&(Labels!="age"))]
+
+# create a age and gender vector if the variables exist in the report
+try( age <- D[ , Vars[which(Labels=="age")]] , silent = TRUE )
+try( male <- D[ , Vars[which(Labels=="male")]] , silent = TRUE )
+
+# define a list of correlation functions
+# each takes a pair of variable names,
+# calculated the possible correlations and
+# pretty prints them
+
+PrettyP <- function(P) {
+    PrettyP <- sprintf("%6.3f", round( P , digits = 3 ))
+    PrettyP[P<0.001] <- "<0.001"
+    PrettyP[P>0.050] <- "      "
+    return(PrettyP)}
+
+PrettyR <- function(R) {
+    PrettyR <- sprintf("%5.2f", round( R , digits = 2 ))
+    PrettyR[abs(round(R,2))==0] <- "    "
+    return(PrettyR)}
+    
+
+CorPrintFunctions <- list(
+
+    PrintCorP = function( NamePair , method = "pearson" ) {
+        D2 <- na.exclude( M[ , NamePair ])
+        TEST <- cor.test( x = D2[,1] , y = D2[,2] , method = method )
+        return( c( R = PrettyR( TEST$estimate ) , P = PrettyP( TEST$p.value )))
+    } ,
+
+    PrintPCorP = function( NamePair , method = "pearson" ) {
+        D2 <- na.exclude( cbind(M[ , NamePair ] , age , male))
+        TEST <- pcor.test( x = D2[,1] , y = D2[,2] , z = D2[,3:4] , method = method )
+        return( c( R = PrettyR( TEST$estimate ) , P = PrettyP( TEST$p.value )))
+    } ,
+    
+    PrintCorS = function( NamePair , method = "spearman" ) {
+        D2 <- na.exclude( M[ , NamePair ])
+        TEST <- cor.test( x = D2[,1] , y = D2[,2] , method = method )
+        return( c( R = PrettyR( TEST$estimate ) , P = PrettyP( TEST$p.value )))
+    } ,
+
+    PrintPCorS = function( NamePair , method = "spearman" ) {
+        D2 <- na.exclude( cbind(M[ , NamePair ] , age , male))
+        TEST <- pcor.test( x = D2[,1] , y = D2[,2] , z = D2[,3:4] , method = method )
+        return( c( R = PrettyR( TEST$estimate ) , P = PrettyP( TEST$p.value )))
+    }
+
+)
+
+# create a list of all possible pairwise combinations of the numeric variables
+NamePairs <- combn( sort( names( M )) , m = 2 , simplify = FALSE )
+
+
+# apply all correlation functions to all variable pairs
+TotalCor <- lapply( CorPrintFunctions , function(f) lapply( NamePairs , f ))
+
+
+``` 
+
+
+
+```{r,TabCorrelation,results='as.is'}
+
+TabCorrelations <- cbind(
+    matrix( unlist(NamePairs) , nrow = length(NamePairs) , byrow = TRUE) ,
+    matrix( unlist(TotalCor) , nrow = length(NamePairs) , byrow = TRUE)
+)
+
+colnames(TabCorrelations) <- c( "Variable 1" , "Variable 2" , "Pearson's R" , "P-value" , "partial Pearson's R" , "P-value" , "Spearman's rho" , "P-value" , "partial Spearman's rho" , "P-value")
+
+htmlTable(
+    x = TabCorrelations ,
+    caption = "Correlations statistics for numerical variables. The partial correlations are adjusted for gender and age. Insgnificant P-values (> 0.05) and R/Rhos of 0.00 (rounded) were omitted for better readability." ,
+    align = "r" 
+    )
+
+``` 

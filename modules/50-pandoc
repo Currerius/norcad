@@ -1,6 +1,20 @@
 #!/usr/bin/Rscript
 
-system("
-pandoc -f markdown -t html -c $HOME/Documents/github/tufte-css/tufte.css -o norcad-`date +%Y-%m-%d-%H%M`.html *.md
-rm *.md
-")
+# system("
+# pandoc -f markdown -t html -c $HOME/Documents/github/tufte-css/tufte.css -o norcad-`date +%Y-%m-%d-%H%M`.html *.md
+# ")
+
+FILE <- paste(
+    "norcad" ,
+    sapply( JSON$Authors , with , LastName) ,
+    format(Sys.time(), "%Y-%m-%d-%H%M") ,
+    sep = "-" )
+
+system(
+    paste(
+        "zip" ,
+        FILE ,
+        "*.html ./figure/*"
+    )
+)
+

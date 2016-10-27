@@ -189,7 +189,7 @@
         } ,
         {
           "Name":"(treatment_baseline IN (0,1))" ,
-          "ShortLabel":"none" ,
+          "ShortLabel":"no treatment" ,
           "Label":"no treatment at baseline" ,
           "Type":"factor" ,
           "ValueLevels": [] ,
@@ -197,16 +197,16 @@
         } ,
         {
           "Name":"(treatment_baseline IN (2,4,7))" ,
-          "ShortLabel":"PCI" ,
-          "Label":"PCI at baseline" ,
+          "ShortLabel":"PCI treatment" ,
+          "Label":"PCI treatment at baseline" ,
           "Type":"factor" ,
           "ValueLevels": [] ,
           "ValueLabels": []
         } ,
         {
           "Name":"(treatment_baseline IN (3,4,6))" ,
-          "ShortLabel":"CABG" ,
-          "Label":"CABG at baseline" ,
+          "ShortLabel":"CABG treatment" ,
+          "Label":"CABG treatment at baseline" ,
           "Type":"factor" ,
           "ValueLevels": [] ,
           "ValueLabels": []
@@ -267,12 +267,6 @@
           "Name": "GFR" ,
           "ShortLabel": "GFR" ,
           "Label": "glomerular filtration rate" ,
-          "Type":"numeric"
-        } ,
-        {
-          "Name": "Neopt" ,
-          "ShortLabel": "neopterin" ,
-          "Label": "neopterin" ,
           "Type":"numeric"
         } ,
         {

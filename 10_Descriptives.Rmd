@@ -17,7 +17,7 @@ Labels <- sapply(c(JSON$Survival$Predictors , JSON$Survival$Modifiers, JSON$Surv
 
 ```{r,DescNum,results='as.is'}
 
-TableDescriptives <- matrix(
+TableDescNum <- matrix(
     unlist(
         lapply(
             X = paste( Vars[which(Types == "numeric")] ) ,
@@ -25,12 +25,36 @@ TableDescriptives <- matrix(
     ncol = 15 ,
     byrow = TRUE )
 
-rownames( TableDescriptives ) <- Labels[which(Types == "numeric")]
-colnames( TableDescriptives ) <- c("n","missing","unique","mean","sd","min","5%","10%","25%","median","75%","90%","95%","max","mad")
+rownames( TableDescNum ) <- Labels[which(Types == "numeric")]
+colnames( TableDescNum ) <- c("n","missing","unique","mean","sd","min","5%","10%","25%","median","75%","90%","95%","max","mad")
 
 htmlTable(
-          TableDescriptives,
+          TableDescNum,
           caption = paste( "Descriptives of numeric variables: Number of non-missing values (n), number of missing values (missing), number of unique values (unique), mean, standard deviation (sd), minimum (min), percentiles (5%,...), median, maximum (max) and median absolute deviation (mad)" ) ,
+          tfoot="")
+
+``` 
+
+## Categoricals
+
+```{r,DescFac,results='as.is'}
+
+
+TableDescFac <- matrix(
+    unlist(
+        lapply(
+            X = paste( Vars[which(Types == "factor")] ) ,
+            FUN = DescribeFac )
+    ) ,
+    ncol = 4 ,
+    byrow = TRUE )
+
+rownames( TableDescFac ) <- Labels[which(Types == "factor")]
+colnames( TableDescFac ) <- c("n","missing","0","1")
+
+htmlTable(
+          TableDescFac,
+          caption = paste( "Descriptives of categorical variables" ) ,
           tfoot="")
 
 ``` 

@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 
-knit(
+knit2html(
     input = paste(
         HOME_DIR ,
         "30_Footer.Rmd" ,
